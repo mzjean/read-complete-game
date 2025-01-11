@@ -7,7 +7,7 @@ let timerInterval; // To store the timer interval
 
 // Fetch Questions from `database.json`
 function fetchQuestions() {
-    fetch('database.json')
+    fetch('database.json') // Ensure the file is in the same directory as the script
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
@@ -21,12 +21,13 @@ function fetchQuestions() {
             if (passages.length > 0) {
                 startGame();
             } else {
-                alert("No questions available. Please add questions to the database.");
+                console.error("No questions available in the database.");
+                document.getElementById("passage").innerText = "No passages available. Please try again later.";
             }
         })
         .catch((error) => {
             console.error("Error fetching questions from database file:", error);
-            alert("Error fetching questions: " + error.message);
+            document.getElementById("passage").innerText = "Error loading passages. Please try again later.";
         });
 }
 
@@ -68,5 +69,6 @@ function startTimer() {
 
 // Example: Start Fetching Questions When Page Loads
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("Document loaded. Fetching questions...");
     fetchQuestions(); // Start by fetching questions from the database
 });
