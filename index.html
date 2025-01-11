@@ -8,29 +8,49 @@
 </head>
 <body>
     <h1>Read and Complete Game</h1>
+
+    <!-- User Login Form -->
     <form id="user-form">
         <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" autocomplete="given-name" placeholder="First Name">
-        
+        <input type="text" id="firstName" placeholder="First Name" required autocomplete="given-name">
         <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" autocomplete="family-name" placeholder="Last Name">
-        
+        <input type="text" id="lastName" placeholder="Last Name" required autocomplete="family-name">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" autocomplete="email" placeholder="Email">
-        
+        <input type="email" id="email" placeholder="Email" required autocomplete="email">
         <button type="submit">Submit</button>
     </form>
-    <div id="game-container">
+
+    <!-- Start Button -->
+    <button id="start-button" style="display: none;">Start Game</button>
+
+    <!-- Game Container -->
+    <div id="game-container" style="display: none;">
         <p id="passage">Passage will appear here...</p>
         <div id="answers-container">
             <input type="text" id="answer1" placeholder="Word 1">
             <input type="text" id="answer2" placeholder="Word 2">
             <input type="text" id="answer3" placeholder="Word 3">
-            <button id="submit-answers">Submit</button>
+            <button onclick="submitAnswers()">Submit</button>
         </div>
         <p id="timer">Time left: 3:00</p>
         <p id="score">Score: 0</p>
+        <div id="feedback" style="display: none;"></div>
     </div>
+
+    <!-- End Game Summary -->
+    <div id="end-summary" style="display: none;">
+        <h2>Game Summary</h2>
+        <p id="final-score">Final Score: 0</p>
+        <p id="passages-completed">Passages Completed: 0</p>
+        <button onclick="location.reload()">Play Again</button>
+    </div>
+
+    <!-- Leaderboard -->
+    <div id="leaderboard">
+        <h2>Leaderboard</h2>
+        <!-- Leaderboard entries will be populated dynamically -->
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
