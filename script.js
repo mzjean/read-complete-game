@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const goToRegisterButton = document.getElementById('goToRegisterButton');
   const goToLoginButton = document.getElementById('goToLoginButton');
   
-  // Log to verify that the elements are found
   console.log(registerButton, loginButton, goToRegisterButton, goToLoginButton);
   
   // Add event listeners if buttons exist
@@ -90,7 +89,7 @@ function registerUser() {
         email: email
       }).then(() => {
         alert('User registered successfully');
-        showGameInterface(); // Proceed to game
+        showGameInterface(user); // Pass user data to the game interface
       });
     })
     .catch((error) => {
@@ -108,7 +107,8 @@ function loginUserHandler() {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      showGameInterface(); // Proceed to game
+      console.log("User logged in:", user);
+      showGameInterface(user); // Pass user data to the game interface
     })
     .catch((error) => {
       const errorMessage = error.message;
@@ -130,10 +130,14 @@ function logoutUser() {
     });
 }
 
-function showGameInterface() {
+function showGameInterface(user) {
   console.log('Showing game interface...');
   document.getElementById('auth-container').style.display = 'none';
   document.getElementById('game-container').style.display = 'block';
+
+  // Display user's name in welcome message
+  const welcomeMessage = document.getElementById('welcome-message');
+  welcomeMessage.innerText = `Welcome, ${user.displayName || user.email}!`;
 
   loadPassages();  // Fetch and load passages data here
 }
