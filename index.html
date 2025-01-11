@@ -5,57 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Read and Complete Game</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
+    <script defer src="script.js"></script>
 </head>
 <body>
     <h1>Read and Complete Game</h1>
-
-    <!-- User Login Form -->
-    <form id="user-form">
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" placeholder="First Name" required>
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" placeholder="Last Name" required>
-        <label for="email">Email:</label>
-        <input type="email" id="email" placeholder="Email" required>
-        <label for="password">Password:</label>
-        <input type="password" id="password" placeholder="Password" required>
-        <button type="submit">Register/Login</button>
+    <form id="register-form">
+        <input type="text" id="displayName" placeholder="Full Name">
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button type="button" onclick="registerUser()">Register</button>
     </form>
-
-    <!-- Start Button -->
-    <button id="start-button" style="display: none;">Start Game</button>
-
-    <!-- Logout Button -->
-    <button id="logout-button" style="display: none;">Logout</button>
-
-    <!-- Game Container -->
-    <div id="game-container" style="display: none;">
-        <p id="passage">Passage will appear here...</p>
-        <input type="text" id="answer1" placeholder="Word 1">
-        <input type="text" id="answer2" placeholder="Word 2">
-        <input type="text" id="answer3" placeholder="Word 3">
-        <button id="submit-button">Submit</button>
-        <p id="timer">Time left: 3:00</p>
-        <p id="score">Score: 0</p>
+    <div id="leaderboard">
+        <h2>Leaderboard</h2>
+        <ul id="leaderboard-list"></ul>
     </div>
-
-    <!-- End Summary -->
-    <div id="end-summary" style="display: none;">
-        <h2>Game Summary</h2>
-        <p id="final-score">Final Score: 0</p>
-        <p id="passages-completed">Passages Completed: 0</p>
-        <button id="play-again-button">Play Again</button>
-        <!-- Leaderboard -->
-        <div id="leaderboard">
-            <h3>Leaderboard</h3>
-            <ul id="leaderboard-list"></ul>
-        </div>
-    </div>
-
-    <script type="module" src="script.js"></script>
 </body>
 </html>
