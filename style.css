@@ -1,87 +1,127 @@
+/* General Styling */
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f9;
-    color: #333;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
-#game-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-input {
-    margin: 5px;
-    padding: 10px;
-    font-size: 16px;
-}
-
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-#timer, #score {
-    font-size: 18px;
-    margin-top: 10px;
-}
-
-#auth-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: none; /* Initially hidden until user is not logged in */
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-#logout-btn {
-    background-color: #ff4c4c;
-    color: white;
-}
-
-#logout-btn:hover {
-    background-color: #ff1a1a;
-}
-
-.info-message {
-    color: #3178c6;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-#leaderboard {
+h1 {
     margin-top: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 2rem;
+    color: #222;
 }
 
-#leaderboard li {
+/* Form Styling */
+form {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
     margin-bottom: 5px;
-    font-size: 16px;
+    font-weight: bold;
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Game Container Styling */
+#game-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#game-container p {
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
+
+#answers-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#answers-container input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#answers-container button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#answers-container button:hover {
+    background-color: #218838;
+}
+
+/* Timer and Score */
+#timer, #score {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* Logout Button */
+#logout {
+    margin-top: 20px;
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#logout:hover {
+    background-color: #c82333;
 }
