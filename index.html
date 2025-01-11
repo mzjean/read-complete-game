@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="registerPage">
+    <!-- Register Page -->
+    <div id="registerPage" style="display: none;">
         <h1>Register</h1>
         <input type="text" id="firstName" placeholder="First Name">
         <input type="text" id="lastName" placeholder="Last Name">
@@ -17,14 +18,16 @@
         <button id="googleLoginButton">Login with Google</button>
     </div>
 
-    <div id="loginPage">
+    <!-- Login Page -->
+    <div id="loginPage" style="display: none;">
         <h1>Login</h1>
         <input type="email" id="loginEmail" placeholder="Email">
         <input type="password" id="loginPassword" placeholder="Password">
         <button id="loginButton">Login</button>
     </div>
 
-    <div id="userPage">
+    <!-- User Page (Once Logged In) -->
+    <div id="userPage" style="display: none;">
         <h1>Welcome, <span id="userName"></span></h1>
         <button id="startGameButton">Start Game</button>
         <button id="logoutButton">Logout</button>
