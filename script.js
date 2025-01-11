@@ -96,7 +96,10 @@ function nextPassage() {
     showPassage(currentPassageIndex);  // Show next passage
     document.getElementById("next-pass").style.display = "none";  // Hide the next button again
   } else {
-    alert("Congratulations! You've completed the game.");
-    // Reset or end game logic
+    // All passages are complete, show the end message
+    document.getElementById("passage-container").style.display = "none";  // Hide the passages
+    const endMessage = document.createElement("h2");
+    endMessage.textContent = "You've completed all of the passages! Good job!";
+    document.body.appendChild(endMessage);  // Display the end message
   }
 }
