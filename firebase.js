@@ -19,11 +19,16 @@ const auth = getAuth();
 const db = getDatabase(app);
 
 // Register new user
-export async function registerUser(email, password) {
+export async function registerUser(email, password, firstName, lastName) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    console.log("User registered:", userCredential);
-    return userCredential;
+    const user = userCredential.user;
+    await set(ref(db, 'users/' + user.uid), {
+      username: firstName + " " + lastName,
+      email: email
+    });
+    console.log("User registered:", user);
+    return user;
   } catch (error) {
     console.error("Error registering user:", error);
     throw error;
@@ -35,7 +40,7 @@ export async function loginUser(email, password) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     console.log("User logged in:", userCredential);
-    return userCredential;
+    return userCredential.user;
   } catch (error) {
     console.error("Error logging in user:", error);
     throw error;
