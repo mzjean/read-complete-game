@@ -7,19 +7,19 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Register Page -->
-    <div id="registerPage" style="display: none;">
+    <!-- Register Form -->
+    <div id="registerForm">
         <h1>Register</h1>
         <input type="text" id="firstName" placeholder="First Name">
         <input type="text" id="lastName" placeholder="Last Name">
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="password" placeholder="Password">
+        <input type="email" id="registerEmail" placeholder="Email">
+        <input type="password" id="registerPassword" placeholder="Password">
         <button id="registerButton">Register</button>
         <button id="googleLoginButton">Login with Google</button>
     </div>
 
-    <!-- Login Page -->
-    <div id="loginPage" style="display: none;">
+    <!-- Login Form -->
+    <div id="loginForm" style="display: none;">
         <h1>Login</h1>
         <input type="email" id="loginEmail" placeholder="Email">
         <input type="password" id="loginPassword" placeholder="Password">
@@ -27,14 +27,13 @@
         <button id="googleLoginButton">Login with Google</button>
     </div>
 
-    <!-- User Page (Once Logged In) -->
-    <div id="userPage" style="display: none;">
+    <!-- Game -->
+    <div id="gamePage" style="display: none;">
         <h1>Welcome, <span id="userName"></span></h1>
         <button id="startGameButton">Start Game</button>
         <button id="logoutButton">Logout</button>
     </div>
 
-    <script type="module" src="firebase.js"></script>
     <script type="module" src="script.js"></script>
 </body>
 </html>
