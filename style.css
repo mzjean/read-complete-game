@@ -1,35 +1,52 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #e5e5e5;
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  flex-direction: column;
 }
 
 h1 {
-    color: #073055;
+  font-size: 3em;
+  margin-bottom: 20px;
 }
 
-#registerForm, #loginForm {
-    margin: 20px;
+#startGameButton,
+#submitButton {
+  background-color: #ffc802;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 5px;
 }
 
-input {
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+#startGameButton:hover,
+#submitButton:hover {
+  background-color: #e6a600;
 }
 
-button {
-    background-color: #ffc802;
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
+#timer {
+  font-size: 2em;
+  margin-top: 20px;
 }
 
-button:hover {
-    background-color: #ffbb00;
+#passage {
+  font-size: 1.5em;
+  margin-top: 20px;
+  word-wrap: break-word;
+  width: 80%;
+  margin: 20px 0;
 }
 
-#gamePage {
-    display: none;
+#results {
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #4CAF50;
 }
