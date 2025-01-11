@@ -1,4 +1,3 @@
-
 // Global Variables
 let passages = [];
 let currentPassage = 0;
@@ -38,6 +37,7 @@ function startGame() {
     document.getElementById("score").innerText = `Score: ${score}`;
     if (passages[currentPassage]) {
         console.log("Displaying passage:", passages[currentPassage]); // Debugging log
+        // Access the correct property 'passage' for the current passage
         document.getElementById("passage").innerText = passages[currentPassage].passage;
     } else {
         console.error("No valid passage found:", passages[currentPassage]); // Debugging log
