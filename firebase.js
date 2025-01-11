@@ -22,6 +22,7 @@ const db = getDatabase(app);
 async function registerUser(email, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("User registered:", userCredential);
     return userCredential;
   } catch (error) {
     console.error("Error registering user:", error);
@@ -33,6 +34,7 @@ async function registerUser(email, password) {
 async function loginUser(email, password) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("User logged in:", userCredential);
     return userCredential;
   } catch (error) {
     console.error("Error logging in user:", error);
@@ -67,5 +69,4 @@ async function fetchPassages() {
   }
 }
 
-// Exporting functions
 export { auth, db, registerUser, loginUser, logoutUser, fetchPassages };
