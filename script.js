@@ -1,125 +1,102 @@
-// Initialize game variables
-let passages = [];
+// Define global variables
 let currentPassageIndex = 0;
-let timer;
-let timeLeft = 180; // 3 minutes = 180 seconds
+let passages = []; // This will store the passages from your JSON file
+let timerInterval;
 
-// Fetch passages from the local JSON file
-async function fetchPassages() {
-  try {
-    const response = await fetch('passages.json');
-    const data = await response.json();
-    passages = data;
-    console.log(passages); // Log passages to ensure it's being fetched properly
-  } catch (error) {
-    console.error('Error fetching passages:', error);
-  }
-}
-
-// Start game function
+// Start the game function
 function startGame() {
-  // Hide the start game button and show the passage container
-  document.getElementById('start-game-button').style.display = 'none';
-  document.getElementById('passage-container').style.display = 'block';
-
-  // Show the first passage
-  showPassage();
-
-  // Start the countdown timer
+  // Hide welcome section and show passage container
+  document.getElementById("welcome-section").style.display = "none";
+  document.getElementById("passage-container").style.display = "block";
+  
+  // Fetch passages and start the first passage
+  fetchPassages();
   startTimer();
 }
 
-// Show a passage and its inputs
-function showPassage() {
-  const passage = passages[currentPassageIndex];
-
-  if (!passage) return; // No passage to show
-
-  // Log passage to ensure it's being displayed
-  console.log('Showing passage:', passage);
-
-  document.getElementById('passage-title').textContent = passage.title;
-  document.getElementById('passage-text').textContent = passage.passage;
-
-  // Create input fields for each blank
-  const passageInputsDiv = document.getElementById('passage-inputs');
-  passageInputsDiv.innerHTML = ''; // Clear any previous input fields
-
-  passage.answers.forEach((answer, index) => {
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.maxLength = 1;
-    input.classList.add('blank');
-    input.dataset.index = index;
-    passageInputsDiv.appendChild(input);
-  });
-
-  // Show the submit button
-  document.getElementById('submit-button').style.display = 'block';
-  document.getElementById('next-pass').style.display = 'none'; // Hide Next Passage button initially
+// Fetch passages from passages.json
+function fetchPassages() {
+  fetch('passages.json')
+    .then(response => response.json())
+    .then(data => {
+      passages = data;  // Store the passages
+      showPassage(currentPassageIndex);  // Show the first passage
+    })
+    .catch(error => console.log("Error fetching passages:", error));
 }
 
-// Start timer countdown
-function startTimer() {
-  timer = setInterval(() => {
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      alert("Time's up!");
-      checkAnswers(); // Automatically submit when the time is up
+// Show a specific passage by index
+function showPassage(index) {
+  const passage = passages[index];
+  document.getElementById("passage-title").textContent = passage.title;
+  document.getElementById("passage-text").textContent = passage.text;
+
+  // Display the blank spaces and input fields
+  const passageInputs = document.getElementById("passage-inputs");
+  passageInputs.innerHTML = ''; // Clear previous inputs
+  for (let i = 0; i < passage.text.length; i++) {
+    const char = passage.text.charAt(i);
+    if (char === "_") {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.maxLength = 1;
+      passageInputs.appendChild(input);
     } else {
-      timeLeft--;
-      updateTimerDisplay(timeLeft); // Update timer display
+      const span = document.createElement("span");
+      span.textContent = char;
+      passageInputs.appendChild(span);
+    }
+  }
+
+  // Show the submit button
+  document.getElementById("submit-button").style.display = "inline-block";
+}
+
+// Start the timer
+function startTimer() {
+  let timeLeft = 180; // 3 minutes = 180 seconds
+  document.getElementById("timer").textContent = timeLeft;
+
+  timerInterval = setInterval(function() {
+    timeLeft--;
+    document.getElementById("timer").textContent = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      checkAnswers();  // Automatically check answers when time is up
     }
   }, 1000);
 }
 
-// Update timer display (M:SS format)
-function updateTimerDisplay(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  document.getElementById('timer').textContent = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-}
-
-// Check the answers submitted by the user
+// Check answers after user presses submit
 function checkAnswers() {
-  const inputs = document.querySelectorAll('.blank');
+  // Disable the submit button
+  document.getElementById("submit-button").style.display = "none";
+  const inputs = document.getElementById("passage-inputs").getElementsByTagName("input");
   const passage = passages[currentPassageIndex];
-  let correctAnswers = 0;
+  let correctCount = 0;
 
-  inputs.forEach((input, index) => {
-    if (input.value.trim().toLowerCase() === passage.answers[index].toLowerCase()) {
-      correctAnswers++;
-      input.style.backgroundColor = 'lightgreen';
+  // Check each input value against the corresponding letter
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs[i].value.toLowerCase() === passage.text.charAt(i + passage.text.indexOf("_")).toLowerCase()) {
+      correctCount++;
+      inputs[i].style.borderColor = 'green';  // Correct answer styling
     } else {
-      input.style.backgroundColor = 'red';
+      inputs[i].style.borderColor = 'red';  // Incorrect answer styling
     }
-  });
+  }
 
-  alert(`You got ${correctAnswers} out of ${passage.answers.length} correct!`);
-
-  // Show the Next Passage button and hide the Submit button
-  document.getElementById('submit-button').style.display = 'none';
-  document.getElementById('next-pass').style.display = 'block';
+  // Show the "Next Passage" button
+  document.getElementById("next-pass").style.display = "inline-block";
 }
 
 // Move to the next passage
 function nextPassage() {
-  // Increment the passage index and show the next passage
-  currentPassageIndex++;
-
-  // If all passages have been completed, show a message
+  currentPassageIndex++;  // Move to the next passage
   if (currentPassageIndex < passages.length) {
-    showPassage();
+    showPassage(currentPassageIndex);  // Show next passage
+    document.getElementById("next-pass").style.display = "none";  // Hide the next button again
   } else {
-    alert("You've completed all the passages!");
-    // Optionally, show analytics or restart the game here
+    alert("Congratulations! You've completed the game.");
+    // Reset or end game logic
   }
-
-  // Reset the timer
-  timeLeft = 180; // Reset to 3 minutes
-  updateTimerDisplay(timeLeft); // Update the timer display
-  startTimer(); // Restart the timer
 }
-
-// Call fetchPassages when the page is ready
-fetchPassages();
