@@ -1,22 +1,26 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
-import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+// Import the functions you need from the Firebase SDK
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
-  authDomain: "readandcompletegame.firebaseapp.com",
-  databaseURL: "https://readandcompletegame-default-rtdb.firebaseio.com",
-  projectId: "readandcompletegame",
-  storageBucket: "readandcompletegame.firebasestorage.app",
-  messagingSenderId: "258271166303",
-  appId: "1:258271166303:web:822be022fb0eabd27800ea",
-  measurementId: "G-Y1FFMJ6EN6"
+    apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
+    authDomain: "readandcompletegame.firebaseapp.com",
+    databaseURL: "https://readandcompletegame-default-rtdb.firebaseio.com",
+    projectId: "readandcompletegame",
+    storageBucket: "readandcompletegame.firebasestorage.app",
+    messagingSenderId: "258271166303",
+    appId: "1:258271166303:web:822be022fb0eabd27800ea",
+    measurementId: "G-Y1FFMJ6EN6"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
+const auth = getAuth(app);
 const db = getDatabase(app);
+
+export { auth, db, GoogleAuthProvider, signInWithPopup };
 
 // Register new user
 export async function registerUser(email, password, firstName, lastName) {
