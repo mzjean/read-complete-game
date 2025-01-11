@@ -74,7 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             currentUser = userCredential.user;
-            userNameDisplay.textContent = currentUser.displayName || currentUser.email.split('@')[0]; // Show first part of email as user name if displayName is not available
+            const userRef = ref(db, 'users/' + currentUser.uid);
+            userRef.once('value', snapshot => {
+                const userData = snapshot.val();
+                userNameDisplay.textContent = `Welcome, ${userData.username.split(' ')[0]}`; // Display first name
+            });
             loginForm.style.display = 'none';
             gameContainer.style.display = 'block';
             console.log('Logged in');
@@ -95,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 username: firstName + ' ' + lastName,
                 email: email
             });
-            userNameDisplay.textContent = firstName + ' ' + lastName;
+            userNameDisplay.textContent = `Welcome, ${firstName}`; // Display first name
             registerForm.style.display = 'none';
             gameContainer.style.display = 'block';
             console.log('User registered');
