@@ -46,3 +46,7 @@ h2 {
 #googleLoginButton:hover {
     background-color: #c1351d;
 }
+
+#game-container h1 {
+    color: #073055ff;
+}
