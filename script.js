@@ -59,6 +59,12 @@ function displayPassage() {
         return;
     }
 
+    // Clear input fields
+    document.getElementById("answer1").value = "";
+    document.getElementById("answer2").value = "";
+    document.getElementById("answer3").value = "";
+
+    // Display the passage text
     document.getElementById("passage").innerText = passage.passage;
 }
 
