@@ -1,101 +1,98 @@
-import { auth, db, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from './firebase.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+import { getDatabase, ref, set } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
 
-// DOM Elements
-const registerPage = document.getElementById('registerPage');
-const loginPage = document.getElementById('loginPage');
-const userPage = document.getElementById('userPage');
+const auth = getAuth();
+const db = getDatabase();
 
-// Check if the user is authenticated
-auth.onAuthStateChanged(user => {
-    if (user) {
-        // User is signed in
-        registerPage.style.display = 'none';
-        loginPage.style.display = 'none';
-        userPage.style.display = 'block';
-        document.getElementById('userName').textContent = user.displayName || 'User'; // Display username
-    } else {
-        // No user is signed in
-        registerPage.style.display = 'block';
-        loginPage.style.display = 'block';
-        userPage.style.display = 'none';
-    }
-});
-
-// Register new user
-document.getElementById('registerButton').addEventListener('click', async () => {
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
+// Register user
+document.getElementById("registerButton").addEventListener("click", async () => {
+    const firstName = document.getElementById("firstName").value;
+    const lastName = document.getElementById("lastName").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-
-        // Store user info in Realtime Database
-        await set(ref(db, 'users/' + user.uid), {
+        const userId = user.uid;
+        
+        // Store user data in Realtime Database
+        set(ref(db, 'users/' + userId), {
             username: firstName + " " + lastName,
             email: email
         });
-
-        // Auto-login the user after registration
-        alert('Registration successful!');
-        window.location.href = "/userPage"; // Redirect to logged-in user page
+        
+        // Redirect to the logged-in page
+        displayUserPage();
     } catch (error) {
-        console.error('Error registering user:', error);
-        alert(error.message);
+        console.error(error.message);
     }
 });
 
-// Google login
-document.getElementById('googleLoginButton').addEventListener('click', async () => {
+// Google Login
+document.getElementById("googleLoginButton").addEventListener("click", async () => {
     const provider = new GoogleAuthProvider();
-
     try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-
-        // Store user info in Realtime Database
-        await set(ref(db, 'users/' + user.uid), {
+        const userId = user.uid;
+        
+        // Store user data in Realtime Database
+        set(ref(db, 'users/' + userId), {
             username: user.displayName,
             email: user.email
         });
-
-        console.log('User logged in with Google:', user);
-        alert('Google login successful!');
-        window.location.href = "/userPage"; // Redirect to logged-in user page
+        
+        // Redirect to the logged-in page
+        displayUserPage();
     } catch (error) {
-        console.error('Error logging in with Google:', error);
-        alert(error.message);
+        console.error(error.message);
     }
 });
 
-// Login existing user
-document.getElementById('loginButton').addEventListener('click', async () => {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-
+// Login user
+document.getElementById("loginButton").addEventListener("click", async () => {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+    
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        console.log('User logged in:', user);
-        alert('Login successful!');
-        window.location.href = "/userPage";  // Redirect to logged-in user page
+        displayUserPage();
     } catch (error) {
-        console.error('Error logging in user:', error);
-        alert(error.message);
+        console.error(error.message);
     }
 });
 
 // Logout user
-document.getElementById('logoutButton').addEventListener('click', async () => {
+document.getElementById("logoutButton").addEventListener("click", async () => {
     try {
         await signOut(auth);
-        console.log('User logged out');
-        alert('Logged out successfully!');
-        window.location.href = "/loginPage";  // Redirect to login page
+        displayLoginPage();
     } catch (error) {
-        console.error('Error logging out:', error);
-        alert(error.message);
+        console.error(error.message);
     }
 });
+
+// Monitor user authentication state
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        displayUserPage(user);
+    } else {
+        displayLoginPage();
+    }
+});
+
+// Display the logged-in user's page
+function displayUserPage(user) {
+    document.getElementById("userPage").style.display = "block";
+    document.getElementById("registerPage").style.display = "none";
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("userName").textContent = user.displayName || user.email; // Use user's displayName or email
+}
+
+// Display the login page
+function displayLoginPage() {
+    document.getElementById("loginPage").style.display = "block";
+    document.getElementById("registerPage").style.display = "none";
+    document.getElementById("userPage").style.display = "none";
+}
