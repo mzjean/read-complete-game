@@ -114,9 +114,14 @@ async function fetchPassages() {
     const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
     const data = await response.json();
     console.log("Passages fetched:", data); // Log the fetched data to inspect it
-    return data.passages; // Make sure the passages key is correct
+    if (data && data.passages) {
+      return data.passages; // Make sure the passages key is correct
+    } else {
+      throw new Error("Passages data not found.");
+    }
   } catch (error) {
     console.error("Error loading passages:", error);
+    alert("There was an error loading the passages.");
   }
 }
 
