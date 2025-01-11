@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
         currentUser = user;
         authContainer.style.display = "none";
         gameContainer.style.display = "block";
-        welcomeUserName.textContent = currentUser.displayName || "User";
+        welcomeUserName.textContent = "Welcome, " + currentUser.displayName || "User";
     }
 
     // Start the game
