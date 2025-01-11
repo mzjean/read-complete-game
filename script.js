@@ -1,4 +1,4 @@
-import { auth, db, registerUser, loginUser, logoutUser, fetchPassages, loginWithGoogle } from './firebase.js';
+import { auth, db, registerUser, loginUser, logoutUser, loginWithGoogle, fetchPassages } from './firebase.js';
 
 document.addEventListener("DOMContentLoaded", function() {
     const registerButton = document.getElementById('registerButton');
@@ -34,13 +34,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const password = document.getElementById('registerPassword').value;
 
         try {
-            const userCredential = await registerUser(email, password);
+            const userCredential = await registerUser(email, password, firstName, lastName);
             const user = userCredential.user;
-            // Store user info in the Realtime Database
-            await set(ref(db, 'users/' + user.uid), {
-                username: firstName + " " + lastName,
-                email: email
-            });
             console.log('User registered:', user);
             loginUserHandler(user);
         } catch (error) {
@@ -60,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
             loginUserHandler(user);
         } catch (error) {
             console.error("Error logging in user:", error);
+            alert("Login failed!");
         }
     });
 
@@ -78,17 +74,17 @@ document.addEventListener("DOMContentLoaded", function() {
         currentUser = user;
         authContainer.style.display = "none";
         gameContainer.style.display = "block";
-        welcomeUserName.textContent = currentUser.displayName || "User";
+        welcomeUserName.textContent = `Welcome, ${currentUser.displayName || 'User'}`;
     }
 
     // Start the game
     startGameButton.addEventListener("click", function() {
         fetchPassages()
-            .then(passage => {
-                console.log("Passages loaded:", passage);
-                // Implement your game logic here
+            .then((passages) => {
+                console.log("Passages loaded:", passages);
+                // Implement your game logic here (populate passage and start timer)
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error("Error loading passages:", error);
             });
     });
