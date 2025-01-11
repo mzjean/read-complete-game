@@ -1,159 +1,127 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+import { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, getDatabase, ref, set } from './firebase.js';
 
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
-  authDomain: "readandcompletegame.firebaseapp.com",
-  databaseURL: "https://readandcompletegame-default-rtdb.firebaseio.com",
-  projectId: "readandcompletegame",
-  storageBucket: "readandcompletegame.firebasestorage.app",
-  messagingSenderId: "258271166303",
-  appId: "1:258271166303:web:822be022fb0eabd27800ea",
-  measurementId: "G-Y1FFMJ6EN6"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const database = getDatabase(app);
-
-// Add Event Listeners for the buttons
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("DOM content loaded");
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const gameContainer = document.getElementById('game-container');
+    const userNameDisplay = document.getElementById('user-name');
+    const loginButton = document.getElementById('loginButton');
+    const registerButton = document.getElementById('registerButton');
+    const goToRegisterButton = document.getElementById('goToRegisterButton');
+    const goToLoginButton = document.getElementById('goToLoginButton');
+    const startButton = document.getElementById('startButton');
+    const passageTitle = document.getElementById('passage-title');
+    const passageText = document.getElementById('passage-text');
+    const inputsContainer = document.getElementById('inputs-container');
+    const timerElement = document.getElementById('timer');
+    let currentUser = null;
+    let passages = [];
 
-  const registerButton = document.getElementById('registerButton');
-  const loginButton = document.getElementById('loginButton');
-  const goToRegisterButton = document.getElementById('goToRegisterButton');
-  const goToLoginButton = document.getElementById('goToLoginButton');
-  
-  console.log(registerButton, loginButton, goToRegisterButton, goToLoginButton);
-  
-  // Add event listeners if buttons exist
-  if (registerButton) {
-    registerButton.addEventListener('click', registerUser);
-    console.log("Register button listener added");
-  }
+    const startGame = () => {
+        document.getElementById('start-container').style.display = 'none';
+        document.getElementById('game-content').style.display = 'block';
+        // Load passage and display
+        const randomPassage = passages[Math.floor(Math.random() * passages.length)];
+        passageTitle.textContent = randomPassage.title;
+        passageText.textContent = randomPassage.passage;
+        loadInputs(randomPassage.answers);
+        startTimer();
+    };
 
-  if (loginButton) {
+    const loadInputs = (answers) => {
+        // Generate inputs for each answer
+        inputsContainer.innerHTML = '';
+        answers.forEach((answer, index) => {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.id = `input-${index}`;
+            input.placeholder = 'Type here...';
+            inputsContainer.appendChild(input);
+        });
+    };
+
+    const startTimer = () => {
+        let timer = 60; // 60 seconds timer
+        const timerInterval = setInterval(() => {
+            if (timer > 0) {
+                timer--;
+                timerElement.textContent = `${timer} seconds remaining`;
+            } else {
+                clearInterval(timerInterval);
+                submitAnswers();
+            }
+        }, 1000);
+    };
+
+    const submitAnswers = () => {
+        const inputs = document.querySelectorAll('input');
+        let score = 0;
+        inputs.forEach((input, index) => {
+            const correctAnswer = passages[0].answers[index];
+            if (input.value.toLowerCase() === correctAnswer.toLowerCase()) {
+                score++;
+                input.style.backgroundColor = 'lightgreen';
+            } else {
+                input.style.backgroundColor = 'red';
+            }
+        });
+        alert(`Your score is ${score} out of ${inputs.length}`);
+    };
+
+    const loginUserHandler = async () => {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            currentUser = userCredential.user;
+            userNameDisplay.textContent = currentUser.displayName || currentUser.email.split('@')[0];
+            loginForm.style.display = 'none';
+            gameContainer.style.display = 'block';
+            console.log('Logged in');
+        } catch (error) {
+            alert('Login failed: ' + error.message);
+        }
+    };
+
+    const registerUserHandler = async () => {
+        const firstName = document.getElementById('register-first-name').value;
+        const lastName = document.getElementById('register-last-name').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            currentUser = userCredential.user;
+            await set(ref(db, 'users/' + currentUser.uid), {
+                username: firstName + ' ' + lastName,
+                email: email
+            });
+            userNameDisplay.textContent = firstName + ' ' + lastName;
+            registerForm.style.display = 'none';
+            gameContainer.style.display = 'block';
+            console.log('User registered');
+        } catch (error) {
+            alert('Registration failed: ' + error.message);
+        }
+    };
+
+    // Event Listeners
     loginButton.addEventListener('click', loginUserHandler);
-    console.log("Login button listener added");
-  }
+    registerButton.addEventListener('click', registerUserHandler);
+    goToRegisterButton.addEventListener('click', () => {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+    });
+    goToLoginButton.addEventListener('click', () => {
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'block';
+    });
+    startButton.addEventListener('click', startGame);
 
-  if (goToRegisterButton) {
-    goToRegisterButton.addEventListener('click', showRegisterForm);
-    console.log("Go to Register button listener added");
-  }
-
-  if (goToLoginButton) {
-    goToLoginButton.addEventListener('click', showLoginForm);
-    console.log("Go to Login button listener added");
-  }
+    // Load passages
+    fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json')
+        .then(response => response.json())
+        .then(data => {
+            passages = data;
+        })
+        .catch(error => console.error('Error loading passages:', error));
 });
-
-// Show Register Form
-function showRegisterForm() {
-  console.log('Showing Register Form...');
-  const loginForm = document.getElementById('login-form');
-  const registerForm = document.getElementById('register-form');
-  
-  loginForm.style.display = 'none';
-  registerForm.style.display = 'block';
-}
-
-// Show Login Form
-function showLoginForm() {
-  console.log('Showing Login Form...');
-  const loginForm = document.getElementById('login-form');
-  const registerForm = document.getElementById('register-form');
-  
-  loginForm.style.display = 'block';
-  registerForm.style.display = 'none';
-}
-
-// Register user
-function registerUser() {
-  console.log('Registering user...');
-  const email = document.getElementById('register-email').value;
-  const password = document.getElementById('register-password').value;
-  const firstName = document.getElementById('register-first-name').value;
-  const lastName = document.getElementById('register-last-name').value;
-
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      set(ref(database, 'users/' + user.uid), {
-        firstName: firstName,
-        lastName: lastName,
-        email: email
-      }).then(() => {
-        alert('User registered successfully');
-        showGameInterface(user); // Pass user data to the game interface
-      });
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      alert(errorMessage);
-    });
-}
-
-// Login user
-function loginUserHandler() {
-  console.log('Logging in user...');
-  const email = document.getElementById('login-email').value;
-  const password = document.getElementById('login-password').value;
-
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log("User logged in:", user);
-      showGameInterface(user); // Pass user data to the game interface
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      alert(errorMessage);
-    });
-}
-
-// Logout user
-function logoutUser() {
-  console.log("Logging out user...");
-  signOut(auth)
-    .then(() => {
-      alert('User logged out');
-      showLoginForm(); // Show login/register form
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      alert(errorMessage);
-    });
-}
-
-function showGameInterface(user) {
-  console.log('Showing game interface...');
-  document.getElementById('auth-container').style.display = 'none';
-  document.getElementById('game-container').style.display = 'block';
-
-  // Display user's name in welcome message
-  const welcomeMessage = document.getElementById('welcome-message');
-  welcomeMessage.innerText = `Welcome, ${user.displayName || user.email}!`;
-
-  loadPassages();  // Fetch and load passages data here
-}
-
-async function loadPassages() {
-  try {
-    const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
-    const data = await response.json();
-    console.log('Passages loaded:', data);
-    // Use the data here to start the game
-  } catch (error) {
-    console.error('Error fetching passages:', error);
-  }
-}
-
-function startGame() {
-  loadPassages();
-  // Game initialization logic
-}
