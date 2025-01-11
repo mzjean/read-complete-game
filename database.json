@@ -1,23 +1,12 @@
-
 {
-  "questions": [
-    {
-      "passage": "Complete this passage: Pa___ is the ca___ of Fr___.",
-      "answer1": "Paris",
-      "answer2": "capital",
-      "answer3": "France"
-    },
-    {
-      "passage": "The qu___ br___ fo___ jumps over the lazy dog.",
-      "answer1": "quick",
-      "answer2": "brown",
-      "answer3": "fox"
-    },
-    {
-      "passage": "I love eating pan___, e___, and toa___ for breakfast.",
-      "answer1": "pancakes",
-      "answer2": "eggs",
-      "answer3": "toast"
-    }
-  ]
+    "questions": [
+        {
+            "passage": "Pa___ is the ca___ of Fr___",
+            "answers": ["Paris", "capital", "France"]
+        },
+        {
+            "passage": "Lo___ is the ca___ of En___",
+            "answers": ["London", "capital", "England"]
+        }
+    ]
 }
