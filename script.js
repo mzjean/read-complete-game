@@ -1,4 +1,4 @@
-// Initialize Firebase
+// Import Firebase functions
 import { auth, registerUser, loginUser, logoutUser, fetchPassages } from './firebase.js';
 
 // Global variables
@@ -7,6 +7,7 @@ let timer;
 let timeRemaining = 180;  // 3 minutes
 let userPassages = [];
 
+// Display auth container
 document.getElementById('game-container').style.display = 'none';
 
 // Show the register form
