@@ -67,4 +67,5 @@ async function fetchPassages() {
   }
 }
 
+// Exporting functions
 export { auth, db, registerUser, loginUser, logoutUser, fetchPassages };
