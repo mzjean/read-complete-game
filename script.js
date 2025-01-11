@@ -10,6 +10,7 @@ async function fetchPassages() {
     const response = await fetch('passages.json');
     const data = await response.json();
     passages = data;
+    console.log(passages); // Log passages to ensure it's being fetched properly
   } catch (error) {
     console.error('Error fetching passages:', error);
   }
@@ -33,6 +34,9 @@ function showPassage() {
   const passage = passages[currentPassageIndex];
 
   if (!passage) return; // No passage to show
+
+  // Log passage to ensure it's being displayed
+  console.log('Showing passage:', passage);
 
   document.getElementById('passage-title').textContent = passage.title;
   document.getElementById('passage-text').textContent = passage.passage;
@@ -95,3 +99,6 @@ function checkAnswers() {
     alert("You've completed all the passages!");
   }
 }
+
+// Call fetchPassages when the page is ready
+fetchPassages();
