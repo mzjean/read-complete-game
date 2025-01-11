@@ -54,7 +54,7 @@ function displayPassage() {
     document.getElementById("passage").innerText = passages[currentPassage].passage;
 }
 
-// Login Flow
+// Handle Login Flow
 function handleLogin(event) {
     event.preventDefault();
     const firstName = document.getElementById("firstName").value.trim();
@@ -70,7 +70,31 @@ function handleLogin(event) {
     }
 }
 
-// End Game
+// Handle Submit Answers
+function submitAnswers() {
+    const answer1 = document.getElementById("answer1").value.trim();
+    const answer2 = document.getElementById("answer2").value.trim();
+    const answer3 = document.getElementById("answer3").value.trim();
+    const correctAnswers = passages[currentPassage].answers;
+
+    let correctCount = 0;
+    if (answer1.toLowerCase() === correctAnswers[0].toLowerCase()) correctCount++;
+    if (answer2.toLowerCase() === correctAnswers[1].toLowerCase()) correctCount++;
+    if (answer3.toLowerCase() === correctAnswers[2].toLowerCase()) correctCount++;
+
+    score += correctCount;
+    completedPassages++;
+    document.getElementById("score").innerText = `Score: ${score}`;
+
+    if (currentPassage < passages.length - 1) {
+        currentPassage++;
+        displayPassage();
+    } else {
+        endGame();
+    }
+}
+
+// End Game Flow
 function endGame() {
     clearInterval(timerInterval);
     document.getElementById("game-container").style.display = "none";
