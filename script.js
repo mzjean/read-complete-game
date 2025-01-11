@@ -73,6 +73,14 @@ function handleLogin(event) {
 // Handle Submit Answers
 function submitAnswers() {
     console.log("Submit button clicked!"); // Debugging log
+
+    // Validate currentPassage and its answers
+    if (!passages[currentPassage] || !passages[currentPassage].answers) {
+        console.error("Current passage or answers are undefined.");
+        alert("An error occurred with the current passage. Please try again.");
+        return;
+    }
+
     const answer1 = document.getElementById("answer1").value.trim();
     const answer2 = document.getElementById("answer2").value.trim();
     const answer3 = document.getElementById("answer3").value.trim();
