@@ -1,5 +1,4 @@
-import { fetchPassages } from './firebase.js';
-
+// Global Variables
 let passages = [];
 let currentPassage = 0;
 let timer;
@@ -7,7 +6,7 @@ let timer;
 // Start Game Button
 document.getElementById("startGameButton").addEventListener("click", async () => {
     try {
-        passages = await fetchPassages(); // Fetch passages
+        passages = await fetchPassages(); // Fetch passages from the local JSON file
         if (passages.length > 0) {
             loadPassage(passages[currentPassage]); // Load the first passage
             document.getElementById("submitButton").style.display = "block"; // Show the submit button
@@ -60,4 +59,16 @@ function showResults() {
     // Show results after completing all passages
     document.getElementById("results").style.display = 'block';
     document.getElementById("results").textContent = `Game Over! You completed all passages.`;
+}
+
+// Fetch Passages from Local JSON File
+async function fetchPassages() {
+    try {
+        const response = await fetch('passages.json');  // Fetch the passages.json file
+        const data = await response.json();  // Parse the JSON file
+        return data.passages;  // Return the passages array from the JSON
+    } catch (error) {
+        console.error("Error fetching passages:", error);
+        throw error;
+    }
 }
