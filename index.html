@@ -11,15 +11,21 @@
   <div id="auth-container">
     <h2>Register / Login</h2>
     
+    <!-- Toggle Buttons for Register / Login -->
+    <div>
+      <button onclick="showRegisterForm()">Register</button>
+      <button onclick="showLoginForm()">Login</button>
+    </div>
+    
     <!-- Registration Form -->
-    <div id="register-form">
+    <div id="register-form" style="display:none;">
       <input type="email" id="register-email" placeholder="Email" />
       <input type="password" id="register-password" placeholder="Password" />
       <button onclick="register()">Register</button>
     </div>
 
     <!-- Login Form -->
-    <div id="login-form">
+    <div id="login-form" style="display:none;">
       <input type="email" id="login-email" placeholder="Email" />
       <input type="password" id="login-password" placeholder="Password" />
       <button onclick="login()">Login</button>
