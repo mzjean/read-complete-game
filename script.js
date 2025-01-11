@@ -4,10 +4,11 @@ let currentPassage = 0;
 let score = 0;
 let timeLeft = 180; // 3 minutes
 let timerInterval; // To store the timer interval
+let completedPassages = 0;
 
 // Fetch Questions from `database.json`
 function fetchQuestions() {
-    fetch('database.json') // Ensure the file is in the same directory as the script
+    fetch('database.json')
         .then((response) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok ' + response.statusText);
@@ -15,7 +16,7 @@ function fetchQuestions() {
             return response.json();
         })
         .then((data) => {
-            passages = data.questions; // Assuming your JSON structure has a "questions" array
+            passages = data.questions; 
             console.log("Passages fetched from database file:", passages);
         })
         .catch((error) => {
@@ -28,43 +29,53 @@ function fetchQuestions() {
 function startGame() {
     currentPassage = 0;
     score = 0;
+    completedPassages = 0;
     document.getElementById("score").innerText = `Score: ${score}`;
     document.getElementById("game-container").style.display = "block";
     document.getElementById("start-button").style.display = "none";
+    document.getElementById("end-summary").style.display = "none";
     displayPassage();
     startTimer();
 }
 
 // Display Passage
 function displayPassage() {
+    const feedbackElement = document.getElementById("feedback");
+    feedbackElement.style.display = "none"; // Hide feedback for new passage
+
     if (passages[currentPassage]) {
-        console.log("Displaying passage:", passages[currentPassage]); // Debugging log
+        console.log("Displaying passage:", passages[currentPassage]);
         document.getElementById("passage").innerText = passages[currentPassage].passage;
     } else {
-        console.error("No valid passage found:", passages[currentPassage]); // Debugging log
-        document.getElementById("passage").innerText = "No passage available.";
+        handleEmptyPassages();
     }
 }
 
 // Timer Functionality
 function startTimer() {
-    timeLeft = 180; // Reset timer to 3 minutes
+    timeLeft = 180;
     const timerElement = document.getElementById("timer");
 
-    clearInterval(timerInterval); // Clear any previous intervals
+    clearInterval(timerInterval); 
     timerInterval = setInterval(() => {
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             alert("Time's up!");
-            submitAnswers(); // Automatically submit answers when time runs out
+            submitAnswers();
             promptNextPassage();
         } else {
             timeLeft--;
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
             timerElement.innerText = `Time left: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+            if (timeLeft <= 10) {
+                timerElement.style.color = "red"; // Warning visual cue
+            } else {
+                timerElement.style.color = "black"; // Reset color
+            }
         }
-    }, 1000); // Update every second
+    }, 1000);
 }
 
 // Submit Answers
@@ -85,7 +96,16 @@ function submitAnswers() {
     if (answer3 === correctAnswers[2]) correctCount++;
 
     score += correctCount;
+    completedPassages++;
     document.getElementById("score").innerText = `Score: ${score}`;
+
+    // Provide Feedback
+    const feedbackElement = document.getElementById("feedback");
+    feedbackElement.style.display = "block";
+    feedbackElement.innerHTML = `Correct Answers:<br>
+        Word 1: ${correctAnswers[0]}<br>
+        Word 2: ${correctAnswers[1]}<br>
+        Word 3: ${correctAnswers[2]}`;
 }
 
 // Prompt for Next Passage
@@ -97,13 +117,38 @@ function promptNextPassage() {
             displayPassage();
             startTimer();
         } else {
-            alert("No more passages available. Thank you for playing!");
+            handleEmptyPassages();
         }
     } else {
-        alert("Thank you for playing!");
-        document.getElementById("game-container").style.display = "none";
-        document.getElementById("start-button").style.display = "block";
+        endGame();
     }
+}
+
+// Handle Empty Passages
+function handleEmptyPassages() {
+    alert("No more passages available. Great job!");
+    endGame();
+}
+
+// End Game Summary
+function endGame() {
+    document.getElementById("game-container").style.display = "none";
+    document.getElementById("end-summary").style.display = "block";
+    document.getElementById("final-score").innerText = `Final Score: ${score}`;
+    document.getElementById("passages-completed").innerText = `Passages Completed: ${completedPassages}`;
+}
+
+// Leaderboard Functionality
+function updateLeaderboard() {
+    const leaderboard = JSON.parse(localStorage.getItem("leaderboard") || "[]");
+    leaderboard.push({ score, completedPassages, date: new Date().toLocaleString() });
+    leaderboard.sort((a, b) => b.score - a.score); // Sort by highest score
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+    const leaderboardElement = document.getElementById("leaderboard");
+    leaderboardElement.innerHTML = leaderboard.slice(0, 5).map((entry, index) => 
+        `<p>${index + 1}. Score: ${entry.score}, Passages: ${entry.completedPassages}, Date: ${entry.date}</p>`
+    ).join("");
 }
 
 // Login Flow
@@ -125,7 +170,10 @@ function handleLogin(event) {
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
     console.log("Document loaded. Fetching questions...");
-    fetchQuestions(); // Start by fetching questions from the database
+    fetchQuestions(); 
     document.getElementById("user-form").addEventListener("submit", handleLogin);
-    document.getElementById("start-button").addEventListener("click", startGame);
+    document.getElementById("start-button").addEventListener("click", () => {
+        startGame();
+        updateLeaderboard();
+    });
 });
