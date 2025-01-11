@@ -87,3 +87,34 @@ export async function fetchPassages() {
     throw error;
   }
 }
+
+// Update leaderboard
+export async function updateLeaderboard(passageId, userId, score) {
+  try {
+    await set(ref(db, 'leaderboards/' + passageId + '/' + userId), {
+      userId: userId,
+      score: score
+    });
+    console.log("Leaderboard updated");
+  } catch (error) {
+    console.error("Error updating leaderboard:", error);
+    throw error;
+  }
+}
+
+// Fetch leaderboard for a specific passage
+export async function fetchLeaderboard(passageId) {
+  const leaderboardRef = ref(db, 'leaderboards/' + passageId);
+  try {
+    const snapshot = await get(leaderboardRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      console.log("No leaderboard data found.");
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching leaderboard:", error);
+    throw error;
+  }
+}
