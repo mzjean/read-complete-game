@@ -82,7 +82,7 @@ function loginUserHandler() {
 
 // Fetch passages from the raw JSON file hosted on GitHub
 async function fetchPassages() {
-  const response = await fetch('https://raw.githubusercontent.com/your-username/your-repository/main/path/to/passages.json');
+  const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
   const passages = await response.json();
   return passages;
 }
