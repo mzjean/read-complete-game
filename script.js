@@ -94,7 +94,7 @@ function showGameContainer() {
 
 // Fetch passages from external JSON file
 async function fetchPassages() {
-  const response = await fetch('https://your-repository-url/passages.json');
+  const response = await fetch('passages.json');
   const passages = await response.json();
   return passages;
 }
