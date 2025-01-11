@@ -18,35 +18,11 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getDatabase(app);
 
-// Google Sign-In functionality
-async function googleSignIn() {
-  const provider = new GoogleAuthProvider();
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-    console.log("Google user logged in:", user);
-    // Save user details to the database
-    await set(ref(db, 'users/' + user.uid), {
-      username: user.displayName,
-      email: user.email
-    });
-    return user;
-  } catch (error) {
-    console.error("Error with Google login:", error);
-    throw error;
-  }
-}
-
 // Register new user
-async function registerUser(email, password) {
+export async function registerUser(email, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     console.log("User registered:", userCredential);
-    const user = userCredential.user;
-    await set(ref(db, 'users/' + user.uid), {
-      username: user.displayName,
-      email: user.email
-    });
     return userCredential;
   } catch (error) {
     console.error("Error registering user:", error);
@@ -55,11 +31,11 @@ async function registerUser(email, password) {
 }
 
 // Login existing user
-async function loginUser(email, password) {
+export async function loginUser(email, password) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     console.log("User logged in:", userCredential);
-    return userCredential.user;
+    return userCredential;
   } catch (error) {
     console.error("Error logging in user:", error);
     throw error;
@@ -67,7 +43,7 @@ async function loginUser(email, password) {
 }
 
 // Logout user
-async function logoutUser() {
+export async function logoutUser() {
   try {
     await signOut(auth);
     console.log("User logged out");
@@ -76,8 +52,22 @@ async function logoutUser() {
   }
 }
 
+// Google login
+export async function loginWithGoogle() {
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    console.log("User logged in with Google:", user);
+    return user;
+  } catch (error) {
+    console.error("Error logging in with Google:", error);
+    throw error;
+  }
+}
+
 // Fetch passages from the database
-async function fetchPassages() {
+export async function fetchPassages() {
   const passagesRef = ref(db, 'passages');
   try {
     const snapshot = await get(passagesRef);
@@ -92,5 +82,3 @@ async function fetchPassages() {
     throw error;
   }
 }
-
-export { auth, db, googleSignIn, registerUser, loginUser, logoutUser, fetchPassages };
