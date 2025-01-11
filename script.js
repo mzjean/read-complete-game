@@ -1,74 +1,68 @@
-// Global Variables
-let passages = [];
-let currentPassage = 0;
-let timer;
-
-// Start Game Button
-document.getElementById("startGameButton").addEventListener("click", async () => {
-    try {
-        passages = await fetchPassages(); // Fetch passages from the local JSON file
-        if (passages.length > 0) {
-            loadPassage(passages[currentPassage]); // Load the first passage
-            document.getElementById("submitButton").style.display = "block"; // Show the submit button
-        } else {
-            alert("No passages available!");
-        }
-    } catch (error) {
-        console.error("Error fetching passages:", error);
-    }
-});
-
-// Load Passage Function
-function loadPassage(passage) {
-    document.getElementById("passage").textContent = passage.text;  // Update the passage text
-    startTimer(180);  // Start a 3-minute timer for the passage
-}
-
-// Start Timer
-function startTimer(seconds) {
-    let timeRemaining = seconds;
-    const timerElement = document.getElementById("timer");
-    timerElement.textContent = timeRemaining;
-
-    timer = setInterval(() => {
-        timeRemaining--;
-        timerElement.textContent = timeRemaining;
-        if (timeRemaining <= 0) {
-            clearInterval(timer);
-            submitAnswers();  // Auto-submit when time runs out
-        }
-    }, 1000);
-}
-
-// Submit Answers
-document.getElementById("submitButton").addEventListener("click", submitAnswers);
-
-function submitAnswers() {
-    // Logic for submitting answers (not storing to Firebase)
-    console.log("Answers submitted for passage", passages[currentPassage]);
-
-    currentPassage++;
-    if (currentPassage < passages.length) {
-        loadPassage(passages[currentPassage]);
-    } else {
-        showResults();
-    }
-}
-
-function showResults() {
-    // Show results after completing all passages
-    document.getElementById("results").style.display = 'block';
-    document.getElementById("results").textContent = `Game Over! You completed all passages.`;
-}
-
-// Fetch Passages from Local JSON File
+// Fetch passages from the local JSON file
 async function fetchPassages() {
-    try {
-        const response = await fetch('passages.json');  // Fetch the passages.json file
-        const data = await response.json();  // Parse the JSON file
-        return data.passages;  // Return the passages array from the JSON
-    } catch (error) {
-        console.error("Error fetching passages:", error);
-        throw error;
+  try {
+    const response = await fetch('passages.json');  // Fetch from the local JSON file
+    const data = await response.json();
+    return data;  // Return the parsed JSON data
+  } catch (error) {
+    console.error('Error fetching passages:', error);
+  }
+}
+
+let passages = []; // To store the passages data
+let currentPassageIndex = 0; // Keeps track of the current passage
+
+// Load the first passage when the page is ready
+window.onload = async () => {
+  passages = await fetchPassages();  // Fetch and store the passages
+  showPassage();  // Show the first passage
+}
+
+// Display a passage
+function showPassage() {
+  const passage = passages[currentPassageIndex]; // Get the current passage
+  if (!passage) return;
+
+  const passageTitle = document.getElementById('passage-title');
+  const passageText = document.getElementById('passage-text');
+  const submitButton = document.getElementById('submit-button');
+
+  // Set the title and passage text
+  passageTitle.textContent = passage.title;
+  passageText.textContent = passage.passage;
+
+  // Show the submit button only after the passage is displayed
+  submitButton.style.display = 'block';
+
+  // Set up event listener for the submit button
+  submitButton.onclick = function () {
+    checkAnswers(passage);  // Check answers when the user submits
+  };
+}
+
+// Check answers for the current passage
+function checkAnswers(passage) {
+  const blanks = document.querySelectorAll('.blank'); // Get all blanks in the passage
+  let correctAnswers = 0;
+
+  blanks.forEach((blank, index) => {
+    const userAnswer = blank.value.trim().toLowerCase();
+    if (userAnswer === passage.answers[index].toLowerCase()) {
+      correctAnswers++;
+      blank.style.backgroundColor = 'lightgreen'; // Correct answer
+    } else {
+      blank.style.backgroundColor = 'red'; // Incorrect answer
     }
+  });
+
+  // Show feedback based on correct answers
+  alert(`You got ${correctAnswers} out of ${passage.answers.length} correct!`);
+  
+  // Move to the next passage or end the game
+  if (currentPassageIndex < passages.length - 1) {
+    currentPassageIndex++;
+    showPassage();
+  } else {
+    alert("You've completed all the passages!");
+  }
 }
