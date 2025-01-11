@@ -126,4 +126,5 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchQuestions();
     document.getElementById("user-form").addEventListener("submit", handleLogin);
     document.getElementById("start-button").addEventListener("click", startGame);
+    document.getElementById("submit-button").addEventListener("click", submitAnswers); // Ensure button functionality
 });
