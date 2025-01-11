@@ -1,45 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Read and Complete Game</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read and Complete Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="auth-container">
-    <div id="login-form">
-      <h2>Login</h2>
-      <input type="email" id="login-email" placeholder="Email">
-      <input type="password" id="login-password" placeholder="Password">
-      <button onclick="loginUserHandler()">Login</button>
-      <p>Don't have an account? <button onclick="showRegisterForm()">Register</button></p>
+    <div id="auth-container">
+        <div id="login-form">
+            <h2>Login</h2>
+            <input type="email" id="login-email" placeholder="Email">
+            <input type="password" id="login-password" placeholder="Password">
+            <button onclick="loginUserHandler()">Login</button>
+            <p>Don't have an account? <button onclick="showRegisterForm()">Register</button></p>
+        </div>
+        
+        <div id="register-form" style="display: none;">
+            <h2>Register</h2>
+            <input type="email" id="register-email" placeholder="Email">
+            <input type="password" id="register-password" placeholder="Password">
+            <button onclick="registerUserHandler()">Register</button>
+            <p>Already have an account? <button onclick="showLoginForm()">Login</button></p>
+        </div>
     </div>
-    
-    <div id="register-form" style="display: none;">
-      <h2>Register</h2>
-      <input type="email" id="register-email" placeholder="Email">
-      <input type="password" id="register-password" placeholder="Password">
-      <button onclick="registerUserHandler()">Register</button>
-      <p>Already have an account? <button onclick="showLoginForm()">Login</button></p>
-    </div>
-  </div>
 
-  <div id="game-container" style="display: none;">
-    <h1>Welcome, <span id="user-name"></span></h1>
-    <div id="start-container">
-      <button onclick="startGame()">Start Game</button>
+    <div id="game-container" style="display: none;">
+        <h1>Welcome, <span id="user-name"></span></h1>
+        <div id="start-container">
+            <button onclick="startGame()">Start Game</button>
+        </div>
+        <div id="game-content" style="display: none;">
+            <h3 id="passage-title"></h3>
+            <p id="passage-text"></p>
+            <div id="inputs-container"></div>
+            <button onclick="submitAnswers()">Submit Answers</button>
+            <p id="timer"></p>
+        </div>
     </div>
-    <div id="game-content" style="display: none;">
-      <div id="passage-container">
-        <p id="passage-text"></p>
-        <div id="inputs-container"></div>
-        <button onclick="submitAnswers()">Submit Answers</button>
-      </div>
-    </div>
-  </div>
 
-  <script type="module" src="firebase.js"></script>
-  <script src="script.js"></script>
+    <script type="module" src="firebase.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
