@@ -8,42 +8,29 @@
 </head>
 <body>
     <div id="auth-container">
-        <!-- Login Form -->
-        <div id="login-form">
-            <h2>Login</h2>
-            <input type="email" id="login-email" placeholder="Email">
-            <input type="password" id="login-password" placeholder="Password">
-            <button id="loginButton">Login</button>
-            <p>Don't have an account? <button id="goToRegisterButton">Register</button></p>
-        </div>
-        
-        <!-- Register Form -->
-        <div id="register-form" style="display: none;">
-            <h2>Register</h2>
-            <input type="text" id="register-first-name" placeholder="First Name">
-            <input type="text" id="register-last-name" placeholder="Last Name">
-            <input type="email" id="register-email" placeholder="Email">
-            <input type="password" id="register-password" placeholder="Password">
+        <h1 id="auth-title">Login / Register</h1>
+
+        <div id="register-form" class="form-container">
+            <input type="text" id="firstName" placeholder="First Name">
+            <input type="text" id="lastName" placeholder="Last Name">
+            <input type="email" id="registerEmail" placeholder="Email">
+            <input type="password" id="registerPassword" placeholder="Password">
             <button id="registerButton">Register</button>
             <p>Already have an account? <button id="goToLoginButton">Login</button></p>
         </div>
-    </div>
 
-    <div id="game-container" style="display: none;">
-        <h1>Welcome, <span id="user-name"></span></h1> <!-- Updated to dynamically display the user's name -->
-        <div id="start-container">
-            <button id="startButton">Start Game</button>
+        <div id="login-form" class="form-container" style="display: none;">
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPassword" placeholder="Password">
+            <button id="loginButton">Login</button>
+            <p>Don't have an account? <button id="goToRegisterButton">Register</button></p>
         </div>
-        <div id="game-content" style="display: none;">
-            <h3 id="passage-title"></h3>
-            <p id="passage-text"></p>
-            <div id="inputs-container"></div>
-            <button onclick="submitAnswers()">Submit Answers</button>
-            <p id="timer"></p>
+
+        <div id="game-container" style="display: none;">
+            <h1>Welcome, <span id="welcomeUserName"></span>!</h1>
+            <button id="startGameButton">Start Game</button>
         </div>
     </div>
-
-    <script type="module" src="firebase.js"></script>
     <script type="module" src="script.js"></script>
 </body>
 </html>
