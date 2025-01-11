@@ -63,7 +63,9 @@ function startTimer() {
       checkAnswers(); // Automatically submit when the time is up
     } else {
       timeLeft--;
-      document.getElementById('timer').textContent = timeLeft;
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
     }
   }, 1000);
 }
