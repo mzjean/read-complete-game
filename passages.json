@@ -10,17 +10,5 @@
       "title": "The Importance of Exercise",
       "passage": "Ex__rcise is imp__rtant for your h__alth and w__ll-being.",
       "answers": ["e", "o", "e", "e"]
-    },
-    {
-      "id": 3,
-      "title": "THREE The Importance of Exercise",
-      "passage": "THREE Ex__rcise is imp__rtant for your h__alth and w__ll-being.",
-      "answers": ["e", "o", "e", "e"]
-    },
-     {
-      "id": 4,
-      "title": "FOUR A Day at the Park",
-      "passage": "FOUR It was a s__nny day in the p__rk. The b__rds were ch__rping.",
-      "answers": ["u", "a", "e", "i"]
-    }   
+    } 
   ]  
