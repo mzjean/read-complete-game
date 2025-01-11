@@ -7,29 +7,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-  <!-- Welcome Section -->
   <div id="welcome-section">
     <h1>Welcome to the Game!</h1>
-    <button id="start-game-button" onclick="startGame()">Start Game</button>
+    <button id="start-button" onclick="startGame()">Start Game</button>
   </div>
 
-  <!-- Passage Display Section -->
-  <div id="passage-container" style="display:none;">
+  <div id="passage-container" style="display: none;">
     <h2 id="passage-title"></h2>
     <p id="passage-text"></p>
     <div id="passage-inputs"></div>
-    <button id="submit-button" style="display:none;" onclick="checkAnswers()">Submit</button>
-    <button id="next-pass" style="display:none;" onclick="nextPassage()">Next Passage</button>
+    <button id="submit-button" onclick="checkAnswers()" style="display: none;">Submit</button>
     <p>Time Left: <span id="timer">180</span> seconds</p>
+    <button id="next-pass" onclick="nextPassage()" style="display: none;">Next Passage</button>
   </div>
 
-  <!-- Link to Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.2.3/firebase-database.js"></script>
-
-  <!-- Main JavaScript File -->
   <script src="script.js"></script>
 </body>
 </html>
