@@ -18,14 +18,35 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getDatabase(app);
 
-// Google Authentication Provider
-const provider = new GoogleAuthProvider();
+// Google Sign-In functionality
+async function googleSignIn() {
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    console.log("Google user logged in:", user);
+    // Save user details to the database
+    await set(ref(db, 'users/' + user.uid), {
+      username: user.displayName,
+      email: user.email
+    });
+    return user;
+  } catch (error) {
+    console.error("Error with Google login:", error);
+    throw error;
+  }
+}
 
 // Register new user
 async function registerUser(email, password) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     console.log("User registered:", userCredential);
+    const user = userCredential.user;
+    await set(ref(db, 'users/' + user.uid), {
+      username: user.displayName,
+      email: user.email
+    });
     return userCredential;
   } catch (error) {
     console.error("Error registering user:", error);
@@ -38,22 +59,9 @@ async function loginUser(email, password) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     console.log("User logged in:", userCredential);
-    return userCredential;
+    return userCredential.user;
   } catch (error) {
     console.error("Error logging in user:", error);
-    throw error;
-  }
-}
-
-// Login with Google
-async function loginWithGoogle() {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-    console.log("User logged in with Google:", user);
-    return user;
-  } catch (error) {
-    console.error("Error logging in with Google:", error);
     throw error;
   }
 }
@@ -85,4 +93,4 @@ async function fetchPassages() {
   }
 }
 
-export { auth, db, registerUser, loginUser, logoutUser, loginWithGoogle, fetchPassages };
+export { auth, db, googleSignIn, registerUser, loginUser, logoutUser, fetchPassages };
