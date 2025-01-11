@@ -1,9 +1,9 @@
-// Import Firebase functions from the hosted GitHub link
+// Importing Firebase functions from the hosted Firebase file
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
-// Firebase config
+// Firebase config (already defined in your firebase.js)
 const firebaseConfig = {
   apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
   authDomain: "readandcompletegame.firebaseapp.com",
@@ -20,163 +20,102 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getDatabase(app);
 
-// DOM Elements
-const loginBtn = document.getElementById('login-btn');
-const registerBtn = document.getElementById('register-btn');
-const logoutBtn = document.getElementById('logout-btn');
-const startBtn = document.getElementById('start-btn');
-const registerForm = document.getElementById('register-form');
-const loginForm = document.getElementById('login-form');
-const passageContainer = document.getElementById('passage-container');
-const passageText = document.getElementById('passage-text');
-const inputFields = document.getElementById('input-fields');
-const timerDisplay = document.getElementById('timer-display');
+// Select DOM elements for registration, login, and logout
+const registerButton = document.getElementById('registerButton');
+const loginButton = document.getElementById('loginButton');
+const logoutButton = document.getElementById('logoutButton');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const firstNameInput = document.getElementById('firstName');
+const lastNameInput = document.getElementById('lastName');
 
-// Firebase user state listener
-auth.onAuthStateChanged(user => {
-  if (user) {
-    // If user is logged in, show the game and user details
-    console.log('User logged in:', user);
-    showGame(user);
-  } else {
-    // Show login or register screen
-    console.log('No user logged in');
-    showLoginForm();
-  }
-});
+// Event listeners for registration and login
+registerButton.addEventListener('click', registerUser);
+loginButton.addEventListener('click', loginUserHandler);
+logoutButton.addEventListener('click', logoutUser);
 
-// Register new user
-registerBtn.addEventListener('click', async () => {
-  const email = document.getElementById('register-email').value;
-  const password = document.getElementById('register-password').value;
-  const firstName = document.getElementById('first-name').value;
-  const lastName = document.getElementById('last-name').value;
-  
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    console.log('User registered:', user);
+// Function to register user
+function registerUser() {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+  const firstName = firstNameInput.value;
+  const lastName = lastNameInput.value;
 
-    // Save user data in the database
-    await set(ref(database, 'users/' + user.uid), {
-      firstName: firstName,
-      lastName: lastName,
-      email: email
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      // Store user data in Firebase
+      set(ref(database, 'users/' + user.uid), {
+        firstName: firstName,
+        lastName: lastName,
+        email: email
+      }).then(() => {
+        alert('User registered successfully');
+        showGameInterface(); // Proceed to game
+      });
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
     });
-
-    // After registration, automatically log the user in
-    showGame(user);
-  } catch (error) {
-    console.error('Error registering user:', error);
-    alert('Error registering user: ' + error.message);
-  }
-});
-
-// Login existing user
-loginBtn.addEventListener('click', async () => {
-  const email = document.getElementById('login-email').value;
-  const password = document.getElementById('login-password').value;
-
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
-    console.log('User logged in:', user);
-
-    // Show game after login
-    showGame(user);
-  } catch (error) {
-    console.error('Error logging in user:', error);
-    alert('Error logging in user: ' + error.message);
-  }
-});
-
-// Logout current user
-logoutBtn.addEventListener('click', async () => {
-  try {
-    await signOut(auth);
-    console.log('User logged out');
-  } catch (error) {
-    console.error('Error logging out:', error);
-    alert('Error logging out: ' + error.message);
-  }
-});
-
-// Show game screen
-function showGame(user) {
-  // Show user details and start the game
-  const userDetails = document.getElementById('user-details');
-  userDetails.innerHTML = `Welcome, ${user.displayName || user.email}`;
-
-  // Hide login and register forms
-  loginForm.style.display = 'none';
-  registerForm.style.display = 'none';
-
-  // Show the game
-  passageContainer.style.display = 'block';
-  loadPassages();
 }
 
-// Show login form
-function showLoginForm() {
-  loginForm.style.display = 'block';
-  registerForm.style.display = 'none';
-  passageContainer.style.display = 'none';
+// Function to log in the user
+function loginUserHandler() {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      showGameInterface(); // Proceed to game
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
+    });
 }
 
-// Show register form
-function showRegisterForm() {
-  registerForm.style.display = 'block';
-  loginForm.style.display = 'none';
-  passageContainer.style.display = 'none';
+// Function to log out the user
+function logoutUser() {
+  signOut(auth)
+    .then(() => {
+      alert('User logged out');
+      showLoginRegisterForm(); // Show login/register form
+    })
+    .catch((error) => {
+      const errorMessage = error.message;
+      alert(errorMessage);
+    });
 }
 
-// Load passages from GitHub
-async function loadPassages() {
-  try {
-    const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
-    const data = await response.json();
-    console.log('Passages:', data);
-    startGame(data);
-  } catch (error) {
-    console.error('Error loading passages:', error);
-  }
+// Function to show the game interface after login
+function showGameInterface() {
+  document.getElementById('gameInterface').style.display = 'block'; // Show the game
+  document.getElementById('loginRegister').style.display = 'none'; // Hide the login/register form
 }
 
-// Start game with a passage
-function startGame(passes) {
-  const randomPassage = passes[Math.floor(Math.random() * passes.length)];
-  const passageText = randomPassage.text;
-  const passageId = randomPassage.id;
-
-  displayPassage(passageText);
-  startTimer();
+// Function to show login/register form
+function showLoginRegisterForm() {
+  document.getElementById('loginRegister').style.display = 'block'; // Show the login/register form
+  document.getElementById('gameInterface').style.display = 'none'; // Hide the game interface
 }
 
-// Display the passage text in the game
-function displayPassage(text) {
-  passageText.innerHTML = text;
-}
+// Initialize the game with passages from JSON
+fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json')
+  .then(response => response.json())
+  .then(passages => {
+    startGame(passages); // Start the game with the loaded passages
+  })
+  .catch(error => {
+    console.error("Error loading passages:", error);
+  });
 
-// Start the countdown timer
-function startTimer() {
-  let timeLeft = 60; // 60 seconds
-  timerDisplay.textContent = `Time left: ${timeLeft}`;
-
-  const timerInterval = setInterval(() => {
-    timeLeft--;
-    timerDisplay.textContent = `Time left: ${timeLeft}`;
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      // Handle answer submission after time runs out
-      submitAnswers();
-    }
-  }, 1000);
-}
-
-// Submit answers when the timer runs out or when clicked
-function submitAnswers() {
-  // Compare user input with correct answers
-  console.log('Answers submitted');
-  // Handle answer checking here...
+// Function to start the game
+function startGame(passages) {
+  // Placeholder for passage start logic
+  console.log(passages); // Display the passages
+  // Add game logic here (display passage, handle input, check answers, etc.)
 }
