@@ -51,106 +51,6 @@ function displayPassage() {
     }
 }
 
-// Timer Functionality
-function startTimer() {
-    timeLeft = 180;
-    const timerElement = document.getElementById("timer");
-
-    clearInterval(timerInterval); 
-    timerInterval = setInterval(() => {
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
-            alert("Time's up!");
-            submitAnswers();
-            promptNextPassage();
-        } else {
-            timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerElement.innerText = `Time left: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-
-            if (timeLeft <= 10) {
-                timerElement.style.color = "red"; // Warning visual cue
-            } else {
-                timerElement.style.color = "black"; // Reset color
-            }
-        }
-    }, 1000);
-}
-
-// Submit Answers
-function submitAnswers() {
-    const answer1 = document.getElementById("answer1").value.trim();
-    const answer2 = document.getElementById("answer2").value.trim();
-    const answer3 = document.getElementById("answer3").value.trim();
-
-    const correctAnswers = [
-        passages[currentPassage].answer1,
-        passages[currentPassage].answer2,
-        passages[currentPassage].answer3,
-    ];
-
-    let correctCount = 0;
-    if (answer1 === correctAnswers[0]) correctCount++;
-    if (answer2 === correctAnswers[1]) correctCount++;
-    if (answer3 === correctAnswers[2]) correctCount++;
-
-    score += correctCount;
-    completedPassages++;
-    document.getElementById("score").innerText = `Score: ${score}`;
-
-    // Provide Feedback
-    const feedbackElement = document.getElementById("feedback");
-    feedbackElement.style.display = "block";
-    feedbackElement.innerHTML = `Correct Answers:<br>
-        Word 1: ${correctAnswers[0]}<br>
-        Word 2: ${correctAnswers[1]}<br>
-        Word 3: ${correctAnswers[2]}`;
-}
-
-// Prompt for Next Passage
-function promptNextPassage() {
-    const userChoice = confirm("Would you like to try another passage?");
-    if (userChoice) {
-        currentPassage++;
-        if (currentPassage < passages.length) {
-            displayPassage();
-            startTimer();
-        } else {
-            handleEmptyPassages();
-        }
-    } else {
-        endGame();
-    }
-}
-
-// Handle Empty Passages
-function handleEmptyPassages() {
-    alert("No more passages available. Great job!");
-    endGame();
-}
-
-// End Game Summary
-function endGame() {
-    document.getElementById("game-container").style.display = "none";
-    document.getElementById("end-summary").style.display = "block";
-    document.getElementById("final-score").innerText = `Final Score: ${score}`;
-    document.getElementById("passages-completed").innerText = `Passages Completed: ${completedPassages}`;
-}
-
-// Leaderboard Functionality
-function updateLeaderboard() {
-    const leaderboard = JSON.parse(localStorage.getItem("leaderboard") || "[]");
-    leaderboard.push({ score, completedPassages, date: new Date().toLocaleString() });
-    leaderboard.sort((a, b) => b.score - a.score); // Sort by highest score
-    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
-
-    const leaderboardElement = document.getElementById("leaderboard");
-    leaderboardElement.innerHTML = leaderboard.slice(0, 5).map((entry, index) => 
-        `<p>${index + 1}. Score: ${entry.score}, Passages: ${entry.completedPassages}, Date: ${entry.date}</p>`
-    ).join("");
-}
-
 // Login Flow
 function handleLogin(event) {
     event.preventDefault();
@@ -172,8 +72,5 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Document loaded. Fetching questions...");
     fetchQuestions(); 
     document.getElementById("user-form").addEventListener("submit", handleLogin);
-    document.getElementById("start-button").addEventListener("click", () => {
-        startGame();
-        updateLeaderboard();
-    });
+    document.getElementById("start-button").addEventListener("click", startGame);
 });
