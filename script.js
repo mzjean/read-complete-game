@@ -21,7 +21,7 @@ async function registerUserHandler() {
     const userCredential = await registerUser(email, password);
     currentUser = userCredential.user;
     document.getElementById("user-name").textContent = currentUser.email.split('@')[0]; // Display email name
-    showGameInterface();
+    showStartInterface();
   } catch (error) {
     alert("Error: " + error.message);
   }
@@ -36,16 +36,23 @@ async function loginUserHandler() {
     const userCredential = await loginUser(email, password);
     currentUser = userCredential.user;
     document.getElementById("user-name").textContent = currentUser.email.split('@')[0]; // Display email name
-    showGameInterface();
+    showStartInterface();
   } catch (error) {
     alert("Error: " + error.message);
   }
 }
 
-// Show the game interface
-function showGameInterface() {
+// Show the start game interface after login
+function showStartInterface() {
   document.getElementById("auth-container").style.display = "none";
   document.getElementById("game-container").style.display = "block";
+  document.getElementById("start-container").style.display = "block";
+}
+
+// Start the game after the user clicks "Start Game"
+function startGame() {
+  document.getElementById("start-container").style.display = "none";
+  document.getElementById("game-content").style.display = "block";
   loadPassage();
 }
 
