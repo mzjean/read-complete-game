@@ -1,52 +1,35 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #e5e5e5;
 }
 
-#auth-container {
-    text-align: center;
+h1 {
+    color: #073055;
 }
 
-#game-container {
-    margin-top: 20px;
+#registerForm, #loginForm {
+    margin: 20px;
 }
 
-input[type="text"], input[type="email"], input[type="password"] {
-    width: 200px;
-    height: 40px;
-    text-align: center;
-    font-size: 16px;
-    margin: 10px;
+input {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 button {
-    background-color: #ffc802ff;
-    color: white;
+    background-color: #ffc802;
+    padding: 10px;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
     cursor: pointer;
-    margin-top: 10px;
+    border-radius: 4px;
 }
 
 button:hover {
-    background-color: #073055ff;
+    background-color: #ffbb00;
 }
 
-h2 {
-    font-size: 2em;
-}
-
-#googleLoginButton {
-    background-color: #db4437;
-    color: white;
-}
-
-#googleLoginButton:hover {
-    background-color: #c1351d;
-}
-
-#game-container h1 {
-    color: #073055ff;
+#gamePage {
+    display: none;
 }
