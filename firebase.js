@@ -1,5 +1,5 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
 import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
 
 const firebaseConfig = {
@@ -17,6 +17,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getDatabase(app);
+
+// Google Authentication Provider
+const provider = new GoogleAuthProvider();
 
 // Register new user
 async function registerUser(email, password) {
@@ -38,6 +41,19 @@ async function loginUser(email, password) {
     return userCredential;
   } catch (error) {
     console.error("Error logging in user:", error);
+    throw error;
+  }
+}
+
+// Login with Google
+async function loginWithGoogle() {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    console.log("User logged in with Google:", user);
+    return user;
+  } catch (error) {
+    console.error("Error logging in with Google:", error);
     throw error;
   }
 }
@@ -69,4 +85,4 @@ async function fetchPassages() {
   }
 }
 
-export { auth, db, registerUser, loginUser, logoutUser, fetchPassages };
+export { auth, db, registerUser, loginUser, logoutUser, loginWithGoogle, fetchPassages };
