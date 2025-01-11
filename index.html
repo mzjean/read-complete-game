@@ -7,28 +7,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="register">
-        <h1>Register</h1>
-        <input type="text" id="firstName" placeholder="First Name">
-        <input type="text" id="lastName" placeholder="Last Name">
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="password" placeholder="Password">
-        <button id="registerButton">Register</button>
-        <button id="goToLoginButton">Go to Login</button>
-    </div>
+    <!-- Your HTML content here -->
 
-    <div id="login" style="display:none;">
-        <h1>Login</h1>
-        <input type="email" id="loginEmail" placeholder="Email">
-        <input type="password" id="loginPassword" placeholder="Password">
-        <button id="loginButton">Login</button>
-        <button id="goToRegisterButton">Go to Register</button>
-        <button id="googleLoginButton">Login with Google</button>
-    </div>
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
 
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
+            authDomain: "readandcompletegame.firebaseapp.com",
+            databaseURL: "https://readandcompletegame-default-rtdb.firebaseio.com",
+            projectId: "readandcompletegame",
+            storageBucket: "readandcompletegame.firebasestorage.app",
+            messagingSenderId: "258271166303",
+            appId: "1:258271166303:web:822be022fb0eabd27800ea",
+            measurementId: "G-Y1FFMJ6EN6"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    </script>
+
     <script src="script.js"></script>
 </body>
 </html>
