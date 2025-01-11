@@ -1,9 +1,9 @@
-// Importing Firebase functions from the hosted Firebase file
+// Import Firebase functions from the hosted Firebase file
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
 import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
-// Firebase config (already defined in your firebase.js)
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
   authDomain: "readandcompletegame.firebaseapp.com",
@@ -29,7 +29,7 @@ const passwordInput = document.getElementById('password');
 const firstNameInput = document.getElementById('firstName');
 const lastNameInput = document.getElementById('lastName');
 
-// Check if elements exist before attaching event listeners
+// Event listeners for registration and login
 if (registerButton && loginButton && logoutButton) {
   registerButton.addEventListener('click', registerUser);
   loginButton.addEventListener('click', loginUserHandler);
@@ -95,24 +95,17 @@ function logoutUser() {
 
 // Function to show the game interface after login
 function showGameInterface() {
-  const gameInterface = document.getElementById('gameInterface');
-  const loginRegister = document.getElementById('loginRegister');
-  
-  if (gameInterface && loginRegister) {
-    gameInterface.style.display = 'block'; // Show the game
-    loginRegister.style.display = 'none'; // Hide the login/register form
-  }
+  document.getElementById('auth-container').style.display = 'none';
+  document.getElementById('game-container').style.display = 'block';
+
+  loadPassage();
+  startTimer();
 }
 
 // Function to show login/register form
 function showLoginRegisterForm() {
-  const loginRegister = document.getElementById('loginRegister');
-  const gameInterface = document.getElementById('gameInterface');
-
-  if (loginRegister && gameInterface) {
-    loginRegister.style.display = 'block'; // Show the login/register form
-    gameInterface.style.display = 'none'; // Hide the game interface
-  }
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('login-form').style.display = 'block';
 }
 
 // Initialize the game with passages from JSON
@@ -127,7 +120,65 @@ fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/ma
 
 // Function to start the game
 function startGame(passages) {
-  // Placeholder for passage start logic
-  console.log(passages); // Display the passages
-  // Add game logic here (display passage, handle input, check answers, etc.)
+  const passage = passages[0]; // Display the first passage
+  document.getElementById('passage-title').textContent = passage.title;
+  document.getElementById('passage-text').textContent = passage.text;
+
+  const inputsContainer = document.getElementById('inputs-container');
+  inputsContainer.innerHTML = '';
+  for (let i = 0; i < passage.text.length; i++) {
+    if (passage.text[i] === '_') {
+      const inputField = document.createElement('input');
+      inputField.type = 'text';
+      inputField.maxLength = 1;
+      inputsContainer.appendChild(inputField);
+    } else {
+      const span = document.createElement('span');
+      span.textContent = passage.text[i];
+      inputsContainer.appendChild(span);
+    }
+  }
+}
+
+// Timer functionality
+function startTimer() {
+  let timeRemaining = 180; // 3 minutes
+  const timer = setInterval(() => {
+    if (timeRemaining > 0) {
+      timeRemaining--;
+      document.getElementById('timer').textContent = `Time left: ${Math.floor(timeRemaining / 60)}:${timeRemaining % 60}`;
+    } else {
+      clearInterval(timer);
+      submitAnswers();
+    }
+  }, 1000);
+}
+
+// Submit answers function
+async function submitAnswers() {
+  const inputs = document.querySelectorAll('#inputs-container input');
+  const passages = await fetchPassages();
+  const passage = passages[0];
+
+  let correctAnswers = 0;
+  for (let i = 0; i < inputs.length; i++) {
+    const input = inputs[i];
+    const correctAnswer = passage.answers[i];
+
+    if (input.value.toLowerCase() === correctAnswer.toLowerCase()) {
+      correctAnswers++;
+      input.style.backgroundColor = 'lightgreen';
+    } else {
+      input.style.backgroundColor = 'lightcoral';
+    }
+  }
+
+  alert(`You scored ${correctAnswers} out of ${inputs.length}`);
+}
+
+// Fetch passages from the GitHub JSON file
+async function fetchPassages() {
+  const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
+  const data = await response.json();
+  return data.passages;
 }
