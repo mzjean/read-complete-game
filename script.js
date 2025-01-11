@@ -1,4 +1,3 @@
-// Initialize Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
@@ -20,30 +19,22 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 
-// Add Event Listeners for the buttons
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM content loaded.");
-
-  const registerButton = document.getElementById('registerBtn');
-  const loginButton = document.getElementById('loginBtn');
-  const logoutButton = document.getElementById('logoutButton');
+// Add Event Listeners for buttons
+document.addEventListener('DOMContentLoaded', () => {
+  const registerButton = document.getElementById('registerButton');
+  const loginButton = document.getElementById('loginButton');
+  const goToRegisterButton = document.getElementById('goToRegisterButton');
+  const goToLoginButton = document.getElementById('goToLoginButton');
   
-  if (registerButton) {
-    registerButton.addEventListener('click', showRegisterForm);
-  }
-
-  if (loginButton) {
-    loginButton.addEventListener('click', showLoginForm);
-  }
-
-  if (logoutButton) {
-    logoutButton.addEventListener('click', logoutUser);
-  }
+  // Register event listeners
+  registerButton.addEventListener('click', registerUser);
+  loginButton.addEventListener('click', loginUserHandler);
+  goToRegisterButton.addEventListener('click', showRegisterForm);
+  goToLoginButton.addEventListener('click', showLoginForm);
 });
 
 // Show Register Form
 function showRegisterForm() {
-  console.log('Showing Register Form...');
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
   
@@ -53,7 +44,6 @@ function showRegisterForm() {
 
 // Show Login Form
 function showLoginForm() {
-  console.log('Showing Login Form...');
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
   
@@ -63,7 +53,6 @@ function showLoginForm() {
 
 // Register user
 function registerUser() {
-  console.log('Registering user...');
   const email = document.getElementById('register-email').value;
   const password = document.getElementById('register-password').value;
   const firstName = document.getElementById('register-first-name').value;
@@ -89,7 +78,6 @@ function registerUser() {
 
 // Login user
 function loginUserHandler() {
-  console.log('Logging in user...');
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
 
@@ -118,31 +106,24 @@ function logoutUser() {
 }
 
 function showGameInterface() {
-  console.log('Showing game interface...');
-  // Hide login and register forms
   document.getElementById('auth-container').style.display = 'none';
-  
-  // Show the game interface
   document.getElementById('game-container').style.display = 'block';
 
-  // You can set additional game-related functionality here (e.g., load passages, start game logic)
+  loadPassages();  // Fetch and load passages data here
 }
 
-// Load Passages from JSON URL
-function loadPassages() {
-  fetch("https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json")
-    .then(response => response.json())
-    .then(data => {
-      console.log("Passages loaded", data);
-      // Store or use the data for gameplay here
-    })
-    .catch(error => {
-      console.error("Error loading passages:", error);
-    });
+async function loadPassages() {
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
+    const data = await response.json();
+    console.log('Passages loaded:', data);
+    // Add logic for displaying passage data
+  } catch (error) {
+    console.error('Error fetching passages:', error);
+  }
 }
 
-// Load Passages when the game starts
 function startGame() {
   loadPassages();
-  // Add further game initialization logic here
+  // Game initialization logic
 }
