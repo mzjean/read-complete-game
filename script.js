@@ -108,7 +108,7 @@ function startTimer() {
 }
 
 // Submit answers
-function submitAnswers() {
+async function submitAnswers() {
   const inputs = document.querySelectorAll('#inputs-container input');
   const passages = await fetchPassages();
   const passage = passages[currentPassageIndex];
