@@ -19,22 +19,43 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 
-// Add Event Listeners for buttons
+// Add Event Listeners for the buttons
 document.addEventListener('DOMContentLoaded', () => {
+  console.log("DOM content loaded");
+
   const registerButton = document.getElementById('registerButton');
   const loginButton = document.getElementById('loginButton');
   const goToRegisterButton = document.getElementById('goToRegisterButton');
   const goToLoginButton = document.getElementById('goToLoginButton');
   
-  // Register event listeners
-  registerButton.addEventListener('click', registerUser);
-  loginButton.addEventListener('click', loginUserHandler);
-  goToRegisterButton.addEventListener('click', showRegisterForm);
-  goToLoginButton.addEventListener('click', showLoginForm);
+  // Log to verify that the elements are found
+  console.log(registerButton, loginButton, goToRegisterButton, goToLoginButton);
+  
+  // Add event listeners if buttons exist
+  if (registerButton) {
+    registerButton.addEventListener('click', registerUser);
+    console.log("Register button listener added");
+  }
+
+  if (loginButton) {
+    loginButton.addEventListener('click', loginUserHandler);
+    console.log("Login button listener added");
+  }
+
+  if (goToRegisterButton) {
+    goToRegisterButton.addEventListener('click', showRegisterForm);
+    console.log("Go to Register button listener added");
+  }
+
+  if (goToLoginButton) {
+    goToLoginButton.addEventListener('click', showLoginForm);
+    console.log("Go to Login button listener added");
+  }
 });
 
 // Show Register Form
 function showRegisterForm() {
+  console.log('Showing Register Form...');
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
   
@@ -44,6 +65,7 @@ function showRegisterForm() {
 
 // Show Login Form
 function showLoginForm() {
+  console.log('Showing Login Form...');
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
   
@@ -53,6 +75,7 @@ function showLoginForm() {
 
 // Register user
 function registerUser() {
+  console.log('Registering user...');
   const email = document.getElementById('register-email').value;
   const password = document.getElementById('register-password').value;
   const firstName = document.getElementById('register-first-name').value;
@@ -78,6 +101,7 @@ function registerUser() {
 
 // Login user
 function loginUserHandler() {
+  console.log('Logging in user...');
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
 
@@ -94,6 +118,7 @@ function loginUserHandler() {
 
 // Logout user
 function logoutUser() {
+  console.log("Logging out user...");
   signOut(auth)
     .then(() => {
       alert('User logged out');
@@ -106,6 +131,7 @@ function logoutUser() {
 }
 
 function showGameInterface() {
+  console.log('Showing game interface...');
   document.getElementById('auth-container').style.display = 'none';
   document.getElementById('game-container').style.display = 'block';
 
@@ -117,7 +143,7 @@ async function loadPassages() {
     const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
     const data = await response.json();
     console.log('Passages loaded:', data);
-    // Add logic for displaying passage data
+    // Use the data here to start the game
   } catch (error) {
     console.error('Error fetching passages:', error);
   }
