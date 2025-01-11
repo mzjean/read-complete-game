@@ -1,4 +1,4 @@
-// Import Firebase dependencies
+// Import Firebase using the CDN
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { getDatabase, ref, set, get, update, child } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-database.js";
@@ -15,7 +15,6 @@ const firebaseConfig = {
     measurementId: "G-Y1FFMJ6EN6"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
@@ -31,12 +30,10 @@ function registerUser(email, password, displayName) {
                 score: 0
             });
             alert("User registered successfully!");
-            currentUser = user;
-            switchToGame();
         })
         .catch((error) => {
             console.error("Error registering user:", error.message);
-            alert("Error: " + error.message);
+            alert("Registration failed: " + error.message);
         });
 }
 
@@ -44,45 +41,49 @@ function loginUser(email, password) {
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            alert("Welcome back!");
-            currentUser = user;
-            switchToGame();
+            alert("Login successful!");
         })
         .catch((error) => {
             console.error("Error logging in:", error.message);
-            alert("Error: " + error.message);
+            alert("Login failed: " + error.message);
         });
 }
 
 function logoutUser() {
     signOut(auth)
         .then(() => {
-            alert("You have logged out.");
-            currentUser = null;
-            switchToLogin();
+            alert("User logged out successfully!");
         })
         .catch((error) => {
             console.error("Error logging out:", error.message);
-            alert("Error: " + error.message);
         });
 }
 
-// Leaderboard
+// Leaderboard Management
 function fetchLeaderboard() {
     const leaderboardRef = ref(database, 'users/');
     get(leaderboardRef)
         .then((snapshot) => {
             if (snapshot.exists()) {
-                const data = snapshot.val();
-                const sortedLeaderboard = Object.values(data).sort((a, b) => b.score - a.score);
-                populateLeaderboard(sortedLeaderboard);
+                const data = Object.values(snapshot.val()).sort((a, b) => b.score - a.score);
+                populateLeaderboard(data);
             } else {
-                console.log("No leaderboard data available.");
+                console.log("No leaderboard data found.");
             }
         })
         .catch((error) => {
-            console.error("Error fetching leaderboard:", error.message);
+            console.error("Error fetching leaderboard: " + error.message);
         });
+}
+
+function populateLeaderboard(data) {
+    const leaderboardList = document.getElementById("leaderboard-list");
+    leaderboardList.innerHTML = ""; // Clear existing entries
+    data.forEach((user) => {
+        const listItem = document.createElement("li");
+        listItem.textContent = `${user.displayName}: ${user.score}`;
+        leaderboardList.appendChild(listItem);
+    });
 }
 
 function saveScore(score) {
@@ -93,16 +94,13 @@ function saveScore(score) {
     }
 }
 
-// Global Variables
+// Game Logic
 let passages = [];
 let currentPassage = 0;
 let score = 0;
-let timeLeft = 180; // 3 minutes
-let timerInterval; // To store the timer interval
-let completedPassages = 0;
-let currentUser = null;
+let timeLeft = 180;
+let timerInterval;
 
-// Fetch Questions from `database.json`
 function fetchQuestions() {
     fetch('database.json')
         .then((response) => {
@@ -113,26 +111,12 @@ function fetchQuestions() {
         })
         .then((data) => {
             passages = data.questions;
-            console.log("Passages fetched from database file:", passages);
         })
         .catch((error) => {
-            console.error("Error fetching questions from database file:", error);
-            alert("Error fetching passages. Please try again later.");
+            console.error("Error fetching questions: " + error.message);
         });
 }
 
-// Populate Leaderboard
-function populateLeaderboard(data) {
-    const leaderboardList = document.getElementById("leaderboard-list");
-    leaderboardList.innerHTML = ""; // Clear existing entries
-    data.forEach((entry) => {
-        const listItem = document.createElement("li");
-        listItem.innerText = `${entry.displayName}: ${entry.score} points`;
-        leaderboardList.appendChild(listItem);
-    });
-}
-
-// Game and Timer Logic
 function startGame() {
     if (passages.length === 0) {
         alert("No passages available. Please check the database.");
@@ -140,41 +124,29 @@ function startGame() {
     }
     currentPassage = 0;
     score = 0;
-    completedPassages = 0;
-    document.getElementById("score").innerText = `Score: ${score}`;
-    document.getElementById("game-container").style.display = "block";
-    document.getElementById("start-button").style.display = "none";
-    document.getElementById("end-summary").style.display = "none";
     displayPassage();
     startTimer();
 }
 
 function displayPassage() {
-    if (currentPassage >= passages.length) {
-        endGame();
-        return;
-    }
-
     const passage = passages[currentPassage];
+    document.getElementById("passage").textContent = passage.passage;
     document.getElementById("answer1").value = "";
     document.getElementById("answer2").value = "";
     document.getElementById("answer3").value = "";
-    document.getElementById("passage").innerText = passage.passage;
 }
 
 function startTimer() {
-    timeLeft = 180; // Reset to 3 minutes
-    document.getElementById("timer").innerText = `Time left: 3:00`;
-
+    timeLeft = 180;
+    document.getElementById("timer").textContent = `Time left: 3:00`;
     timerInterval = setInterval(() => {
         timeLeft--;
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
-        document.getElementById("timer").innerText = `Time left: ${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
-
+        document.getElementById("timer").textContent = `Time left: ${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            submitAnswers(); // Auto-submit when time is up
+            submitAnswers();
         }
     }, 1000);
 }
@@ -191,11 +163,9 @@ function submitAnswers() {
     if (answer3.toLowerCase() === correctAnswers[2].toLowerCase()) correctCount++;
 
     score += correctCount;
-    completedPassages++;
-    document.getElementById("score").innerText = `Score: ${score}`;
+    currentPassage++;
 
-    if (currentPassage < passages.length - 1) {
-        currentPassage++;
+    if (currentPassage < passages.length) {
         displayPassage();
     } else {
         endGame();
@@ -204,17 +174,10 @@ function submitAnswers() {
 
 function endGame() {
     clearInterval(timerInterval);
-    document.getElementById("game-container").style.display = "none";
-    document.getElementById("end-summary").style.display = "block";
-    document.getElementById("final-score").innerText = `Final Score: ${score}`;
-    document.getElementById("passages-completed").innerText = `Passages Completed: ${completedPassages}`;
     fetchLeaderboard();
+    alert(`Game over! Your score: ${score}`);
 }
 
-// Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
     fetchQuestions();
-    document.getElementById("start-button").addEventListener("click", startGame);
-    document.getElementById("submit-button").addEventListener("click", submitAnswers);
-    document.getElementById("play-again-button").addEventListener("click", startGame);
 });
