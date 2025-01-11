@@ -1,135 +1,130 @@
-// Firebase initialization (from firebase.js)
-import { initializeApp } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+// Initialize Firebase
+import { auth, registerUser, loginUser, logoutUser, fetchPassages } from './firebase.js';
 
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
-  authDomain: "readandcompletegame.firebaseapp.com",
-  databaseURL: "https://readandcompletegame-default-rtdb.firebaseio.com",
-  projectId: "readandcompletegame",
-  storageBucket: "readandcompletegame.firebasestorage.app",
-  messagingSenderId: "258271166303",
-  appId: "1:258271166303:web:822be022fb0eabd27800ea",
-  measurementId: "G-Y1FFMJ6EN6"
-};
+// Global variables
+let currentPassageIndex = 0;
+let timer;
+let timeRemaining = 180;  // 3 minutes
+let userPassages = [];
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const database = getDatabase(app);
+document.getElementById('game-container').style.display = 'none';
 
-// Show Register Form
+// Show the register form
 function showRegisterForm() {
-  document.getElementById("login-form").style.display = "none";
-  document.getElementById("register-form").style.display = "block";
+  document.getElementById('login-form').style.display = 'none';
+  document.getElementById('register-form').style.display = 'block';
 }
 
-// Show Login Form
+// Show the login form
 function showLoginForm() {
-  document.getElementById("register-form").style.display = "none";
-  document.getElementById("login-form").style.display = "block";
+  document.getElementById('register-form').style.display = 'none';
+  document.getElementById('login-form').style.display = 'block';
 }
 
-// Register user
-function registerUserHandler() {
-  const email = document.getElementById("register-email").value;
-  const password = document.getElementById("register-password").value;
-  const firstName = document.getElementById("register-first-name").value;
-  const lastName = document.getElementById("register-last-name").value;
+// Handle registration
+async function registerUserHandler() {
+  const firstName = document.getElementById('register-first-name').value;
+  const lastName = document.getElementById('register-last-name').value;
+  const email = document.getElementById('register-email').value;
+  const password = document.getElementById('register-password').value;
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // Save user data in the Firebase Realtime Database
-      set(ref(database, 'users/' + user.uid), {
-        firstName: firstName,
-        lastName: lastName,
-        email: email
-      }).then(() => {
-        alert("User registered successfully!");
-        showLoginForm();
-      }).catch((error) => {
-        alert("Error saving user data: " + error.message);
-      });
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorMessage);
-    });
+  try {
+    await registerUser(email, password);
+    localStorage.setItem('userName', firstName);
+    showLoginForm();
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
 }
 
-// Login user
-function loginUserHandler() {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
+// Handle login
+async function loginUserHandler() {
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      document.getElementById("auth-container").style.display = "none";
-      document.getElementById("game-container").style.display = "block";
-      document.getElementById("user-name").innerText = user.displayName || `${user.email}`;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorMessage);
-    });
+  try {
+    await loginUser(email, password);
+    startGame();
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
 }
 
-// Fetch passages from the raw JSON file hosted on GitHub
-async function fetchPassages() {
-  const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
-  const passages = await response.json();
-  return passages;
+// Handle logout
+async function logoutUserHandler() {
+  try {
+    await logoutUser();
+    document.getElementById('game-container').style.display = 'none';
+    document.getElementById('auth-container').style.display = 'block';
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
 }
 
-// Load a passage from the fetched data
+// Start the game
+function startGame() {
+  document.getElementById('auth-container').style.display = 'none';
+  document.getElementById('game-container').style.display = 'block';
+
+  loadPassage();
+  startTimer();
+}
+
+// Load a passage
 async function loadPassage() {
   const passages = await fetchPassages();
-  const randomPassage = passages[Math.floor(Math.random() * passages.length)];
-  
-  document.getElementById("passage-text").innerText = randomPassage.passage;
-  document.getElementById("passage-id").innerText = `Passage #${randomPassage.id}`;
+  const passage = passages[currentPassageIndex];
 
-  // Generate input fields for the blanks
-  let inputHTML = '';
-  randomPassage.passage.split('').forEach((char, index) => {
-    if (char === '_') {
-      inputHTML += `<input type="text" id="blank-${index}" maxlength="1" />`;
+  document.getElementById('passage-title').textContent = passage.title;
+  document.getElementById('passage-text').textContent = passage.text;
+
+  const inputsContainer = document.getElementById('inputs-container');
+  inputsContainer.innerHTML = '';
+  for (let i = 0; i < passage.text.length; i++) {
+    if (passage.text[i] === '_') {
+      const inputField = document.createElement('input');
+      inputField.type = 'text';
+      inputField.maxLength = 1;
+      inputsContainer.appendChild(inputField);
     } else {
-      inputHTML += char;
+      const span = document.createElement('span');
+      span.textContent = passage.text[i];
+      inputsContainer.appendChild(span);
     }
-  });
-  document.getElementById("inputs-container").innerHTML = inputHTML;
-
-  // Store the answers for checking later
-  window.currentAnswers = randomPassage.answers;
+  }
 }
 
-// Handle submission of answers
+// Start the timer
+function startTimer() {
+  timer = setInterval(() => {
+    if (timeRemaining > 0) {
+      timeRemaining--;
+      document.getElementById('timer').textContent = `Time left: ${Math.floor(timeRemaining / 60)}:${timeRemaining % 60}`;
+    } else {
+      clearInterval(timer);
+      submitAnswers();
+    }
+  }, 1000);
+}
+
+// Submit answers
 function submitAnswers() {
+  const inputs = document.querySelectorAll('#inputs-container input');
+  const passages = await fetchPassages();
+  const passage = passages[currentPassageIndex];
+  
   let correctAnswers = 0;
+  for (let i = 0; i < inputs.length; i++) {
+    const input = inputs[i];
+    const correctAnswer = passage.answers[i];
 
-  // Loop through each blank and check the answer
-  window.currentAnswers.forEach((correctAnswer, index) => {
-    const inputField = document.getElementById(`blank-${index}`);
-    const userAnswer = inputField.value.trim().toLowerCase();
-    
-    if (userAnswer === correctAnswer.toLowerCase()) {
+    if (input.value.toLowerCase() === correctAnswer.toLowerCase()) {
       correctAnswers++;
-      inputField.style.backgroundColor = 'green'; // Correct answer
+      input.style.backgroundColor = 'lightgreen';
     } else {
-      inputField.style.backgroundColor = 'red'; // Incorrect answer
+      input.style.backgroundColor = 'lightcoral';
     }
-  });
+  }
 
-  alert(`You got ${correctAnswers} out of ${window.currentAnswers.length} correct!`);
+  alert(`You scored ${correctAnswers} out of ${inputs.length}`);
 }
-
-// Event listeners for start and submit
-document.getElementById("start-button").addEventListener("click", loadPassage);
-document.getElementById("submit-button").addEventListener("click", submitAnswers);
