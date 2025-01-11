@@ -1,115 +1,128 @@
-// Get the user info
-let currentUser = null;
-let currentPassage = null;
-let timer;
-let timeLeft = 60;
+// Firebase initialization (from firebase.js)
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 
-// Toggle between Register and Login forms
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
+  authDomain: "readandcompletegame.firebaseapp.com",
+  databaseURL: "https://readandcompletegame-default-rtdb.firebaseio.com",
+  projectId: "readandcompletegame",
+  storageBucket: "readandcompletegame.firebasestorage.app",
+  messagingSenderId: "258271166303",
+  appId: "1:258271166303:web:822be022fb0eabd27800ea",
+  measurementId: "G-Y1FFMJ6EN6"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const database = getDatabase(app);
+
+// Show Register Form
 function showRegisterForm() {
   document.getElementById("login-form").style.display = "none";
   document.getElementById("register-form").style.display = "block";
 }
 
+// Show Login Form
 function showLoginForm() {
-  document.getElementById("register-form").style.display = "none";
   document.getElementById("login-form").style.display = "block";
+  document.getElementById("register-form").style.display = "none";
 }
 
-// Handle registration
-async function registerUserHandler() {
+// Register user
+function registerUserHandler() {
   const email = document.getElementById("register-email").value;
   const password = document.getElementById("register-password").value;
-  
-  try {
-    const userCredential = await registerUser(email, password);
-    currentUser = userCredential.user;
-    document.getElementById("user-name").textContent = currentUser.email.split('@')[0]; // Display email name
-    showStartInterface();
-  } catch (error) {
-    alert("Error: " + error.message);
-  }
+  const firstName = document.getElementById("register-first-name").value;
+  const lastName = document.getElementById("register-last-name").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      // Save user data in the Firebase Realtime Database
+      set(ref(database, 'users/' + user.uid), {
+        firstName: firstName,
+        lastName: lastName,
+        email: email
+      }).then(() => {
+        alert("User registered successfully!");
+        showLoginForm();
+      }).catch((error) => {
+        alert("Error saving user data: " + error.message);
+      });
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
+    });
 }
 
-// Handle login
-async function loginUserHandler() {
+// Login user
+function loginUserHandler() {
   const email = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;
 
-  try {
-    const userCredential = await loginUser(email, password);
-    currentUser = userCredential.user;
-    document.getElementById("user-name").textContent = currentUser.email.split('@')[0]; // Display email name
-    showStartInterface();
-  } catch (error) {
-    alert("Error: " + error.message);
-  }
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      document.getElementById("auth-container").style.display = "none";
+      document.getElementById("game-container").style.display = "block";
+      document.getElementById("user-name").innerText = user.displayName || `${user.email}`;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      alert(errorMessage);
+    });
 }
 
-// Show the start game interface after login
-function showStartInterface() {
+// Start game after login
+function startGame() {
+  // Call the function to start the game
+  console.log("Game started!");
+}
+
+// Show game container after login
+function showGameContainer() {
   document.getElementById("auth-container").style.display = "none";
   document.getElementById("game-container").style.display = "block";
-  document.getElementById("start-container").style.display = "block";
 }
 
-// Start the game after the user clicks "Start Game"
-function startGame() {
-  document.getElementById("start-container").style.display = "none";
-  document.getElementById("game-content").style.display = "block";
-  loadPassage();
-  startTimer();
+// Fetch passages from external JSON file
+async function fetchPassages() {
+  const response = await fetch('https://your-repository-url/passages.json');
+  const passages = await response.json();
+  return passages;
 }
 
-// Fetch and display a random passage
+// Load passage from fetched data
 async function loadPassage() {
-  try {
-    const passages = await fetchPassages();
-    const randomPassage = passages[Math.floor(Math.random() * passages.length)];
-    currentPassage = randomPassage;
-    document.getElementById("passage-title").textContent = randomPassage.title;
-    document.getElementById("passage-text").textContent = randomPassage.passage;
-
-    // Create input fields for the blanks
-    let inputHTML = '';
-    for (let i = 0; i < randomPassage.passage.length; i++) {
-      if (randomPassage.passage[i] === '_') {
-        inputHTML += `<input type="text" id="blank-${i}" maxlength="1" />`;
-      } else {
-        inputHTML += randomPassage.passage[i];
-      }
-    }
-    document.getElementById("inputs-container").innerHTML = inputHTML;
-  } catch (error) {
-    console.error("Error loading passage:", error);
-  }
+  const passages = await fetchPassages();
+  const randomPassage = passages[Math.floor(Math.random() * passages.length)];
+  
+  document.getElementById("passage-text").innerText = randomPassage.text;
+  document.getElementById("passage-id").innerText = `Passage #${randomPassage.id}`;
+  
+  randomPassage.blanks.forEach((blank, index) => {
+    document.getElementById(`input-${index}`).placeholder = blank;
+  });
 }
 
-// Start the timer for the game
-function startTimer() {
-  timer = setInterval(function() {
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      submitAnswers();
-    } else {
-      document.getElementById("timer").textContent = `Time Left: ${timeLeft} seconds`;
-      timeLeft--;
-    }
-  }, 1000);
-}
-
-// Submit answers
+// Handle submission of answers
 function submitAnswers() {
-  let correctAnswers = 0;
+  // Logic to handle answer checking
+  const answers = [];
+  const passageId = document.getElementById("passage-id").innerText;
 
-  for (let i = 0; i < currentPassage.passage.length; i++) {
-    const inputField = document.getElementById(`blank-${i}`);
-    if (inputField && inputField.value.toLowerCase() === currentPassage.passage[i].toLowerCase()) {
-      correctAnswers++;
-      inputField.style.backgroundColor = 'green'; // Correct answer
-    } else if (inputField) {
-      inputField.style.backgroundColor = 'red'; // Incorrect answer
-    }
-  }
+  // Placeholder for answer checking logic
 
-  alert(`You got ${correctAnswers} out of ${currentPassage.passage.length} correct!`);
+  alert(`Answers for ${passageId} submitted!`);
 }
+
+// Event listeners for start and submit
+document.getElementById("start-button").addEventListener("click", loadPassage);
+document.getElementById("submit-button").addEventListener("click", submitAnswers);
