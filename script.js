@@ -1,4 +1,25 @@
-import { auth, db, GoogleAuthProvider, signInWithPopup } from './firebase.js';
+import { auth, db, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from './firebase.js';
+
+// DOM Elements
+const registerPage = document.getElementById('registerPage');
+const loginPage = document.getElementById('loginPage');
+const userPage = document.getElementById('userPage');
+
+// Check if the user is authenticated
+auth.onAuthStateChanged(user => {
+    if (user) {
+        // User is signed in
+        registerPage.style.display = 'none';
+        loginPage.style.display = 'none';
+        userPage.style.display = 'block';
+        document.getElementById('userName').textContent = user.displayName || 'User'; // Display username
+    } else {
+        // No user is signed in
+        registerPage.style.display = 'block';
+        loginPage.style.display = 'block';
+        userPage.style.display = 'none';
+    }
+});
 
 // Register new user
 document.getElementById('registerButton').addEventListener('click', async () => {
@@ -19,8 +40,7 @@ document.getElementById('registerButton').addEventListener('click', async () => 
 
         // Auto-login the user after registration
         alert('Registration successful!');
-        console.log('User registered:', user);
-        window.location.href = "/userPage";  // Redirect to logged-in user page
+        window.location.href = "/userPage"; // Redirect to logged-in user page
     } catch (error) {
         console.error('Error registering user:', error);
         alert(error.message);
@@ -43,7 +63,7 @@ document.getElementById('googleLoginButton').addEventListener('click', async () 
 
         console.log('User logged in with Google:', user);
         alert('Google login successful!');
-        window.location.href = "/userPage";  // Redirect to logged-in user page
+        window.location.href = "/userPage"; // Redirect to logged-in user page
     } catch (error) {
         console.error('Error logging in with Google:', error);
         alert(error.message);
