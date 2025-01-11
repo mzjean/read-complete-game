@@ -68,11 +68,16 @@ function startTimer() {
       checkAnswers(); // Automatically submit when the time is up
     } else {
       timeLeft--;
-      const minutes = Math.floor(timeLeft / 60);
-      const seconds = timeLeft % 60;
-      document.getElementById('timer').textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+      updateTimerDisplay(timeLeft); // Update timer display
     }
   }, 1000);
+}
+
+// Update timer display (M:SS format)
+function updateTimerDisplay(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  document.getElementById('timer').textContent = `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 }
 
 // Check the answers submitted by the user
@@ -112,7 +117,7 @@ function nextPassage() {
 
   // Reset the timer
   timeLeft = 180; // Reset to 3 minutes
-  document.getElementById('timer').textContent = `${Math.floor(timeLeft / 60)}:00`;
+  updateTimerDisplay(timeLeft); // Update the timer display
   startTimer(); // Restart the timer
 }
 
