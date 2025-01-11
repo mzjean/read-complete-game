@@ -1,19 +1,4 @@
-// Initialize Firebase
-const firebaseConfig = {
-    apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
-    authDomain: "readandcompletegame.firebaseapp.com",
-    databaseURL: "https://readandcompletegame-default-rtdb.firebaseio.com",
-    projectId: "readandcompletegame",
-    storageBucket: "readandcompletegame.firebasestorage.app",
-    messagingSenderId: "258271166303",
-    appId: "1:258271166303:web:822be022fb0eabd27800ea",
-    measurementId: "G-Y1FFMJ6EN6"
-};
-
-// Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.database();
+import { auth, db, GoogleAuthProvider, signInWithPopup } from './firebase.js';
 
 // Register new user
 document.getElementById('registerButton').addEventListener('click', async () => {
@@ -23,19 +8,19 @@ document.getElementById('registerButton').addEventListener('click', async () => 
     const password = document.getElementById('password').value;
 
     try {
-        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
         // Store user info in Realtime Database
-        firebase.database().ref('users/' + user.uid).set({
+        await set(ref(db, 'users/' + user.uid), {
             username: firstName + " " + lastName,
             email: email
         });
 
         // Auto-login the user after registration
-        console.log('User registered:', user);
         alert('Registration successful!');
-        // Redirect or show logged-in screen here
+        console.log('User registered:', user);
+        window.location.href = "/userPage";  // Redirect to logged-in user page
     } catch (error) {
         console.error('Error registering user:', error);
         alert(error.message);
@@ -44,21 +29,21 @@ document.getElementById('registerButton').addEventListener('click', async () => 
 
 // Google login
 document.getElementById('googleLoginButton').addEventListener('click', async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
 
     try {
-        const result = await firebase.auth().signInWithPopup(provider);
+        const result = await signInWithPopup(auth, provider);
         const user = result.user;
 
         // Store user info in Realtime Database
-        firebase.database().ref('users/' + user.uid).set({
+        await set(ref(db, 'users/' + user.uid), {
             username: user.displayName,
             email: user.email
         });
 
         console.log('User logged in with Google:', user);
         alert('Google login successful!');
-        // Redirect or show logged-in screen here
+        window.location.href = "/userPage";  // Redirect to logged-in user page
     } catch (error) {
         console.error('Error logging in with Google:', error);
         alert(error.message);
@@ -71,11 +56,11 @@ document.getElementById('loginButton').addEventListener('click', async () => {
     const password = document.getElementById('loginPassword').value;
 
     try {
-        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         console.log('User logged in:', user);
         alert('Login successful!');
-        // Redirect or show logged-in screen here
+        window.location.href = "/userPage";  // Redirect to logged-in user page
     } catch (error) {
         console.error('Error logging in user:', error);
         alert(error.message);
@@ -85,10 +70,10 @@ document.getElementById('loginButton').addEventListener('click', async () => {
 // Logout user
 document.getElementById('logoutButton').addEventListener('click', async () => {
     try {
-        await firebase.auth().signOut();
+        await signOut(auth);
         console.log('User logged out');
         alert('Logged out successfully!');
-        // Redirect or show login screen
+        window.location.href = "/loginPage";  // Redirect to login page
     } catch (error) {
         console.error('Error logging out:', error);
         alert(error.message);
