@@ -29,10 +29,12 @@ const passwordInput = document.getElementById('password');
 const firstNameInput = document.getElementById('firstName');
 const lastNameInput = document.getElementById('lastName');
 
-// Event listeners for registration and login
-registerButton.addEventListener('click', registerUser);
-loginButton.addEventListener('click', loginUserHandler);
-logoutButton.addEventListener('click', logoutUser);
+// Check if elements exist before attaching event listeners
+if (registerButton && loginButton && logoutButton) {
+  registerButton.addEventListener('click', registerUser);
+  loginButton.addEventListener('click', loginUserHandler);
+  logoutButton.addEventListener('click', logoutUser);
+}
 
 // Function to register user
 function registerUser() {
@@ -93,14 +95,24 @@ function logoutUser() {
 
 // Function to show the game interface after login
 function showGameInterface() {
-  document.getElementById('gameInterface').style.display = 'block'; // Show the game
-  document.getElementById('loginRegister').style.display = 'none'; // Hide the login/register form
+  const gameInterface = document.getElementById('gameInterface');
+  const loginRegister = document.getElementById('loginRegister');
+  
+  if (gameInterface && loginRegister) {
+    gameInterface.style.display = 'block'; // Show the game
+    loginRegister.style.display = 'none'; // Hide the login/register form
+  }
 }
 
 // Function to show login/register form
 function showLoginRegisterForm() {
-  document.getElementById('loginRegister').style.display = 'block'; // Show the login/register form
-  document.getElementById('gameInterface').style.display = 'none'; // Hide the game interface
+  const loginRegister = document.getElementById('loginRegister');
+  const gameInterface = document.getElementById('gameInterface');
+
+  if (loginRegister && gameInterface) {
+    loginRegister.style.display = 'block'; // Show the login/register form
+    gameInterface.style.display = 'none'; // Hide the game interface
+  }
 }
 
 // Initialize the game with passages from JSON
