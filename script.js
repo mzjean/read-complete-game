@@ -1,3 +1,4 @@
+// Initialize Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
@@ -19,21 +20,22 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const database = getDatabase(app);
 
-// Event listeners
-document.addEventListener('DOMContentLoaded', () => {
+// Add Event Listeners for the buttons
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM content loaded.");
+
   const registerButton = document.getElementById('registerBtn');
   const loginButton = document.getElementById('loginBtn');
   const logoutButton = document.getElementById('logoutButton');
   
-  // Check if buttons exist
   if (registerButton) {
     registerButton.addEventListener('click', showRegisterForm);
   }
-  
+
   if (loginButton) {
     loginButton.addEventListener('click', showLoginForm);
   }
-  
+
   if (logoutButton) {
     logoutButton.addEventListener('click', logoutUser);
   }
@@ -41,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Show Register Form
 function showRegisterForm() {
+  console.log('Showing Register Form...');
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
   
@@ -50,6 +53,7 @@ function showRegisterForm() {
 
 // Show Login Form
 function showLoginForm() {
+  console.log('Showing Login Form...');
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
   
@@ -59,6 +63,7 @@ function showLoginForm() {
 
 // Register user
 function registerUser() {
+  console.log('Registering user...');
   const email = document.getElementById('register-email').value;
   const password = document.getElementById('register-password').value;
   const firstName = document.getElementById('register-first-name').value;
@@ -84,6 +89,7 @@ function registerUser() {
 
 // Login user
 function loginUserHandler() {
+  console.log('Logging in user...');
   const email = document.getElementById('login-email').value;
   const password = document.getElementById('login-password').value;
 
@@ -112,6 +118,7 @@ function logoutUser() {
 }
 
 function showGameInterface() {
+  console.log('Showing game interface...');
   // Hide login and register forms
   document.getElementById('auth-container').style.display = 'none';
   
