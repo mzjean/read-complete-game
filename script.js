@@ -72,6 +72,7 @@ function handleLogin(event) {
 
 // Handle Submit Answers
 function submitAnswers() {
+    console.log("Submit button clicked!"); // Debugging log
     const answer1 = document.getElementById("answer1").value.trim();
     const answer2 = document.getElementById("answer2").value.trim();
     const answer3 = document.getElementById("answer3").value.trim();
@@ -126,5 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchQuestions();
     document.getElementById("user-form").addEventListener("submit", handleLogin);
     document.getElementById("start-button").addEventListener("click", startGame);
-    document.getElementById("submit-button").addEventListener("click", submitAnswers); // Ensure button functionality
+    document.getElementById("submit-button").addEventListener("click", () => {
+        console.log("Button clicked and listener triggered!"); // Debugging log
+        submitAnswers();
+    });
 });
