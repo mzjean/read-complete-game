@@ -3,34 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Read and Complete Game</title>
+    <title>Read & Complete Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Auth Container -->
     <div id="auth-container">
-        <h1 id="auth-title">Login / Register</h1>
-
-        <div id="register-form" class="form-container">
-            <input type="text" id="firstName" placeholder="First Name">
-            <input type="text" id="lastName" placeholder="Last Name">
-            <input type="email" id="registerEmail" placeholder="Email">
-            <input type="password" id="registerPassword" placeholder="Password">
+        <div id="register-form" style="display:block;">
+            <h2>Register</h2>
+            <input type="text" id="firstName" placeholder="First Name" required>
+            <input type="text" id="lastName" placeholder="Last Name" required>
+            <input type="email" id="registerEmail" placeholder="Email" required>
+            <input type="password" id="registerPassword" placeholder="Password" required>
             <button id="registerButton">Register</button>
-            <p>Already have an account? <button id="goToLoginButton">Login</button></p>
+            <button id="goToLoginButton">Go to Login</button>
         </div>
 
-        <div id="login-form" class="form-container" style="display: none;">
-            <input type="email" id="loginEmail" placeholder="Email">
-            <input type="password" id="loginPassword" placeholder="Password">
+        <div id="login-form" style="display:none;">
+            <h2>Login</h2>
+            <input type="email" id="loginEmail" placeholder="Email" required>
+            <input type="password" id="loginPassword" placeholder="Password" required>
             <button id="loginButton">Login</button>
-            <p>Don't have an account? <button id="goToRegisterButton">Register</button></p>
-        </div>
-
-        <div id="game-container" style="display: none;">
-            <h1>Welcome, <span id="welcomeUserName"></span>!</h1>
-            <button id="startGameButton">Start Game</button>
+            <button id="goToRegisterButton">Go to Register</button>
         </div>
     </div>
+
+    <!-- Game Container -->
+    <div id="game-container" style="display:none;">
+        <h2 id="welcomeUserName">Welcome, User!</h2>
+        <button id="startGameButton">Start Game</button>
+        <div id="gameArea">
+            <!-- Your game content goes here -->
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
     <script type="module" src="script.js"></script>
+
 </body>
 </html>
