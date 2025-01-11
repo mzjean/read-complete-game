@@ -1,32 +1,54 @@
+/* Base styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
   text-align: center;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #073055;
+  font-size: 36px;
+  margin-top: 20px;
 }
 
 button {
   background-color: #ffc802;
-  color: white;
-  border: none;
+  color: #073055;
+  font-size: 18px;
   padding: 10px 20px;
-  font-size: 16px;
+  margin: 20px 10px;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: #fce08b;
+  background-color: #ffcc33;
 }
 
-#passage-text {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 20px;
+#passage-container {
+  display: none;
+}
+
+#submit-button {
+  display: none;
 }
 
 .blank {
   width: 50px;
+  height: 30px;
   text-align: center;
-  margin: 0 5px;
   font-size: 18px;
-  padding: 5px;
+  margin: 5px;
+  display: inline-block;
+}
+
+.blank.correct {
+  background-color: lightgreen;
+}
+
+.blank.incorrect {
+  background-color: red;
 }
