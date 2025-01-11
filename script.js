@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             currentUser = userCredential.user;
-            userNameDisplay.textContent = currentUser.displayName || currentUser.email.split('@')[0];
+            userNameDisplay.textContent = currentUser.displayName || currentUser.email.split('@')[0]; // Show first part of email as user name if displayName is not available
             loginForm.style.display = 'none';
             gameContainer.style.display = 'block';
             console.log('Logged in');
