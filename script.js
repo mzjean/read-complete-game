@@ -1,3 +1,15 @@
+// Define the startGame function
+function startGame() {
+  const startButton = document.getElementById('start-game-button');
+  startButton.style.display = 'none';  // Hide the start game button once clicked
+  
+  const passageContainer = document.getElementById('passage-container');
+  passageContainer.style.display = 'block';  // Show the passage container
+
+  // Call function to display the first passage
+  showPassage();
+}
+
 // Fetch passages from the local JSON file
 async function fetchPassages() {
   try {
