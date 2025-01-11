@@ -1,8 +1,4 @@
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
-import { getDatabase, ref, set, get, child } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
-
 const firebaseConfig = {
   apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
   authDomain: "readandcompletegame.firebaseapp.com",
@@ -16,43 +12,59 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const database = getDatabase(app);
+const auth = getAuth();
+const db = getDatabase(app);
 
-// Register User
-function registerUser(email, password) {
-  return createUserWithEmailAndPassword(auth, email, password);
+// Register new user
+async function registerUser(email, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("User registered:", userCredential);
+    return userCredential;
+  } catch (error) {
+    console.error("Error registering user:", error);
+    throw error;
+  }
 }
 
-// Login User
-function loginUser(email, password) {
-  return signInWithEmailAndPassword(auth, email, password);
+// Login existing user
+async function loginUser(email, password) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log("User logged in:", userCredential);
+    return userCredential;
+  } catch (error) {
+    console.error("Error logging in user:", error);
+    throw error;
+  }
 }
 
-// Logout User
-function logoutUser() {
-  return signOut(auth);
+// Logout user
+async function logoutUser() {
+  try {
+    await signOut(auth);
+    console.log("User logged out");
+  } catch (error) {
+    console.error("Error logging out:", error);
+  }
 }
 
-// Store user data in the database
-function storeUserData(userId, name, email) {
-  set(ref(database, 'users/' + userId), {
-    username: name,
-    email: email
-  });
+// Fetch passages from the database
+async function fetchPassages() {
+  const passagesRef = ref(db, 'passages');
+  try {
+    const snapshot = await get(passagesRef);
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      console.log("No passages found.");
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching passages:", error);
+    throw error;
+  }
 }
 
-// Fetch passage data from GitHub
-function fetchPassages() {
-  fetch('https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY/main/passages.json')
-    .then(response => response.json())
-    .then(data => {
-      const passages = data;
-      const passage = passages[0]; // For now, just use the first passage
-      displayPassage(passage);
-      startTimer();
-    })
-    .catch((error) => {
-      console.error("Error fetching passages: ", error);
-    });
-}
+// Example usage of these functions
+fetchPassages();
