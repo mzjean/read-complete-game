@@ -109,17 +109,25 @@ function showLoginRegisterForm() {
 }
 
 // Initialize the game with passages from JSON
-fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json')
-  .then(response => response.json())
-  .then(passages => {
-    startGame(passages); // Start the game with the loaded passages
-  })
-  .catch(error => {
+async function fetchPassages() {
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
+    const data = await response.json();
+    console.log("Passages fetched:", data); // Log the fetched data to inspect it
+    return data.passages; // Make sure the passages key is correct
+  } catch (error) {
     console.error("Error loading passages:", error);
-  });
+  }
+}
 
 // Function to start the game
-function startGame(passages) {
+async function startGame() {
+  const passages = await fetchPassages();
+  if (!passages || passages.length === 0) {
+    alert("No passages available!");
+    return;
+  }
+
   const passage = passages[0]; // Display the first passage
   document.getElementById('passage-title').textContent = passage.title;
   document.getElementById('passage-text').textContent = passage.text;
@@ -174,11 +182,4 @@ async function submitAnswers() {
   }
 
   alert(`You scored ${correctAnswers} out of ${inputs.length}`);
-}
-
-// Fetch passages from the GitHub JSON file
-async function fetchPassages() {
-  const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
-  const data = await response.json();
-  return data.passages;
 }
