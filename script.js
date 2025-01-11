@@ -44,14 +44,22 @@ function startGame() {
 
 // Display Passage
 function displayPassage() {
+    console.log("Displaying passage for index:", currentPassage);
     if (currentPassage >= passages.length) {
         endGame();
         return;
     }
-    const feedbackElement = document.getElementById("feedback");
-    feedbackElement.style.display = "none"; // Hide feedback for new passage
 
-    document.getElementById("passage").innerText = passages[currentPassage].passage;
+    const passage = passages[currentPassage];
+    console.log("Current passage object:", passage);
+
+    if (!passage || !passage.passage) {
+        console.error("Passage data is missing or undefined for index:", currentPassage);
+        alert("An error occurred. Please try again.");
+        return;
+    }
+
+    document.getElementById("passage").innerText = passage.passage;
 }
 
 // Handle Login Flow
@@ -72,7 +80,7 @@ function handleLogin(event) {
 
 // Handle Submit Answers
 function submitAnswers() {
-    console.log("Submit button clicked!"); // Debugging log
+    console.log("Submit button clicked!");
 
     // Validate currentPassage and its answers
     if (!passages[currentPassage] || !passages[currentPassage].answers) {
@@ -85,6 +93,9 @@ function submitAnswers() {
     const answer2 = document.getElementById("answer2").value.trim();
     const answer3 = document.getElementById("answer3").value.trim();
     const correctAnswers = passages[currentPassage].answers;
+
+    console.log("User answers:", [answer1, answer2, answer3]);
+    console.log("Correct answers:", correctAnswers);
 
     let correctCount = 0;
     if (answer1.toLowerCase() === correctAnswers[0].toLowerCase()) correctCount++;
@@ -135,8 +146,5 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchQuestions();
     document.getElementById("user-form").addEventListener("submit", handleLogin);
     document.getElementById("start-button").addEventListener("click", startGame);
-    document.getElementById("submit-button").addEventListener("click", () => {
-        console.log("Button clicked and listener triggered!"); // Debugging log
-        submitAnswers();
-    });
+    document.getElementById("submit-button").addEventListener("click", submitAnswers);
 });
