@@ -1,91 +1,95 @@
-import { auth, db, registerUser, loginUser, logoutUser, loginWithGoogle, fetchPassages } from './firebase.js';
+// Initialize Firebase
+const firebaseConfig = {
+    apiKey: "AIzaSyBQBBiJ_Ia7Bte76hHCb8CABBQ-Ym0TyYk",
+    authDomain: "readandcompletegame.firebaseapp.com",
+    databaseURL: "https://readandcompletegame-default-rtdb.firebaseio.com",
+    projectId: "readandcompletegame",
+    storageBucket: "readandcompletegame.firebasestorage.app",
+    messagingSenderId: "258271166303",
+    appId: "1:258271166303:web:822be022fb0eabd27800ea",
+    measurementId: "G-Y1FFMJ6EN6"
+};
 
-document.addEventListener("DOMContentLoaded", function() {
-    const registerButton = document.getElementById('registerButton');
-    const loginButton = document.getElementById('loginButton');
-    const goToLoginButton = document.getElementById('goToLoginButton');
-    const goToRegisterButton = document.getElementById('goToRegisterButton');
-    const startGameButton = document.getElementById('startGameButton');
-    const welcomeUserName = document.getElementById('welcomeUserName');
-    const authContainer = document.getElementById('auth-container');
-    const gameContainer = document.getElementById('game-container');
-    const registerForm = document.getElementById('register-form');
-    const loginForm = document.getElementById('login-form');
-    const googleLoginButton = document.getElementById('googleLoginButton');
-    
-    let currentUser = null;
+const app = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.database();
 
-    // Toggle between Login and Register forms
-    goToLoginButton.addEventListener("click", function() {
-        registerForm.style.display = "none";
-        loginForm.style.display = "block";
-    });
+// Register new user
+document.getElementById('registerButton').addEventListener('click', async () => {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-    goToRegisterButton.addEventListener("click", function() {
-        loginForm.style.display = "none";
-        registerForm.style.display = "block";
-    });
+    try {
+        const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
 
-    // Register User
-    registerButton.addEventListener("click", async function() {
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
-        const email = document.getElementById('registerEmail').value;
-        const password = document.getElementById('registerPassword').value;
+        // Store user info in Realtime Database
+        firebase.database().ref('users/' + user.uid).set({
+            username: firstName + " " + lastName,
+            email: email
+        });
 
-        try {
-            const userCredential = await registerUser(email, password, firstName, lastName);
-            const user = userCredential.user;
-            console.log('User registered:', user);
-            loginUserHandler(user);
-        } catch (error) {
-            console.error("Error registering user:", error);
-        }
-    });
-
-    // Login User
-    loginButton.addEventListener("click", async function() {
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-
-        try {
-            const userCredential = await loginUser(email, password);
-            const user = userCredential.user;
-            console.log("User logged in:", user);
-            loginUserHandler(user);
-        } catch (error) {
-            console.error("Error logging in user:", error);
-            alert("Login failed!");
-        }
-    });
-
-    // Login User with Google
-    googleLoginButton.addEventListener("click", async function() {
-        try {
-            const user = await loginWithGoogle();
-            loginUserHandler(user);
-        } catch (error) {
-            console.error("Error logging in with Google:", error);
-        }
-    });
-
-    // Handle login and show game interface
-    function loginUserHandler(user) {
-        currentUser = user;
-        authContainer.style.display = "none";
-        gameContainer.style.display = "block";
-        welcomeUserName.textContent = `Welcome, ${currentUser.displayName || 'User'}`;
+        // Auto-login the user after registration
+        console.log('User registered:', user);
+        alert('Registration successful!');
+        // Redirect or show logged-in screen here
+    } catch (error) {
+        console.error('Error registering user:', error);
+        alert(error.message);
     }
+});
 
-    // Start the game
-    startGameButton.addEventListener("click", function() {
-        fetchPassages()
-            .then((passages) => {
-                console.log("Passages loaded:", passages);
-                // Implement your game logic here (populate passage and start timer)
-            })
-            .catch((error) => {
-                console.error("Error loading passages:", error);
-            });
-    });
+// Google login
+document.getElementById('googleLoginButton').addEventListener('click', async () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    try {
+        const result = await firebase.auth().signInWithPopup(provider);
+        const user = result.user;
+
+        // Store user info in Realtime Database
+        firebase.database().ref('users/' + user.uid).set({
+            username: user.displayName,
+            email: user.email
+        });
+
+        console.log('User logged in with Google:', user);
+        alert('Google login successful!');
+        // Redirect or show logged-in screen here
+    } catch (error) {
+        console.error('Error logging in with Google:', error);
+        alert(error.message);
+    }
+});
+
+// Login existing user
+document.getElementById('loginButton').addEventListener('click', async () => {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    try {
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        console.log('User logged in:', user);
+        alert('Login successful!');
+        // Redirect or show logged-in screen here
+    } catch (error) {
+        console.error('Error logging in user:', error);
+        alert(error.message);
+    }
+});
+
+// Logout user
+document.getElementById('logoutButton').addEventListener('click', async () => {
+    try {
+        await firebase.auth().signOut();
+        console.log('User logged out');
+        alert('Logged out successfully!');
+        // Redirect or show login screen
+    } catch (error) {
+        console.error('Error logging out:', error);
+        alert(error.message);
+    }
 });
