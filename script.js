@@ -27,8 +27,8 @@ function showRegisterForm() {
 
 // Show Login Form
 function showLoginForm() {
-  document.getElementById("login-form").style.display = "block";
   document.getElementById("register-form").style.display = "none";
+  document.getElementById("login-form").style.display = "block";
 }
 
 // Register user
@@ -80,47 +80,54 @@ function loginUserHandler() {
     });
 }
 
-// Start game after login
-function startGame() {
-  // Call the function to start the game
-  console.log("Game started!");
-}
-
-// Show game container after login
-function showGameContainer() {
-  document.getElementById("auth-container").style.display = "none";
-  document.getElementById("game-container").style.display = "block";
-}
-
-// Fetch passages from external JSON file
+// Fetch passages from the raw JSON file hosted on GitHub
 async function fetchPassages() {
-  const response = await fetch('https://raw.githubusercontent.com/mzjean/read-complete-game/refs/heads/main/passages.json');
+  const response = await fetch('https://raw.githubusercontent.com/your-username/your-repository/main/path/to/passages.json');
   const passages = await response.json();
   return passages;
 }
 
-// Load passage from fetched data
+// Load a passage from the fetched data
 async function loadPassage() {
   const passages = await fetchPassages();
   const randomPassage = passages[Math.floor(Math.random() * passages.length)];
   
-  document.getElementById("passage-text").innerText = randomPassage.text;
+  document.getElementById("passage-text").innerText = randomPassage.passage;
   document.getElementById("passage-id").innerText = `Passage #${randomPassage.id}`;
-  
-  randomPassage.blanks.forEach((blank, index) => {
-    document.getElementById(`input-${index}`).placeholder = blank;
+
+  // Generate input fields for the blanks
+  let inputHTML = '';
+  randomPassage.passage.split('').forEach((char, index) => {
+    if (char === '_') {
+      inputHTML += `<input type="text" id="blank-${index}" maxlength="1" />`;
+    } else {
+      inputHTML += char;
+    }
   });
+  document.getElementById("inputs-container").innerHTML = inputHTML;
+
+  // Store the answers for checking later
+  window.currentAnswers = randomPassage.answers;
 }
 
 // Handle submission of answers
 function submitAnswers() {
-  // Logic to handle answer checking
-  const answers = [];
-  const passageId = document.getElementById("passage-id").innerText;
+  let correctAnswers = 0;
 
-  // Placeholder for answer checking logic
+  // Loop through each blank and check the answer
+  window.currentAnswers.forEach((correctAnswer, index) => {
+    const inputField = document.getElementById(`blank-${index}`);
+    const userAnswer = inputField.value.trim().toLowerCase();
+    
+    if (userAnswer === correctAnswer.toLowerCase()) {
+      correctAnswers++;
+      inputField.style.backgroundColor = 'green'; // Correct answer
+    } else {
+      inputField.style.backgroundColor = 'red'; // Incorrect answer
+    }
+  });
 
-  alert(`Answers for ${passageId} submitted!`);
+  alert(`You got ${correctAnswers} out of ${window.currentAnswers.length} correct!`);
 }
 
 // Event listeners for start and submit
