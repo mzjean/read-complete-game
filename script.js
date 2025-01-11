@@ -56,6 +56,7 @@ function showPassage() {
 
   // Show the submit button
   document.getElementById('submit-button').style.display = 'block';
+  document.getElementById('next-pass').style.display = 'none'; // Hide Next Passage button initially
 }
 
 // Start timer countdown
@@ -91,13 +92,28 @@ function checkAnswers() {
 
   alert(`You got ${correctAnswers} out of ${passage.answers.length} correct!`);
 
-  // Move to the next passage or end the game
-  if (currentPassageIndex < passages.length - 1) {
-    currentPassageIndex++;
+  // Show the Next Passage button and hide the Submit button
+  document.getElementById('submit-button').style.display = 'none';
+  document.getElementById('next-pass').style.display = 'block';
+}
+
+// Move to the next passage
+function nextPassage() {
+  // Increment the passage index and show the next passage
+  currentPassageIndex++;
+
+  // If all passages have been completed, show a message
+  if (currentPassageIndex < passages.length) {
     showPassage();
   } else {
     alert("You've completed all the passages!");
+    // Optionally, show analytics or restart the game here
   }
+
+  // Reset the timer
+  timeLeft = 180; // Reset to 3 minutes
+  document.getElementById('timer').textContent = `${Math.floor(timeLeft / 60)}:00`;
+  startTimer(); // Restart the timer
 }
 
 // Call fetchPassages when the page is ready
