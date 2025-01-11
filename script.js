@@ -16,7 +16,7 @@ function fetchQuestions() {
             return response.json();
         })
         .then((data) => {
-            passages = data.questions; 
+            passages = data.questions;
             console.log("Passages fetched from database file:", passages);
         })
         .catch((error) => {
@@ -27,6 +27,10 @@ function fetchQuestions() {
 
 // Start Game Flow
 function startGame() {
+    if (passages.length === 0) {
+        alert("No passages available. Please check the database.");
+        return;
+    }
     currentPassage = 0;
     score = 0;
     completedPassages = 0;
@@ -40,15 +44,14 @@ function startGame() {
 
 // Display Passage
 function displayPassage() {
+    if (currentPassage >= passages.length) {
+        endGame();
+        return;
+    }
     const feedbackElement = document.getElementById("feedback");
     feedbackElement.style.display = "none"; // Hide feedback for new passage
 
-    if (passages[currentPassage]) {
-        console.log("Displaying passage:", passages[currentPassage]);
-        document.getElementById("passage").innerText = passages[currentPassage].passage;
-    } else {
-        handleEmptyPassages();
-    }
+    document.getElementById("passage").innerText = passages[currentPassage].passage;
 }
 
 // Login Flow
@@ -67,10 +70,36 @@ function handleLogin(event) {
     }
 }
 
+// End Game
+function endGame() {
+    clearInterval(timerInterval);
+    document.getElementById("game-container").style.display = "none";
+    document.getElementById("end-summary").style.display = "block";
+    document.getElementById("final-score").innerText = `Final Score: ${score}`;
+    document.getElementById("passages-completed").innerText = `Passages Completed: ${completedPassages}`;
+}
+
+// Timer Functionality
+function startTimer() {
+    timeLeft = 180; // Reset to 3 minutes
+    document.getElementById("timer").innerText = `Time left: 3:00`;
+
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById("timer").innerText = `Time left: ${minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            submitAnswers(); // Auto-submit when time is up
+        }
+    }, 1000);
+}
+
 // Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("Document loaded. Fetching questions...");
-    fetchQuestions(); 
+    fetchQuestions();
     document.getElementById("user-form").addEventListener("submit", handleLogin);
     document.getElementById("start-button").addEventListener("click", startGame);
 });
