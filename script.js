@@ -55,16 +55,23 @@ function showPassage(index) {
 // Start the timer
 function startTimer() {
   let timeLeft = 180; // 3 minutes = 180 seconds
-  document.getElementById("timer").textContent = timeLeft;
+  document.getElementById("timer").textContent = formatTime(timeLeft);
 
   timerInterval = setInterval(function() {
     timeLeft--;
-    document.getElementById("timer").textContent = timeLeft;
+    document.getElementById("timer").textContent = formatTime(timeLeft);
     if (timeLeft <= 0) {
       clearInterval(timerInterval);
       checkAnswers();  // Automatically check answers when time is up
     }
   }, 1000);
+}
+
+// Format time in M:SS format
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 }
 
 // Check answers after user presses submit
