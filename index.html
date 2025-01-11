@@ -5,22 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Read and Complete Game</title>
     <link rel="stylesheet" href="style.css">
-    <script defer src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
-    <script defer src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
-    <script defer src="script.js"></script>
 </head>
 <body>
-    <h1>Read and Complete Game</h1>
-    <form id="register-form">
-        <input type="text" id="displayName" placeholder="Full Name">
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="password" placeholder="Password">
-        <button type="button" onclick="registerUser()">Register</button>
-    </form>
-    <div id="leaderboard">
-        <h2>Leaderboard</h2>
-        <ul id="leaderboard-list"></ul>
+
+  <div id="auth-container">
+    <h2>Register / Login</h2>
+    
+    <!-- Registration Form -->
+    <div id="register-form">
+      <input type="email" id="register-email" placeholder="Email" />
+      <input type="password" id="register-password" placeholder="Password" />
+      <button onclick="register()">Register</button>
     </div>
+
+    <!-- Login Form -->
+    <div id="login-form">
+      <input type="email" id="login-email" placeholder="Email" />
+      <input type="password" id="login-password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+    </div>
+
+    <!-- Logout -->
+    <div id="logout-btn-container" style="display:none;">
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <div id="game-container" style="display:none;">
+    <h3 id="passage-title"></h3>
+    <p id="passage"></p>
+    <button onclick="submitAnswers()">Submit Answers</button>
+  </div>
+
+  <script src="firebase.js"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>
