@@ -8,7 +8,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
   text-align: center;
   flex-direction: column;
 }
@@ -27,11 +27,17 @@ body {
 
 /* Header */
 .game-header {
-  background-color: #ffc802ff;
   color: #073055ff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1.8rem;
+}
+
+/* Instructions */
+.instructions {
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #333; /* Standard text color */
 }
 
 /* Buttons */
@@ -90,15 +96,30 @@ body {
 }
 
 .passage-container input {
-  width: 18px;
+  width: 14px; /* Compact width */
   height: 22px;
   text-align: center;
-  margin: 0 2px;
+  margin: 0; /* No spacing */
+  padding: 0; /* No padding */
   font-size: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #ccc; /* Default border */
   border-radius: 3px;
 }
 
 .passage-container input:focus {
   outline: 2px solid #073055ff;
+}
+
+.passage-container input.correct {
+  background-color: #d4edda; /* Green background */
+  border-color: #28a745;
+}
+
+.passage-container input.incorrect {
+  background-color: #f8d7da; /* Red background */
+  border-color: #dc3545;
+}
+
+.hidden {
+  display: none;
 }
