@@ -99,7 +99,7 @@ button[disabled] {
 input[type="text"] {
     border: 1.5px solid #e5e5e5ff; /* Slightly thinner border */
     border-radius: 5px;
-    padding: 0; /* Removed padding for seamless alignment */
+    padding: 0.25rem; /* Reduced padding for compact fields */
     font-size: 1.2rem; /* Matches body text size */
     width: 16px; /* Adjusted width for compact fields */
     text-align: center;
