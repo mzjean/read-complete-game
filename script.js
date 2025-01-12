@@ -10,22 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const analyticsDisplay = document.getElementById("analytics");
     const body = document.body;
 
-    // Add dark mode toggle
-    const darkModeContainer = document.createElement("div");
-    darkModeContainer.id = "dark-mode-container";
-    darkModeContainer.innerHTML = `
-        <label id="dark-mode-label">Dark Mode:</label>
-        <label class="switch">
-            <input type="checkbox" id="dark-mode-toggle">
-            <span class="slider"></span>
-        </label>
-    `;
-    body.appendChild(darkModeContainer);
-
     let currentPassageIndex = 0;
     let timerInterval;
     let timer = 180; // 3 minutes in seconds
     let passages = [];
+
+    // Hide timer initially
+    timerDisplay.style.display = "none";
 
     // Fetch passages from passages.json
     fetch("passages.json")
@@ -53,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const startTimer = () => {
         timer = 180; // Reset timer
         updateTimerDisplay();
+        timerDisplay.style.display = "block"; // Show the timer
         timerInterval = setInterval(() => {
             timer--;
             updateTimerDisplay();
@@ -127,18 +119,16 @@ document.addEventListener("DOMContentLoaded", () => {
             loadPassage();
             startTimer();
         } else {
-            resultDisplay.textContent = "You've completed all passages!";
-            analyticsDisplay.style.display = "block";
+            // Hide passage and buttons after the last one
+            passageTitle.textContent = "";
+            passageText.innerHTML = "";
             nextButton.style.display = "none";
-        }
-    });
+            timerDisplay.style.display = "none";
 
-    // Dark Mode Toggle
-    document.getElementById("dark-mode-toggle").addEventListener("change", (event) => {
-        if (event.target.checked) {
-            body.classList.add("dark-mode");
-        } else {
-            body.classList.remove("dark-mode");
+            // Show a completion message
+            resultDisplay.textContent = "You've completed all passages! Well done!";
+            analyticsDisplay.style.display = "block";
+            analyticsDisplay.textContent = "Your performance analytics will appear here.";
         }
     });
 });
