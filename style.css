@@ -1,75 +1,140 @@
-/* General Styling */
+/* General Reset */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+  height: 100vh;
+  background-color: #f9f9f9;
+  color: #333;
+  text-align: center;
 }
 
-.hidden {
-  display: none;
-}
-
-/* Header Styling */
+/* Header */
 .game-header {
-  position: fixed;
-  top: 0;
+  background-color: #ffffff;
+  color: #073055ff;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 10px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   text-align: center;
-  background-color: #f8f9fa;
-  padding: 15px;
-  border-bottom: 1px solid #ddd;
 }
 
-/* Main Section */
+/* Main Content Area */
 .main-container {
-  padding: 100px 20px 20px; /* Space for fixed header */
-  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Consistent spacing between blocks */
+  padding: 20px;
 }
 
-/* Timer Styling */
+/* Instructions */
+.instructions {
+  font-size: 1.1rem;
+  color: #333;
+  margin: 0;
+}
+
+/* Timer */
 .timer {
-  font-size: 18px;
-  margin: 10px 0;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
-.timer.warning {
-  color: orange;
+/* Passage Title */
+.passage-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
-.timer.danger {
-  color: red;
+/* Passage Container */
+.passage-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
 }
 
-/* Buttons Section */
-.button-section {
-  margin-top: 20px;
+/* Input Fields */
+.passage-container input {
+  width: 14px;
+  height: 24px;
+  text-align: center;
+  font-size: 1rem;
+  padding: 0;
+  margin: 0 0.05em;
+  border: 1px solid #ccc;
+  border-radius: 2px;
 }
 
+.passage-container input:focus {
+  outline: none;
+}
+
+.passage-container input.correct {
+  background-color: #d4edda;
+  border-color: #28a745;
+}
+
+.passage-container input.incorrect {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+}
+
+/* Buttons */
 .game-button {
+  font-size: 1.2rem;
   padding: 10px 20px;
-  margin: 10px;
+  border-radius: 8px;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
   cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .start-button {
-  background-color: #00274d;
+  background-color: #073055ff;
   color: white;
+}
+
+.start-button:hover {
+  background-color: #05263b;
+  transform: scale(1.05);
 }
 
 .submit-button {
-  background-color: green;
+  background-color: #28a745;
   color: white;
 }
 
+.submit-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
 .next-button {
-  background-color: blue;
+  background-color: #007bff;
   color: white;
+}
+
+.next-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Footer */
+.game-footer {
+  font-size: 1rem;
+  color: #333;
+  margin-top: 20px;
 }
