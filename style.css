@@ -10,12 +10,16 @@ body {
   align-items: center;
   height: 100vh; /* Full viewport height */
   text-align: center;
+  flex-direction: column;
 }
 
 .game-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
   max-width: 600px;
   padding: 20px;
   box-sizing: border-box;
@@ -25,61 +29,68 @@ body {
 .game-header {
   background-color: #ffc802ff;
   color: #073055ff;
-  text-align: center;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
 }
 
-/* Start Button */
-.start-section {
-  margin: 20px;
+/* Buttons */
+.game-button {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .start-button {
   background-color: #073055ff;
   color: white;
-  font-size: 1.5rem;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .start-button:hover {
-  transform: scale(1.05);
   background-color: #05263b;
+  transform: scale(1.05);
+}
+
+.submit-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.next-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.next-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
 /* Timer */
 .timer {
   font-size: 1.25rem;
-  margin: 20px 0;
-  color: #073055ff;
 }
 
-.timer.warning {
-  color: #ffc802ff;
-}
-
-.timer.danger {
-  color: #ff0000;
-}
-
-.hidden {
+.timer.hidden {
   display: none;
 }
 
-/* Passage Container */
+/* Passage Text */
 .passage-container {
-  text-align: center;
-  margin: 20px;
   font-size: 1.2rem;
+  line-height: 1.6;
 }
 
 .passage-container input {
+  width: 18px;
   height: 22px;
   text-align: center;
   margin: 0 2px;
@@ -90,49 +101,4 @@ body {
 
 .passage-container input:focus {
   outline: 2px solid #073055ff;
-}
-
-/* Feedback Container */
-.feedback-container {
-  margin: 20px;
-  font-size: 1.1rem;
-}
-
-.feedback-container .correct {
-  color: #28a745;
-  background-color: #d4edda;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.feedback-container .incorrect {
-  color: #dc3545;
-  background-color: #f8d7da;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-/* Footer */
-.game-footer {
-  margin-top: 30px;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-/* Responsive Design */
-@media (max-width: 600px) {
-  .start-button {
-    font-size: 1.25rem;
-    padding: 8px 15px;
-  }
-
-  .passage-container {
-    font-size: 1rem;
-  }
-
-  .passage-container input {
-    width: 20px;
-    height: 24px;
-    font-size: 1.1rem;
-  }
 }
