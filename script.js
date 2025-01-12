@@ -36,6 +36,8 @@ function validatePassages(data) {
 
 // Start Game
 function startGame() {
+  console.log("startGame function triggered"); // Debug Message
+
   // Hide the start button and good luck message
   startButton.classList.add("hidden");
   document.getElementById("good-luck-message").classList.add("hidden");
@@ -154,5 +156,8 @@ function displayError(message) {
 window.onload = async () => {
   await fetchPassages();
   // Add event listener for the Start Game button
-  startButton.addEventListener("click", startGame);
+  startButton.addEventListener("click", () => {
+    console.log("Start Game button clicked"); // Debug Message
+    startGame();
+  });
 };
