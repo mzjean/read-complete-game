@@ -11,20 +11,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const body = document.body;
 
     // Add dark mode toggle
-    const darkModeToggle = document.createElement("button");
-    darkModeToggle.textContent = "Toggle Dark Mode";
-    darkModeToggle.id = "dark-mode-toggle";
-    darkModeToggle.style.marginTop = "20px";
-    body.appendChild(darkModeToggle);
+    const darkModeContainer = document.createElement("div");
+    darkModeContainer.id = "dark-mode-container";
+    darkModeContainer.innerHTML = `
+        <label id="dark-mode-label">Dark Mode:</label>
+        <label class="switch">
+            <input type="checkbox" id="dark-mode-toggle">
+            <span class="slider"></span>
+        </label>
+    `;
+    body.appendChild(darkModeContainer);
 
     let currentPassageIndex = 0;
     let timerInterval;
     let timer = 180; // 3 minutes in seconds
     let passages = [];
-    let circle; // For circular timer
-
-    // Hide timer initially
-    timerDisplay.style.display = "none";
 
     // Fetch passages from passages.json
     fetch("passages.json")
@@ -36,40 +37,25 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error fetching passages:", error);
         });
 
-    // Initialize circular timer
-    const initCircularTimer = () => {
-        timerDisplay.style.display = "block";
-        timerDisplay.innerHTML = `
-            <div class="circular-timer">
-                <svg width="100" height="100">
-                    <circle class="timer-background" cx="50" cy="50" r="45"></circle>
-                    <circle class="timer-foreground" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 0;"></circle>
-                </svg>
-            </div>
-        `;
-        circle = document.querySelector(".timer-foreground");
-    };
-
-    const updateCircularTimer = () => {
-        const totalTime = 180; // Total timer duration
-        const dashArray = 283; // Circumference of the circle
-        const dashOffset = (timer / totalTime) * dashArray;
-        circle.style.strokeDashoffset = dashOffset;
+    const updateTimerDisplay = () => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+        timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
         // Change timer color in the last 10 seconds
         if (timer <= 10) {
-            circle.style.stroke = "#ff0000";
+            timerDisplay.classList.add("red");
         } else {
-            circle.style.stroke = "#073055ff";
+            timerDisplay.classList.remove("red");
         }
     };
 
     const startTimer = () => {
         timer = 180; // Reset timer
-        updateCircularTimer();
+        updateTimerDisplay();
         timerInterval = setInterval(() => {
             timer--;
-            updateCircularTimer();
+            updateTimerDisplay();
             if (timer <= 0) {
                 clearInterval(timerInterval);
                 autoSubmit();
@@ -121,7 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
         resultDisplay.textContent = "";
         analyticsDisplay.style.display = "none";
         loadPassage();
-        initCircularTimer(); // Initialize the circular timer
         startTimer();
     });
 
@@ -138,9 +123,8 @@ document.addEventListener("DOMContentLoaded", () => {
             analyticsDisplay.style.display = "none";
             passageTitle.textContent = "";
             passageText.innerHTML = "";
-            timerDisplay.innerHTML = ""; // Reset the timer display
+            timerDisplay.textContent = "3:00";
             loadPassage();
-            initCircularTimer();
             startTimer();
         } else {
             resultDisplay.textContent = "You've completed all passages!";
@@ -150,13 +134,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Dark Mode Toggle
-    darkModeToggle.addEventListener("click", () => {
-        if (body.classList.contains("dark-mode")) {
-            body.classList.remove("dark-mode");
-            darkModeToggle.textContent = "Toggle Dark Mode";
-        } else {
+    document.getElementById("dark-mode-toggle").addEventListener("change", (event) => {
+        if (event.target.checked) {
             body.classList.add("dark-mode");
-            darkModeToggle.textContent = "Toggle Light Mode";
+        } else {
+            body.classList.remove("dark-mode");
         }
     });
 });
