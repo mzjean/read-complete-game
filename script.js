@@ -1,227 +1,144 @@
-/* General Styling */
-body {
-    font-family: 'Poppins', Arial, sans-serif;
-    background-color: #ffffff;
-    color: #073055ff;
-    margin: 0;
-    padding: 0;
-}
+document.addEventListener("DOMContentLoaded", () => {
+    // DOM Elements
+    const startButton = document.getElementById("start-button");
+    const submitButton = document.getElementById("submit-button");
+    const nextButton = document.getElementById("next-button");
+    const passageTitle = document.getElementById("passage-title");
+    const passageText = document.getElementById("passage-text");
+    const timerDisplay = document.getElementById("timer");
+    const resultDisplay = document.getElementById("result");
+    const analyticsDisplay = document.getElementById("analytics");
+    const body = document.body;
 
-header {
-    text-align: center;
-    background-color: #ffc802ff;
-    padding: 20px;
-    border-bottom: 2px solid #e5e5e5ff;
-    letter-spacing: 0.05em; /* Adds kerning to header text */
-}
+    // Add dark mode toggle
+    const darkModeContainer = document.createElement("div");
+    darkModeContainer.id = "dark-mode-container";
+    darkModeContainer.innerHTML = `
+        <label id="dark-mode-label">Dark Mode:</label>
+        <label class="switch">
+            <input type="checkbox" id="dark-mode-toggle">
+            <span class="slider"></span>
+        </label>
+    `;
+    body.appendChild(darkModeContainer);
 
-h1, h2 {
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-weight: bold;
-    letter-spacing: 0.1em; /* Adds more kerning to headings */
-}
+    let currentPassageIndex = 0;
+    let timerInterval;
+    let timer = 180; // 3 minutes in seconds
+    let passages = [];
 
-h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-}
+    // Fetch passages from passages.json
+    fetch("passages.json")
+        .then((response) => response.json())
+        .then((data) => {
+            passages = data;
+        })
+        .catch((error) => {
+            console.error("Error fetching passages:", error);
+        });
 
-h2 {
-    font-size: 1.5rem;
-    color: #073055ff;
-    margin-bottom: 15px;
-}
+    const updateTimerDisplay = () => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+        timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
-/* Game Container */
-.game-container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-    text-align: center;
-    line-height: 1.6; /* Adds spacing between lines for better readability */
-}
+        // Change timer color in the last 10 seconds
+        if (timer <= 10) {
+            timerDisplay.classList.add("red");
+        } else {
+            timerDisplay.classList.remove("red");
+        }
+    };
 
-/* Timer */
-#timer {
-    margin: 20px auto;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #073055ff;
-    letter-spacing: 0.05em; /* Kerning for the timer */
-}
+    const startTimer = () => {
+        timer = 180; // Reset timer
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            timer--;
+            updateTimerDisplay();
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                autoSubmit();
+            }
+        }, 1000);
+    };
 
-#timer.red {
-    color: #ff0000; /* Change color to red in the last 10 seconds */
-}
+    const loadPassage = () => {
+        if (currentPassageIndex < passages.length) {
+            const passage = passages[currentPassageIndex];
+            passageTitle.textContent = passage.title;
+            const textWithBlanks = passage.text.split("").map((char, index) => {
+                return char === "_" ? `<input type="text" maxlength="1" data-index="${index}" />` : char;
+            }).join("");
+            passageText.innerHTML = textWithBlanks;
 
-/* Buttons */
-button {
-    background-color: #073055ff;
-    color: #ffffff;
-    padding: 8px 16px; /* Reduced padding for sleeker buttons */
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    letter-spacing: 0.05em; /* Kerning for button text */
-    transition: transform 0.2s, background-color 0.3s;
-    display: inline-block;
-    margin: 10px 5px; /* Adds spacing between buttons */
-}
+            // Show the Submit button
+            submitButton.style.display = "inline-block";
+        }
+    };
 
-button:hover {
-    background-color: #6d7681ff;
-    transform: scale(1.05);
-}
+    const autoSubmit = () => {
+        const inputs = document.querySelectorAll("#passage-text input");
+        const passage = passages[currentPassageIndex];
+        let correctCount = 0;
 
-button:active {
-    transform: scale(0.98);
-}
+        inputs.forEach((input, idx) => {
+            const answer = passage.answers[idx];
+            if (input.value.toLowerCase() === answer) {
+                correctCount++;
+                input.classList.add("correct");
+            } else {
+                input.classList.add("incorrect");
+                input.value = answer; // Show correct answer
+            }
+        });
 
-button[disabled] {
-    display: none; /* Hide disabled buttons */
-}
+        const total = passage.answers.length;
+        const accuracy = Math.round((correctCount / total) * 100);
+        resultDisplay.textContent = `You answered ${accuracy}% of the blanks correctly!`;
 
-/* Inputs */
-input[type="text"] {
-    border: 1.5px solid #e5e5e5ff; /* Slightly thinner border */
-    border-radius: 5px;
-    padding: 3px 5px; /* Reduced padding for smaller fields */
-    font-size: 0.9rem; /* Smaller font size */
-    width: 25px; /* Reduced width for smaller fields */
-    text-align: center;
-    margin: 0 2px; /* Adds spacing between input fields */
-}
+        // Hide Submit and show Next
+        submitButton.style.display = "none";
+        nextButton.style.display = "inline-block";
+    };
 
-input.correct {
-    border-color: #28a745; /* Green for correct */
-    background-color: #d4edda;
-}
+    startButton.addEventListener("click", () => {
+        startButton.style.display = "none"; // Hide Start button
+        resultDisplay.textContent = "";
+        analyticsDisplay.style.display = "none";
+        loadPassage();
+        startTimer();
+    });
 
-input.incorrect {
-    border-color: #dc3545; /* Red for incorrect */
-    background-color: #f8d7da;
-}
+    submitButton.addEventListener("click", () => {
+        clearInterval(timerInterval); // Stop the timer
+        autoSubmit();
+    });
 
-/* Dark Mode */
-body.dark-mode {
-    background-color: #1e1e1e;
-    color: #ffffff;
-}
+    nextButton.addEventListener("click", () => {
+        if (currentPassageIndex < passages.length - 1) {
+            currentPassageIndex++;
+            nextButton.style.display = "none";
+            resultDisplay.textContent = "";
+            analyticsDisplay.style.display = "none";
+            passageTitle.textContent = "";
+            passageText.innerHTML = "";
+            timerDisplay.textContent = "3:00";
+            loadPassage();
+            startTimer();
+        } else {
+            resultDisplay.textContent = "You've completed all passages!";
+            analyticsDisplay.style.display = "block";
+            nextButton.style.display = "none";
+        }
+    });
 
-body.dark-mode header {
-    background-color: #073055ff;
-    color: #ffffff;
-}
-
-body.dark-mode h1, body.dark-mode h2 {
-    color: #fce08bff; /* Light yellow for headings in dark mode */
-}
-
-body.dark-mode button {
-    background-color: #ffc802ff;
-    color: #073055ff;
-}
-
-body.dark-mode button:hover {
-    background-color: #fce08bff;
-}
-
-body.dark-mode input[type="text"] {
-    background-color: #333333;
-    color: #ffffff;
-    border: 2px solid #6d7681ff;
-}
-
-/* Dark Mode Toggle */
-#dark-mode-container {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#dark-mode-label {
-    font-size: 1rem;
-    margin-right: 10px;
-    color: #073055ff;
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 30px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #e5e5e5ff;
-    transition: 0.4s;
-    border-radius: 30px;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 22px;
-    width: 22px;
-    border-radius: 50%;
-    background-color: white;
-    bottom: 4px;
-    left: 4px;
-    transition: 0.4s;
-}
-
-input:checked + .slider {
-    background-color: #073055ff;
-}
-
-input:checked + .slider:before {
-    transform: translateX(30px);
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-#passage-container {
-    animation: fadeIn 0.5s ease;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 600px) {
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    h2 {
-        font-size: 1.2rem;
-    }
-
-    button {
-        font-size: 0.9rem;
-        padding: 6px 12px;
-    }
-
-    .game-container {
-        padding: 10px;
-    }
-}
+    // Dark Mode Toggle
+    document.getElementById("dark-mode-toggle").addEventListener("change", (event) => {
+        if (event.target.checked) {
+            body.classList.add("dark-mode");
+        } else {
+            body.classList.remove("dark-mode");
+        }
+    });
+});
