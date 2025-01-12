@@ -105,7 +105,9 @@ body {
   line-height: 1.8; /* Increased line height for readability */
   letter-spacing: 0.05em; /* Subtle kerning adjustment */
   text-align: center; /* Center-align text and input fields */
-  margin-top: 15px; /* Add spacing above passage */
+  display: inline-block; /* Ensure the text and inputs are treated as a single block */
+  margin: 0 auto; /* Center the block horizontally */
+  width: auto; /* Allow the content to take its natural width */
 }
 
 /* Passage Title */
