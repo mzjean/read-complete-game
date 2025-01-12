@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Read and Complete Game</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Read and Complete Game</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <header>
-            <h1>Read and Complete Game</h1>
-        </header>
-        <main>
-            <div id="passage-container">
-                <h2 id="passage-title"></h2>
-                <p id="passage-text"></p>
-            </div>
-            <div class="controls">
-                <button id="start-button" aria-label="Start Game">Start</button>
-                <button id="submit-button" aria-label="Submit Answer" class="hidden">Submit</button>
-                <button id="next-button" aria-label="Next Passage" class="hidden">Next Passage</button>
-            </div>
-            <div id="timer">3:00</div>
-        </main>
-        <footer>
-            <p id="result"></p>
-            <div id="analytics"></div>
-        </footer>
+  <header class="game-header">
+    <h1>Read and Complete Game</h1>
+  </header>
+
+  <main class="game-container">
+    <!-- Start Button -->
+    <div class="start-section">
+      <button id="start-game-btn" class="start-button">Start Game</button>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Timer -->
+    <div id="timer" class="timer hidden">Time Left: 3:00</div>
+
+    <!-- Passage Area -->
+    <div id="passage-container" class="passage-container hidden">
+      <!-- Content will be dynamically generated -->
+    </div>
+
+    <!-- Feedback and Results -->
+    <div id="feedback-container" class="feedback-container hidden">
+      <!-- Results will be dynamically displayed here -->
+    </div>
+  </main>
+
+  <footer class="game-footer">
+    <p>Good luck!</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
