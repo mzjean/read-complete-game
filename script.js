@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const timerDisplay = document.getElementById("timer");
     const resultDisplay = document.getElementById("result");
     const analyticsDisplay = document.getElementById("analytics");
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
 
     let currentPassageIndex = 0;
     let timerInterval;
@@ -58,12 +59,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         .fill('<input type="text" maxlength="1" class="blank" />')
                         .join("")}</span>`;
                 }
-                return chunk;
+                return `<span>${chunk}</span>`; // Wrap plain text for consistency
             }).join("");
 
             passageText.innerHTML = textWithBlanks;
 
-            // Add event listeners to move the cursor automatically
+            // Add event listeners for input navigation
             const inputs = passageText.querySelectorAll("input.blank");
             inputs.forEach((input, index) => {
                 input.addEventListener("input", () => {
@@ -72,7 +73,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 });
 
-                // Allow backspace to go to the previous field
                 input.addEventListener("keydown", (e) => {
                     if (e.key === "Backspace" && input.value === "" && index > 0) {
                         inputs[index - 1].focus();
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
         startButton.style.display = "none"; // Hide Start button
         resultDisplay.textContent = "";
         analyticsDisplay.style.display = "none";
-        passageContainer.style.display = "block"; // Ensure the container is visible
+        passageContainer.style.display = "block";
         loadPassage();
         startTimer();
     });
@@ -132,19 +132,20 @@ document.addEventListener("DOMContentLoaded", () => {
             analyticsDisplay.style.display = "none";
             passageTitle.textContent = "";
             passageText.innerHTML = "";
-            timerDisplay.textContent = "3:00";
             loadPassage();
             startTimer();
         } else {
-            // Hide passage container and buttons after the last passage
-            passageContainer.style.display = "none"; // Completely hides the container
+            passageContainer.style.display = "none";
             nextButton.style.display = "none";
             timerDisplay.style.display = "none";
-
-            // Show a completion message
             resultDisplay.textContent = "You've completed all passages! Well done!";
             analyticsDisplay.style.display = "block";
             analyticsDisplay.textContent = "Your performance analytics will appear here.";
         }
+    });
+
+    // Dark mode toggle
+    darkModeToggle.addEventListener("change", () => {
+        document.body.classList.toggle("dark-mode", darkModeToggle.checked);
     });
 });
