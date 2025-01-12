@@ -5,14 +5,10 @@ body {
   padding: 0;
   background-color: #f9f9f9;
   color: #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   text-align: center;
-  flex-direction: column;
 }
 
+/* Game Container */
 .game-container {
   display: flex;
   flex-direction: column;
@@ -23,14 +19,20 @@ body {
   max-width: 600px;
   padding: 20px;
   box-sizing: border-box;
+  margin-top: 80px; /* Adjusted for the fixed header height */
 }
 
 /* Header */
 .game-header {
+  position: fixed; /* Keeps the header static across pages */
+  top: 0; /* Sticks to the top of the viewport */
+  width: 100%; /* Full width to span the screen */
+  background-color: #ffffff; /* White background for visibility */
   color: #073055ff;
-  padding: 10px 0; /* Reduced padding to bring header closer to the top */
+  padding: 10px 0; /* Compact vertical padding */
   font-size: 1.5rem; /* Smaller header text */
-  margin-top: 10px; /* Additional spacing to position closer to the top */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+  z-index: 1000; /* Ensures the header stays above other elements */
 }
 
 /* Instructions */
