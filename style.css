@@ -1,79 +1,79 @@
-/* General Reset for Full Page Layout */
+/* General Reset */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  display: flex; /* Flexbox for full-page layout */
-  flex-direction: column; /* Stack header, main, and footer */
-  height: 100vh; /* Full viewport height */
-  background-color: #f9f9f9; /* Light background */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f9f9f9;
   color: #333;
   text-align: center;
 }
 
 /* Header */
 .game-header {
-  background-color: #ffffff; /* White background */
+  background-color: #ffffff;
   color: #073055ff;
   font-size: 1.8rem;
   font-weight: bold;
   padding: 10px 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
-  width: 100%; /* Full width */
-  text-align: center; /* Center the text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  text-align: center;
 }
 
 /* Main Content Area */
 .main-container {
-  flex: 1; /* Allow main content to fill remaining space */
-  display: flex; /* Flexbox for centering content */
-  flex-direction: column; /* Stack elements vertically */
-  justify-content: center; /* Center vertically */
-  align-items: center; /* Center horizontally */
-  gap: 20px; /* Space between stacked elements */
-  padding: 20px; /* Add padding for small screens */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Consistent spacing between blocks */
+  padding: 20px;
 }
 
 /* Instructions */
 .instructions {
   font-size: 1.1rem;
   color: #333;
-  margin: 0; /* Remove default margin */
+  margin: 0;
 }
 
 /* Timer */
 .timer {
   font-size: 1.2rem;
-  margin-bottom: 10px; /* Space below the timer */
+  margin-bottom: 10px;
 }
 
 /* Passage Title */
 .passage-title {
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 15px; /* Space between title and passage */
+  margin-bottom: 15px;
 }
 
 /* Passage Container */
 .passage-container {
   display: flex;
-  flex-wrap: wrap; /* Allow wrapping for long passages */
-  justify-content: center; /* Center the passage text */
-  align-items: baseline; /* Align inputs and text correctly */
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
   font-size: 1.1rem;
-  line-height: 1.8; /* Add readability to text */
-  letter-spacing: 0.05em; /* Subtle kerning */
-  margin-bottom: 20px; /* Space below passage */
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
 }
 
 /* Input Fields */
 .passage-container input {
-  width: 14px; /* Narrow input size */
+  width: 14px;
   height: 24px;
   text-align: center;
   font-size: 1rem;
   padding: 0;
-  margin: 0 0.05em; /* Small margin for spacing */
+  margin: 0 0.05em;
   border: 1px solid #ccc;
   border-radius: 2px;
 }
@@ -83,12 +83,12 @@ body {
 }
 
 .passage-container input.correct {
-  background-color: #d4edda; /* Green background for correct */
+  background-color: #d4edda;
   border-color: #28a745;
 }
 
 .passage-container input.incorrect {
-  background-color: #f8d7da; /* Red background for incorrect */
+  background-color: #f8d7da;
   border-color: #dc3545;
 }
 
@@ -132,9 +132,9 @@ body {
   transform: scale(1.05);
 }
 
-/* Footer (e.g., Good Luck Message) */
-.footer {
+/* Footer */
+.game-footer {
   font-size: 1rem;
   color: #333;
-  margin-top: 10px;
+  margin-top: 20px;
 }
