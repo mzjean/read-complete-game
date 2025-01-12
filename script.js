@@ -1,80 +1,3 @@
-// Global Variables
-let passages = [];
-let currentPassageIndex = 0;
-let timer;
-let timeLeft = 180; // 3 minutes
-
-// DOM Elements
-const startButton = document.getElementById("start-game-btn");
-const timerElement = document.getElementById("timer");
-const passageContainer = document.getElementById("passage-container");
-const feedbackContainer = document.getElementById("feedback-container");
-
-// Fetch Passages
-async function fetchPassages() {
-  try {
-    const response = await fetch("passages.json");
-    if (!response.ok) throw new Error("Failed to fetch passages.");
-    passages = await response.json();
-    validatePassages(passages);
-  } catch (error) {
-    displayError("Unable to load passages. Please try again later.");
-    console.error(error);
-  }
-}
-
-// Validate Passages
-function validatePassages(data) {
-  if (!Array.isArray(data)) throw new Error("Invalid passages format.");
-  data.forEach((passage) => {
-    const { passage_id, title, text_with_blanks, answer_mapping } = passage;
-    if (!passage_id || !title || !text_with_blanks || !answer_mapping) {
-      throw new Error(`Passage ${passage_id} is missing required fields.`);
-    }
-  });
-}
-
-// Start Game
-function startGame() {
-  startButton.classList.add("hidden");
-  document.getElementById("good-luck-message").classList.add("hidden");
-  timerElement.classList.remove("hidden");
-  passageContainer.classList.remove("hidden");
-  timeLeft = 180;
-  startTimer();
-  renderPassage();
-}
-
-// Timer Logic
-function startTimer() {
-  timer = setInterval(() => {
-    timeLeft--;
-    updateTimer();
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      submitAnswers();
-    }
-  }, 1000);
-}
-
-function updateTimer() {
-  timerElement.textContent = `Time Left: ${formatTime(timeLeft)}`;
-  if (timeLeft <= 30 && timeLeft > 10) {
-    timerElement.classList.add("warning");
-    timerElement.classList.remove("danger");
-  } else if (timeLeft <= 10) {
-    timerElement.classList.add("danger");
-  } else {
-    timerElement.classList.remove("warning", "danger");
-  }
-}
-
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-}
-
 // Render Passage
 function renderPassage() {
   const passage = passages[currentPassageIndex];
@@ -86,13 +9,10 @@ function renderPassage() {
 }
 
 function renderTextWithBlanks(text) {
-  return text
-    .split("")
-    .map((char) => (char === "_" ? `<input type="text" maxlength="1">` : char))
-    .join("");
+  return text.replace(/_/g, () => `<input type="text" maxlength="1">`);
 }
 
-// Submit Answers
+// Apply feedback (green/red) to inputs
 function submitAnswers() {
   clearInterval(timer);
 
@@ -118,38 +38,13 @@ function submitAnswers() {
   feedbackContainer.classList.remove("hidden");
 }
 
-// Load Next Passage
-function loadNextPassage() {
-  currentPassageIndex++;
-  if (currentPassageIndex < passages.length) {
-    feedbackContainer.classList.add("hidden");
-    timeLeft = 180;
-    startTimer();
-    renderPassage();
-  } else {
-    endGame();
-  }
+// Start Game
+function startGame() {
+  startButton.classList.add("hidden");
+  document.getElementById("good-luck-message").classList.add("hidden");
+  timerElement.classList.remove("hidden");
+  passageContainer.classList.remove("hidden");
+  timeLeft = 180;
+  startTimer();
+  renderPassage();
 }
-
-// End Game
-function endGame() {
-  passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>
-    <button class="game-button start-button" onclick="restartGame()">Restart</button>`;
-}
-
-// Restart Game
-function restartGame() {
-  localStorage.clear();
-  location.reload();
-}
-
-// Display Error
-function displayError(message) {
-  document.body.innerHTML = `<h1>${message}</h1>`;
-}
-
-// On Page Load
-window.onload = async () => {
-  await fetchPassages();
-  startButton.addEventListener("click", startGame);
-};
