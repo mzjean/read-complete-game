@@ -4,9 +4,9 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh; /* Full viewport height */
-  display: flex; /* Flexbox for centering */
-  justify-content: center; /* Center all content vertically */
-  align-items: center; /* Center all content horizontally */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
   background-color: #f9f9f9; /* Light background */
   color: #333;
 }
@@ -15,8 +15,8 @@ body {
 .main-container {
   display: flex;
   flex-direction: column; /* Stack header, content, and footer vertically */
-  align-items: center; /* Center content horizontally */
-  justify-content: center; /* Center content vertically within the parent */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
   gap: 20px; /* Spacing between header, content, and footer */
   width: 100%;
   max-width: 800px; /* Limit maximum width for readability */
@@ -32,6 +32,7 @@ body {
   font-size: 1.5rem; /* Header font size */
   font-weight: bold;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
+  text-align: center;
 }
 
 /* Instructions */
