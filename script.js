@@ -9,9 +9,20 @@ const startButton = document.getElementById("start-game-btn");
 const timerElement = document.getElementById("timer");
 const passageContainer = document.getElementById("passage-container");
 const feedbackContainer = document.getElementById("feedback-container");
-const submitButton = document.getElementById("submit-btn");
-const nextButton = document.getElementById("next-btn");
 const goodLuckMessage = document.getElementById("good-luck-message");
+
+// Buttons
+const submitButton = document.createElement("button");
+submitButton.id = "submit-btn";
+submitButton.className = "game-button submit-button";
+submitButton.textContent = "Submit";
+submitButton.onclick = submitAnswers;
+
+const nextPassageButton = document.createElement("button");
+nextPassageButton.id = "next-passage-btn";
+nextPassageButton.className = "game-button next-button";
+nextPassageButton.textContent = "Next Passage";
+nextPassageButton.onclick = loadNextPassage;
 
 // Fetch Passages
 async function fetchPassages() {
@@ -39,14 +50,15 @@ function validatePassages(data) {
 
 // Start Game
 function startGame() {
-  // Initial setup
+  // Hide the start button and good luck message
   startButton.classList.add("hidden");
   goodLuckMessage.classList.add("hidden");
+
+  // Show timer and passage container
   timerElement.classList.remove("hidden");
   passageContainer.classList.remove("hidden");
-  submitButton.classList.remove("hidden");
 
-  // Reset state
+  // Reset timer and render the first passage
   timeLeft = 180;
   startTimer();
   renderPassage();
@@ -90,15 +102,19 @@ function renderPassage() {
     <p>${renderTextWithBlanks(passage.text_with_blanks)}</p>
   `;
 
+  // Show the submit button
+  passageContainer.appendChild(submitButton);
   submitButton.classList.remove("hidden");
-  nextButton.classList.add("hidden");
 
-  // Add event listeners for inputs
+  // Hide the next passage button
+  nextPassageButton.classList.add("hidden");
+
+  // Add event listeners to auto-advance the cursor
   const inputs = document.querySelectorAll("#passage-container input");
   inputs.forEach((input, index) => {
     input.addEventListener("input", () => {
       if (input.value.length === input.maxLength && index < inputs.length - 1) {
-        inputs[index + 1].focus();
+        inputs[index + 1].focus(); // Move to the next field
       }
     });
   });
@@ -127,16 +143,19 @@ function submitAnswers() {
     }
   });
 
-  // Show feedback
+  // Calculate percentage correct
   const totalFields = inputs.length;
   const percentageCorrect = ((correctCount / totalFields) * 100).toFixed(2);
+
   feedbackContainer.innerHTML = `
     <p>You got ${correctCount} out of ${totalFields} correct (${percentageCorrect}%).</p>
   `;
+  feedbackContainer.appendChild(nextPassageButton);
   feedbackContainer.classList.remove("hidden");
 
+  // Hide the submit button
   submitButton.classList.add("hidden");
-  nextButton.classList.remove("hidden");
+  nextPassageButton.classList.remove("hidden");
 }
 
 // Load Next Passage
@@ -154,12 +173,8 @@ function loadNextPassage() {
 
 // End Game
 function endGame() {
-  passageContainer.innerHTML = `
-    <h2>Congratulations! You completed all passages.</h2>
-    <button class="game-button start-button" onclick="restartGame()">Restart</button>
-  `;
-  feedbackContainer.classList.add("hidden");
-  timerElement.classList.add("hidden");
+  passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>
+    <button class="game-button start-button" onclick="restartGame()">Restart</button>`;
 }
 
 // Restart Game
@@ -176,6 +191,4 @@ function displayError(message) {
 window.onload = async () => {
   await fetchPassages();
   startButton.addEventListener("click", startGame);
-  submitButton.addEventListener("click", submitAnswers);
-  nextButton.addEventListener("click", loadNextPassage);
 };
