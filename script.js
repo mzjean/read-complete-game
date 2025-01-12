@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         .fill('<input type="text" maxlength="1" class="blank" />')
                         .join("")}</span>`;
                 }
-                return `<span>${chunk}</span>`; // Wrap plain text for consistency
+                return `<span class="plain-text">${chunk}</span>`; // Wrap plain text for consistency
             }).join("");
 
             passageText.innerHTML = textWithBlanks;
@@ -93,12 +93,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         inputs.forEach((input, idx) => {
             const answer = correctAnswers[idx];
-            if (input.value.trim().toLowerCase() === answer) {
+            if (input.value.trim().toLowerCase() === answer.toLowerCase()) {
                 correctCount++;
                 input.classList.add("correct");
             } else {
                 input.classList.add("incorrect");
-                input.value = answer;
+                input.value = answer; // Populate correct answer in incorrect fields
             }
         });
 
