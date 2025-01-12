@@ -87,6 +87,14 @@ button[disabled] {
     display: none; /* Hide disabled buttons */
 }
 
+/* Input Groups */
+.input-group {
+    display: inline-flex; /* Prevent line wrapping for input groups */
+    white-space: nowrap;
+    gap: 0; /* No extra spacing between inputs */
+    align-items: baseline;
+}
+
 /* Inputs */
 input[type="text"] {
     border: 1.5px solid #e5e5e5ff; /* Slightly thinner border */
