@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let timer = 180; // 3 minutes in seconds
     let passages = [];
 
+    // Hide timer initially
+    timerDisplay.style.display = "none";
+
     // Fetch passages from passages.json
     fetch("passages.json")
         .then((response) => response.json())
@@ -84,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     startButton.addEventListener("click", () => {
         startButton.style.display = "none"; // Hide Start button
+        timerDisplay.style.display = "block"; // Show timer
         resultDisplay.textContent = "";
         analyticsDisplay.style.display = "none";
         loadPassage();
