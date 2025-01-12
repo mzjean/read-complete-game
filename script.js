@@ -80,17 +80,15 @@ function renderPassage() {
   passageContainer.innerHTML = `
     <h2>${passage.title}</h2>
     <p>${renderTextWithBlanks(passage.text_with_blanks)}</p>
-    <button id="submit-btn" onclick="submitAnswers()">Submit</button>
+    <button id="submit-btn" class="game-button submit-button" onclick="submitAnswers()">Submit</button>
   `;
 }
 
 function renderTextWithBlanks(text) {
-  let blankIndex = 0;
-  return text.replace(/(_+)/g, (match) => {
-    blankIndex++;
-    const blankLength = match.length; // Number of underscores
-    return `<input type="text" id="blank-${blankIndex}" maxlength="${blankLength}" style="width: ${blankLength * 18}px;">`;
-  });
+  return text
+    .split("")
+    .map((char) => (char === "_" ? `<input type="text" maxlength="1">` : char))
+    .join("");
 }
 
 // Submit Answers
@@ -114,7 +112,7 @@ function submitAnswers() {
 
   feedbackContainer.innerHTML = `
     <p>You got ${correctCount} out of ${inputs.length} correct.</p>
-    <button onclick="loadNextPassage()">Next Passage</button>
+    <button class="game-button next-button" onclick="loadNextPassage()">Next Passage</button>
   `;
   feedbackContainer.classList.remove("hidden");
 }
@@ -135,7 +133,7 @@ function loadNextPassage() {
 // End Game
 function endGame() {
   passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>
-    <button onclick="restartGame()">Restart</button>`;
+    <button class="game-button start-button" onclick="restartGame()">Restart</button>`;
 }
 
 // Restart Game
