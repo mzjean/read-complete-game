@@ -94,6 +94,50 @@ input.incorrect {
     background-color: #f8d7da;
 }
 
+/* Dark Mode */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-mode header {
+    background-color: #073055ff;
+    color: #ffffff;
+}
+
+body.dark-mode h1, body.dark-mode h2 {
+    color: #fce08bff; /* Light yellow for headings in dark mode */
+}
+
+body.dark-mode button {
+    background-color: #ffc802ff;
+    color: #073055ff;
+}
+
+body.dark-mode button:hover {
+    background-color: #fce08bff;
+}
+
+body.dark-mode input[type="text"] {
+    background-color: #333333;
+    color: #ffffff;
+    border: 2px solid #6d7681ff;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#passage-container {
+    animation: fadeIn 0.5s ease;
+}
+
 /* Dark Mode Toggle */
 #dark-mode-container {
     margin-top: 20px;
@@ -151,46 +195,6 @@ input:checked + .slider {
 
 input:checked + .slider:before {
     transform: translateX(30px);
-}
-
-/* Dark Mode */
-body.dark-mode {
-    background-color: #1e1e1e;
-    color: #ffffff;
-}
-
-body.dark-mode header {
-    background-color: #073055ff;
-    color: #ffffff;
-}
-
-body.dark-mode button {
-    background-color: #ffc802ff;
-    color: #073055ff;
-}
-
-body.dark-mode button:hover {
-    background-color: #fce08bff;
-}
-
-body.dark-mode input[type="text"] {
-    background-color: #333333;
-    color: #ffffff;
-    border: 2px solid #6d7681ff;
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-#passage-container {
-    animation: fadeIn 0.5s ease;
 }
 
 /* Responsive Design */
