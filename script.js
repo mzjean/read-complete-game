@@ -44,6 +44,7 @@ function showPassage(index) {
     <h2>${passage.title}</h2>
     <p id="passage-text">${passage.text.replace(/__/g, '<input type="text" maxlength="1" class="blank" />')}</p>
   `;
+  passageContainer.style.display = 'block'; // Make passage visible
 
   // Show the submit button
   submitButton.style.display = 'inline-block';
@@ -119,6 +120,7 @@ function endGame() {
     <h2>You've completed all of the passages! Good job!</h2>
   `;
   document.getElementById('next-passage-button').style.display = 'none'; // Hide next passage button after the last passage
+  document.getElementById('submit-button').style.display = 'none'; // Hide submit button after the last passage
 }
 
 // Start the game when the page is ready
