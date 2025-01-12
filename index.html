@@ -8,22 +8,15 @@
 </head>
 <body>
     <div id="game-container">
-        <h1>Welcome to the Game!</h1>
-
-        <button id="start-game-button" class="start-button">Start Game</button>
-
-        <!-- This is where the passage title and text will be displayed -->
-        <div id="passage-container" style="display: none;">
-            <h2 id="passage-title"></h2>
-            <p id="passage-text"></p>
+        <h1 id="game-title">Welcome to the Game!</h1>
+        <div id="passage-container">
+            <button id="start-game-button">Start Game</button>
+            <p id="timer" style="display:none;"></p>
+            <div id="passage-content" style="display:none;"></div>
+            <button id="submit-button" style="display:none;">Submit</button>
+            <button id="next-passage-button" style="display:none;">Next Passage</button>
         </div>
-
-        <!-- Timer and buttons that appear during gameplay -->
-        <div id="timer" style="display: none;">Time Left: 180 seconds</div>
-        <button id="submit-button" style="display: none;">Submit</button>
-        <button id="next-passage-button" style="display: none;">Next Passage</button>
     </div>
-
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
