@@ -7,15 +7,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-container">
-        <h1 id="game-title">Welcome to the Game!</h1>
-        <div id="passage-container">
-            <button id="start-game-button">Start Game</button>
-            <p id="timer" style="display:none;"></p>
-            <div id="passage-content" style="display:none;"></div>
-            <button id="submit-button" style="display:none;">Submit</button>
-            <button id="next-passage-button" style="display:none;">Next Passage</button>
-        </div>
+    <div class="game-container">
+        <header>
+            <h1>Read and Complete Game</h1>
+        </header>
+        <main>
+            <div id="passage-container">
+                <h2 id="passage-title"></h2>
+                <p id="passage-text"></p>
+            </div>
+            <div class="controls">
+                <button id="start-button">Start</button>
+                <button id="next-button" disabled>Next Passage</button>
+            </div>
+            <div id="timer">3:00</div>
+        </main>
+        <footer>
+            <p id="result"></p>
+            <div id="analytics"></div>
+        </footer>
     </div>
     <script src="script.js"></script>
 </body>
