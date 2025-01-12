@@ -9,6 +9,7 @@ const startButton = document.getElementById("start-game-btn");
 const timerElement = document.getElementById("timer");
 const passageContainer = document.getElementById("passage-container");
 const feedbackContainer = document.getElementById("feedback-container");
+const goodLuckMessage = document.getElementById("good-luck-message");
 
 // Fetch Passages
 async function fetchPassages() {
@@ -36,11 +37,9 @@ function validatePassages(data) {
 
 // Start Game
 function startGame() {
-  console.log("startGame function triggered"); // Debug Message
-
   // Hide the start button and good luck message
   startButton.classList.add("hidden");
-  document.getElementById("good-luck-message").classList.add("hidden");
+  goodLuckMessage.classList.add("hidden");
 
   // Show timer and passage container
   timerElement.classList.remove("hidden");
@@ -157,7 +156,6 @@ function endGame() {
 
 // Restart Game
 function restartGame() {
-  localStorage.clear();
   location.reload();
 }
 
@@ -168,6 +166,6 @@ function displayError(message) {
 
 // On Page Load
 window.onload = async () => {
-  await fetchPassages(); // Ensure fetchPassages is properly called here
-  startButton.addEventListener("click", startGame); // Ensure event listener is attached
+  await fetchPassages();
+  startButton.addEventListener("click", startGame);
 };
