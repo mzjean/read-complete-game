@@ -1,108 +1,154 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // DOM Elements
-    const startButton = document.getElementById("start-button");
-    const submitButton = document.getElementById("submit-button");
-    const nextButton = document.getElementById("next-button");
-    const passageContainer = document.getElementById("passage-container");
-    const passageTitle = document.getElementById("passage-title");
-    const passageText = document.getElementById("passage-text");
-    const timerDisplay = document.getElementById("timer");
-    const resultDisplay = document.getElementById("result");
-    const analyticsDisplay = document.getElementById("analytics");
-    const darkModeToggle = document.getElementById("dark-mode-toggle");
+// Global Variables
+let passages = [];
+let currentPassageIndex = 0;
+let timer;
+let timeLeft = 180; // 3 minutes
 
-    let currentPassageIndex = 0;
-    let timerInterval;
-    let timer = 180; // 3 minutes in seconds
-    let passages = [];
+// DOM Elements
+const startButton = document.getElementById("start-game-btn");
+const timerElement = document.getElementById("timer");
+const passageContainer = document.getElementById("passage-container");
+const feedbackContainer = document.getElementById("feedback-container");
 
-    // Hide timer initially
-    timerDisplay.style.display = "none";
+// Fetch Passages
+async function fetchPassages() {
+  try {
+    const response = await fetch("passages.json");
+    if (!response.ok) throw new Error("Failed to fetch passages.");
+    passages = await response.json();
+    validatePassages(passages);
+  } catch (error) {
+    displayError("Unable to load passages. Please try again later.");
+    console.error(error);
+  }
+}
 
-    // Fetch passages from JSON
-    fetch("passages.json")
-        .then((response) => response.json())
-        .then((data) => {
-            passages = data;
-        })
-        .catch((error) => {
-            console.error("Error fetching passages:", error);
-            resultDisplay.textContent = "Failed to load passages. Please try again later.";
-        });
+// Validate Passages
+function validatePassages(data) {
+  if (!Array.isArray(data)) throw new Error("Invalid passages format.");
+  data.forEach((passage) => {
+    const { passage_id, title, text_with_blanks, answer_mapping } = passage;
+    if (!passage_id || !title || !text_with_blanks || !answer_mapping) {
+      throw new Error(`Passage ${passage_id} is missing required fields.`);
+    }
+  });
+}
 
-    const updateTimerDisplay = () => {
-        const minutes = Math.floor(timer / 60);
-        const seconds = timer % 60;
-        timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+// Start Game
+function startGame() {
+  startButton.classList.add("hidden");
+  timerElement.classList.remove("hidden");
+  passageContainer.classList.remove("hidden");
+  timeLeft = 180;
+  startTimer();
+  renderPassage();
+}
 
-        // Change timer color in the last 10 seconds
-        if (timer <= 10) {
-            timerDisplay.classList.add("red");
-        } else {
-            timerDisplay.classList.remove("red");
-        }
-    };
+// Timer Logic
+function startTimer() {
+  timer = setInterval(() => {
+    timeLeft--;
+    updateTimer();
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      submitAnswers();
+    }
+  }, 1000);
+}
 
-    const startTimer = () => {
-        timer = 180; // Reset timer
-        updateTimerDisplay();
-        timerDisplay.style.display = "block";
-        timerInterval = setInterval(() => {
-            timer--;
-            updateTimerDisplay();
-            if (timer <= 0) {
-                clearInterval(timerInterval);
-                autoSubmit();
-            }
-        }, 1000);
-    };
+function updateTimer() {
+  timerElement.textContent = `Time Left: ${formatTime(timeLeft)}`;
+  if (timeLeft <= 30 && timeLeft > 10) {
+    timerElement.classList.add("warning");
+    timerElement.classList.remove("danger");
+  } else if (timeLeft <= 10) {
+    timerElement.classList.add("danger");
+  } else {
+    timerElement.classList.remove("warning", "danger");
+  }
+}
 
-    const loadPassage = () => {
-        const passage = passages[currentPassageIndex];
-        passageTitle.textContent = passage.title;
-        passageText.innerHTML = passage.text;
-    };
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+}
 
-    const autoSubmit = () => {
-        // Logic for auto-submitting the answer
-        resultDisplay.textContent = "Time's up! Your answer has been submitted.";
-        nextButton.style.display = "block";
-    };
+// Render Passage
+function renderPassage() {
+  const passage = passages[currentPassageIndex];
+  passageContainer.innerHTML = `
+    <h2>${passage.title}</h2>
+    <p>${renderTextWithBlanks(passage.text_with_blanks)}</p>
+    <button id="submit-btn" onclick="submitAnswers()">Submit</button>
+  `;
+}
 
-    startButton.addEventListener("click", () => {
-        startButton.style.display = "none";
-        submitButton.style.display = "block";
-        loadPassage();
-        startTimer();
-    });
+function renderTextWithBlanks(text) {
+  return text.replace(/(_+)/g, (match, offset) => {
+    const blankId = `blank-${offset}`;
+    return `<input type="text" id="${blankId}" maxlength="${match.length}">`;
+  });
+}
 
-    submitButton.addEventListener("click", () => {
-        clearInterval(timerInterval); // Stop the timer
-        autoSubmit();
-    });
+// Submit Answers
+function submitAnswers() {
+  clearInterval(timer);
 
-    nextButton.addEventListener("click", () => {
-        if (currentPassageIndex < passages.length - 1) {
-            currentPassageIndex++;
-            nextButton.style.display = "none";
-            resultDisplay.textContent = "";
-            analyticsDisplay.style.display = "none";
-            passageTitle.textContent = "";
-            passageText.innerHTML = "";
-            loadPassage();
-            startTimer();
-        } else {
-            passageContainer.style.display = "none";
-            nextButton.style.display = "none";
-            timerDisplay.style.display = "none";
-            resultDisplay.textContent = "You've completed all passages! Well done!";
-            analyticsDisplay.style.display = "block";
-            analyticsDisplay.textContent = "Your performance analytics will appear here.";
-        }
-    });
+  const passage = passages[currentPassageIndex];
+  const inputs = document.querySelectorAll("#passage-container input");
+  let correctCount = 0;
 
-    // Dark mode toggle
-    darkModeToggle.addEventListener("change", () => {
-        document.body.classList.toggle("dark-mode", darkModeToggle.checked);
-    });
-});
+  inputs.forEach((input, index) => {
+    const userAnswer = input.value.toLowerCase();
+    const correctAnswers = passage.answer_mapping[`i_${index + 1}`] || [];
+    if (correctAnswers.includes(userAnswer)) {
+      input.classList.add("correct");
+      correctCount++;
+    } else {
+      input.classList.add("incorrect");
+    }
+  });
+
+  feedbackContainer.innerHTML = `
+    <p>You got ${correctCount} out of ${inputs.length} correct.</p>
+    <button onclick="loadNextPassage()">Next Passage</button>
+  `;
+  feedbackContainer.classList.remove("hidden");
+}
+
+// Load Next Passage
+function loadNextPassage() {
+  currentPassageIndex++;
+  if (currentPassageIndex < passages.length) {
+    feedbackContainer.classList.add("hidden");
+    timeLeft = 180;
+    startTimer();
+    renderPassage();
+  } else {
+    endGame();
+  }
+}
+
+// End Game
+function endGame() {
+  passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>
+    <button onclick="restartGame()">Restart</button>`;
+}
+
+// Restart Game
+function restartGame() {
+  localStorage.clear();
+  location.reload();
+}
+
+// Display Error
+function displayError(message) {
+  document.body.innerHTML = `<h1>${message}</h1>`;
+}
+
+// On Page Load
+window.onload = async () => {
+  await fetchPassages();
+  startButton.addEventListener("click", startGame);
+};
