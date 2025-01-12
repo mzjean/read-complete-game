@@ -14,12 +14,12 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 20px; /* Consistent spacing between elements */
   width: 100%;
   max-width: 600px;
   padding: 20px;
   box-sizing: border-box;
-  margin-top: 100px; /* Adjusted for fixed header height */
+  margin-top: 100px; /* Adjusted for the fixed header height */
 }
 
 /* Header */
@@ -29,8 +29,8 @@ body {
   width: 100%; /* Full width to span the screen */
   background-color: #ffffff; /* White background for visibility */
   color: #073055ff;
-  padding: 10px 0; /* Slightly increased padding for balance */
-  font-size: 1.4rem; /* Adjusted header font size */
+  padding: 10px 0; /* Consistent padding */
+  font-size: 1.3rem; /* Slightly smaller header text */
   font-weight: bold;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
   z-index: 1000; /* Ensures the header stays above other elements */
@@ -39,8 +39,8 @@ body {
 /* Instructions */
 .instructions {
   font-size: 1rem;
-  margin-top: 20px; /* Increased margin for spacing from the header */
-  margin-bottom: 10px; /* Add space below instructions */
+  margin-top: 30px; /* Added spacing below header */
+  margin-bottom: 20px; /* Space between instructions and button */
   color: #333;
 }
 
@@ -52,6 +52,7 @@ body {
   border: none;
   cursor: pointer;
   transition: transform 0.2s ease, background-color 0.2s ease;
+  margin: 10px 0; /* Consistent spacing for buttons */
 }
 
 .start-button {
@@ -87,7 +88,7 @@ body {
 /* Timer */
 .timer {
   font-size: 1.1rem;
-  margin-bottom: 15px; /* Add spacing below the timer */
+  margin-bottom: 20px; /* Add spacing below the timer */
 }
 
 .timer.hidden {
@@ -96,11 +97,11 @@ body {
 
 /* Good Luck Message */
 .game-footer {
-  margin-top: 10px; /* Adjust spacing between button and "Good luck!" */
+  margin-top: 15px; /* Spacing between button and "Good luck!" */
 }
 
 #good-luck-message {
-  margin-top: 15px; /* Add space for better alignment */
+  margin-top: 20px; /* Ensure consistent spacing */
   font-size: 1rem;
   color: #333;
 }
