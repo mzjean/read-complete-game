@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     // DOM Elements
     const startButton = document.getElementById("start-button");
+    const submitButton = document.getElementById("submit-button");
     const nextButton = document.getElementById("next-button");
     const passageTitle = document.getElementById("passage-title");
     const passageText = document.getElementById("passage-text");
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let passages = [];
 
     // Fetch passages from passages.json
-    fetch("./passages.json")
+    fetch("passages.json")
         .then((response) => response.json())
         .then((data) => {
             passages = data;
@@ -50,6 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 return char === "_" ? `<input type="text" maxlength="1" data-index="${index}" />` : char;
             }).join("");
             passageText.innerHTML = textWithBlanks;
+
+            // Enable the Submit button
+            submitButton.disabled = false;
         }
     };
 
@@ -72,32 +76,40 @@ document.addEventListener("DOMContentLoaded", () => {
         const total = passage.answers.length;
         const accuracy = Math.round((correctCount / total) * 100);
         resultDisplay.textContent = `You answered ${accuracy}% of the blanks correctly!`;
+
+        // Disable Submit and enable Next
+        submitButton.disabled = true;
         nextButton.disabled = false;
     };
 
     startButton.addEventListener("click", () => {
-        startButton.disabled = true;
-        nextButton.disabled = true;
+        startButton.style.display = "none"; // Hide Start button
         resultDisplay.textContent = "";
         analyticsDisplay.style.display = "none";
         loadPassage();
         startTimer();
     });
 
+    submitButton.addEventListener("click", () => {
+        clearInterval(timerInterval); // Stop the timer
+        autoSubmit();
+    });
+
     nextButton.addEventListener("click", () => {
         if (currentPassageIndex < passages.length - 1) {
             currentPassageIndex++;
-            startButton.disabled = false;
             nextButton.disabled = true;
             resultDisplay.textContent = "";
             analyticsDisplay.style.display = "none";
-            clearInterval(timerInterval);
             passageTitle.textContent = "";
             passageText.innerHTML = "";
             timerDisplay.textContent = "3:00";
+            loadPassage();
+            startTimer();
         } else {
             resultDisplay.textContent = "You've completed all passages!";
             analyticsDisplay.style.display = "block";
+            nextButton.disabled = true;
         }
     });
 });
