@@ -91,28 +91,30 @@ body {
   margin-bottom: 20px; /* Add spacing below the timer */
 }
 
-.timer.hidden {
-  display: none;
-}
-
-/* Good Luck Message */
-.game-footer {
-  margin-top: 15px; /* Spacing between button and "Good luck!" */
-}
-
+/* Center "Good luck!" */
 #good-luck-message {
   margin-top: 20px; /* Ensure consistent spacing */
   font-size: 1rem;
   color: #333;
+  text-align: center; /* Center the text */
 }
 
-/* Passage Text */
+/* Passage Container */
 .passage-container {
   font-size: 1.1rem; /* Reduced font size for better balance */
   line-height: 1.8; /* Increased line height for readability */
   letter-spacing: 0.05em; /* Subtle kerning adjustment */
+  margin-top: 15px; /* Add spacing above passage */
 }
 
+/* Passage Title */
+.passage-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 10px; /* Space between title and passage */
+}
+
+/* Input Fields in Passage */
 .passage-container input {
   width: 12px; /* Smaller width to blend with the text */
   height: 20px; /* Reduced height */
