@@ -29,8 +29,9 @@ body {
   width: 100%; /* Full width to span the screen */
   background-color: #ffffff; /* White background for visibility */
   color: #073055ff;
-  padding: 10px 0; /* Compact vertical padding */
-  font-size: 1.5rem; /* Smaller header text */
+  padding: 5px 0; /* Reduced vertical padding */
+  font-size: 1.3rem; /* Smaller header text */
+  font-weight: bold;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
   z-index: 1000; /* Ensures the header stays above other elements */
 }
@@ -84,7 +85,8 @@ body {
 
 /* Timer */
 .timer {
-  font-size: 1.25rem;
+  font-size: 1.1rem; /* Reduced font size for consistency */
+  margin-bottom: 15px; /* Add spacing below the timer */
 }
 
 .timer.hidden {
@@ -93,21 +95,21 @@ body {
 
 /* Passage Text */
 .passage-container {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  letter-spacing: 0.1em; /* Adjusted kerning for passage text */
+  font-size: 1.1rem; /* Reduced font size for better balance */
+  line-height: 1.8; /* Increased line height for readability */
+  letter-spacing: 0.05em; /* Subtle kerning adjustment */
 }
 
 .passage-container input {
-  width: 14px; /* Compact width */
-  height: 22px;
+  width: 12px; /* Smaller width to blend with the text */
+  height: 20px; /* Reduced height */
   text-align: center;
   padding: 0; /* No extra padding */
-  font-size: 1rem;
+  font-size: 1rem; /* Matches the text size */
   border: 1px solid #ccc;
-  border-radius: 3px;
-  margin-left: 0.1em; /* Spacing between text and fields */
-  vertical-align: middle; /* Align fields with text */
+  border-radius: 2px; /* Slightly rounded corners */
+  margin-left: 0.05em; /* Spacing between text and fields */
+  vertical-align: baseline; /* Align fields with the text baseline */
 }
 
 /* Remove spacing between adjacent fields */
