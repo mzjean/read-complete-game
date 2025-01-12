@@ -4,34 +4,31 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh; /* Full viewport height */
-  display: flex; /* Flexbox for centering */
+  display: flex; /* Use flexbox for full-page centering */
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
   background-color: #f9f9f9; /* Light background */
   color: #333;
-  text-align: center;
 }
 
 /* Main Wrapper to Stack Elements */
 .main-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column; /* Stack elements vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
   gap: 20px; /* Consistent spacing between elements */
-  width: 100%;
+  width: 100%; /* Full width */
   max-width: 800px; /* Limit max width for readability */
-  box-sizing: border-box;
   text-align: center;
 }
 
 /* Header */
 .game-header {
-  position: static; /* Header will remain part of the normal flow */
   width: 100%; /* Full width */
   background-color: #ffffff; /* White background */
   color: #073055ff;
-  padding: 10px 0;
+  padding: 10px 0; /* Consistent padding */
   font-size: 1.5rem; /* Header font size */
   font-weight: bold;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
@@ -94,6 +91,7 @@ body {
   font-size: 1rem;
   color: #333;
   margin-top: 10px; /* Space between button and message */
+  text-align: center;
 }
 
 /* Passage Container */
