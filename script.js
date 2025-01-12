@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
             let seconds = timeRemaining % 60;
             timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
-            // Change color when time reaches 10 seconds
-            if (timeRemaining <= 10) {
+            // Change color when time reaches 30 seconds
+            if (timeRemaining <= 30) {
                 timerDisplay.classList.add("red");
             }
 
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         titleElement.textContent = passage.title;
         
-        const words = passage.full_text.split(" ");
+        const words = passage.text_with_blanks.split(" ");
         let passageHTML = "";
         let answerIndex = 0; // For tracking the answer array
 
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (word.includes("_")) {
                 // Handle word with blanks (_)
                 const blanksCount = word.length;
-                passageHTML += `<span class="word">${word.replace(/_/g, `<input type="text" maxlength="1" data-correct-answer="${passage.answers[answerIndex]}" />`)}</span> `;
+                passageHTML += `<span class="word">${word.replace(/_/g, `<input type="text" maxlength="1" data-correct-answer="${passage.answer_mapping[answerIndex]}" />`)}</span> `;
                 answerIndex++; // Move to next answer in the array
             } else {
                 passageHTML += `<span class="word">${word}</span> `;
