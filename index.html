@@ -7,27 +7,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Read and Complete Game</h1>
-    </header>
-    <main>
-        <section id="game">
-            <h2 id="passage-title">The Solar System Sun</h2>
-            <p id="passage-content"></p>
-            <button id="submit">Submit</button>
-        </section>
-        <section id="results">
-            <p id="timer">Time Remaining: <span id="time-left">3:00</span></p>
-            <p id="score"></p>
-            <button id="next-passage">Next Passage</button>
-        </section>
-    </main>
-    <footer>
-        <label>
-            Dark Mode
-            <input type="checkbox" id="dark-mode-toggle">
-        </label>
-    </footer>
+    <div class="game-container">
+        <header>
+            <h1>Read and Complete Game</h1>
+        </header>
+        <main>
+            <div id="passage-container">
+                <h2 id="passage-title"></h2>
+                <p id="passage-text"></p>
+            </div>
+            <div class="controls">
+                <button id="start-button" aria-label="Start Game">Start</button>
+                <button id="submit-button" aria-label="Submit Answer" class="hidden">Submit</button>
+                <button id="next-button" aria-label="Next Passage" class="hidden">Next Passage</button>
+            </div>
+            <div id="timer">3:00</div>
+        </main>
+        <footer>
+            <p id="result"></p>
+            <div id="analytics"></div>
+        </footer>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
