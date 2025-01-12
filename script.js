@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const timerDisplay = document.getElementById('timer');
     const passageTitle = document.getElementById('passage-title');
     const passageText = document.getElementById('passage-text');
-
+    
     let passages = [];
     let currentPassageIndex = 0;
     let timer;
