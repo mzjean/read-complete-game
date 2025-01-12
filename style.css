@@ -19,7 +19,7 @@ body {
   max-width: 600px;
   padding: 20px;
   box-sizing: border-box;
-  margin-top: 80px; /* Adjusted for the fixed header height */
+  margin-top: 100px; /* Adjusted for fixed header height */
 }
 
 /* Header */
@@ -29,8 +29,8 @@ body {
   width: 100%; /* Full width to span the screen */
   background-color: #ffffff; /* White background for visibility */
   color: #073055ff;
-  padding: 5px 0; /* Reduced vertical padding */
-  font-size: 1.3rem; /* Smaller header text */
+  padding: 10px 0; /* Slightly increased padding for balance */
+  font-size: 1.4rem; /* Adjusted header font size */
   font-weight: bold;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
   z-index: 1000; /* Ensures the header stays above other elements */
@@ -39,7 +39,8 @@ body {
 /* Instructions */
 .instructions {
   font-size: 1rem;
-  margin: 10px 0;
+  margin-top: 20px; /* Increased margin for spacing from the header */
+  margin-bottom: 10px; /* Add space below instructions */
   color: #333;
 }
 
@@ -85,12 +86,23 @@ body {
 
 /* Timer */
 .timer {
-  font-size: 1.1rem; /* Reduced font size for consistency */
+  font-size: 1.1rem;
   margin-bottom: 15px; /* Add spacing below the timer */
 }
 
 .timer.hidden {
   display: none;
+}
+
+/* Good Luck Message */
+.game-footer {
+  margin-top: 10px; /* Adjust spacing between button and "Good luck!" */
+}
+
+#good-luck-message {
+  margin-top: 15px; /* Add space for better alignment */
+  font-size: 1rem;
+  color: #333;
 }
 
 /* Passage Text */
