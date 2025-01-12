@@ -27,9 +27,14 @@ function renderPassage() {
     const passage = passages[currentPassageIndex];
     passageTitle.textContent = passage.title;
 
-    // Replace underscores with input fields
+    // Replace underscores with the correct number of input fields
     const textWithBlanks = passage.text.replace(/_+/g, (match) => {
-        return `<input type="text" maxlength="${match.length}" class="blank" />`;
+        const numFields = match.length; // Number of underscores
+        let inputFields = "";
+        for (let i = 0; i < numFields; i++) {
+            inputFields += `<input type="text" maxlength="1" class="blank" />`;
+        }
+        return inputFields; // Insert the appropriate number of fields
     });
 
     passageText.innerHTML = textWithBlanks;
