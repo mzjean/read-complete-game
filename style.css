@@ -47,8 +47,8 @@ input.blank {
   text-align: center;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
-  padding: 0.25rem; /* Adjusted Padding */
-  margin: 0 0.1rem;
+  padding: 0.25rem;
+  margin: 0; /* Set margin to 0 for no spacing */
   width: 2rem;
   height: 2.5rem;
 }
@@ -56,11 +56,7 @@ input.blank {
 /* Grouped Input Field Wrapper */
 .input-group {
   display: inline-flex;
-  gap: 0.1rem;
-}
-
-.input-group input.blank {
-  padding: 0.25rem; /* Adjusted Padding for Grouped Inputs */
+  gap: 0; /* Remove gap between grouped inputs */
 }
 
 /* Correct and Incorrect Inputs */
