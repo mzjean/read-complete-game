@@ -39,6 +39,18 @@ header {
   color: #073055ff;
   text-align: justify;
   line-height: 1.8;
+  white-space: pre-wrap; /* Preserve spacing */
+}
+
+.input-group {
+  display: inline-flex;
+  gap: 0; /* No extra spacing between input fields */
+  white-space: nowrap; /* Prevent line breaks inside input groups */
+}
+
+#passage-text span,
+#passage-text input.blank {
+  white-space: nowrap; /* Prevent breaking text and input fields */
 }
 
 /* Text Input Fields */
