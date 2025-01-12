@@ -1,4 +1,10 @@
-/* General Styling */
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Poppins', Arial, sans-serif;
     background-color: #ffffff;
@@ -8,6 +14,7 @@ body {
     font-size: 1.2rem; /* Increased body text size */
 }
 
+/* Header and Dark Mode */
 header {
     text-align: center;
     background-color: #ffc802ff;
