@@ -84,25 +84,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let userAnswers = [];
         inputGroups.forEach((group) => {
-            const inputs = group.querySelectorAll(".blank");
-            let groupAnswer = Array.from(inputs)
-                .map((input) => input.value.toLowerCase())
-                .join("");
+            const inputs = Array.from(group.querySelectorAll(".blank")); // Convert NodeList to Array
+            let groupAnswer = inputs.map((input) => input.value.toLowerCase()).join("");
             userAnswers.push(groupAnswer);
         });
 
         // Check answers
         inputGroups.forEach((group, index) => {
-            const inputs = group.querySelectorAll(".blank");
+            const inputs = Array.from(group.querySelectorAll(".blank")); // Convert NodeList to Array
             const isCorrect = userAnswers[index] === correctAnswers[index];
 
-            inputs.forEach((input) => {
+            inputs.forEach((input, inputIndex) => {
                 input.disabled = true;
                 input.classList.add(isCorrect ? "correct" : "incorrect");
 
                 if (!isCorrect) {
-                    // Show the correct answer in all fields
-                    input.value = correctAnswers[index][inputs.indexOf(input)];
+                    input.value = correctAnswers[index][inputIndex];
                 }
             });
         });
@@ -157,11 +154,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Dark Mode Toggle
-    darkModeToggle.addEventListener("change", () => {
-        if (darkModeToggle.checked) {
-            body.classList.add("dark-mode");
-        } else {
-            body.classList.remove("dark-mode");
-        }
-    });
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener("change", () => {
+            if (darkModeToggle.checked) {
+                body.classList.add("dark-mode");
+            } else {
+                body.classList.remove("dark-mode");
+            }
+        });
+    }
 });
