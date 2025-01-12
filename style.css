@@ -12,7 +12,9 @@ header {
     background-color: #ffc802ff;
     padding: 20px;
     border-bottom: 2px solid #e5e5e5ff;
-    letter-spacing: 0.05em; /* Adds kerning to header text */
+    border-radius: 15px; /* Rounded corners for header background */
+    margin: 20px; /* Adds spacing around the header */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for better effect */
 }
 
 h1, h2 {
@@ -43,6 +45,7 @@ h2 {
 
 /* Timer */
 #timer {
+    display: none; /* Hidden on the opening screen */
     margin: 20px auto;
     font-size: 2rem;
     font-weight: bold;
@@ -58,11 +61,11 @@ h2 {
 button {
     background-color: #073055ff;
     color: #ffffff;
-    padding: 8px 16px; /* Reduced padding for sleeker buttons */
+    padding: 12px 24px; /* Larger rectangular buttons */
     border: none;
-    border-radius: 25px;
+    border-radius: 8px; /* Rounded corners for buttons */
     cursor: pointer;
-    font-size: 0.95rem;
+    font-size: 1rem;
     letter-spacing: 0.05em; /* Kerning for button text */
     transition: transform 0.2s, background-color 0.3s;
     display: inline-block;
