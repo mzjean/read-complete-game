@@ -10,32 +10,20 @@
     <div class="game-container">
         <header>
             <h1>Read and Complete Game</h1>
-            <!-- Dark Mode Toggle Section -->
-            <div id="dark-mode-container">
-                <span id="dark-mode-label">Dark Mode:</span>
-                <label class="switch">
-                    <input type="checkbox" id="dark-mode-toggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
         </header>
         <main>
-            <!-- Passage Text and Fields -->
-            <div id="passage-container" class="hidden">
+            <div id="passage-container">
                 <h2 id="passage-title"></h2>
                 <p id="passage-text"></p>
-                <!-- Input fields will be dynamically inserted here -->
             </div>
             <div class="controls">
-                <!-- Game Control Buttons -->
                 <button id="start-button" aria-label="Start Game">Start</button>
                 <button id="submit-button" aria-label="Submit Answer" class="hidden">Submit</button>
-                <button id="next-passage-button" aria-label="Next Passage" class="hidden">Next Passage</button>
+                <button id="next-button" aria-label="Next Passage" class="hidden">Next Passage</button>
             </div>
-            <div id="timer" class="hidden">3:00</div> <!-- Timer hidden initially -->
+            <div id="timer">3:00</div>
         </main>
         <footer>
-            <!-- Game Results and Analytics -->
             <p id="result"></p>
             <div id="analytics"></div>
         </footer>
