@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const timerDisplay = document.getElementById("timer");
     const resultDisplay = document.getElementById("result");
     const analyticsDisplay = document.getElementById("analytics");
-    const body = document.body;
 
     let currentPassageIndex = 0;
     let timerInterval;
@@ -63,6 +62,24 @@ document.addEventListener("DOMContentLoaded", () => {
             }).join("");
 
             passageText.innerHTML = textWithBlanks;
+
+            // Add event listeners to move the cursor automatically
+            const inputs = passageText.querySelectorAll("input.blank");
+            inputs.forEach((input, index) => {
+                input.addEventListener("input", () => {
+                    if (input.value.length === 1 && index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    }
+                });
+
+                // Allow backspace to go to the previous field
+                input.addEventListener("keydown", (e) => {
+                    if (e.key === "Backspace" && input.value === "" && index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                });
+            });
+
             submitButton.style.display = "inline-block";
         }
     };
