@@ -1,84 +1,139 @@
-/* Main container styling */
-#passage-container {
-    margin: 20px auto;
+/* General Styling */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #ffffff;
+    color: #073055ff;
+    margin: 0;
+    padding: 0;
+    font-size: 1.2rem; /* Increased body text size */
+}
+
+header {
+    text-align: center;
+    background-color: #ffc802ff;
+    padding: 20px;
+    border-bottom: 2px solid #e5e5e5ff;
+    border-radius: 15px; /* Rounded corners for header background */
+    margin: 20px; /* Adds spacing around the header */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for better effect */
+}
+
+h1, h2 {
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: bold;
+    letter-spacing: 0.03em; /* Reduced kerning for headers */
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #073055ff;
+    margin-bottom: 15px;
+}
+
+/* Game Container */
+.game-container {
     max-width: 800px;
+    margin: auto;
+    padding: 20px;
     text-align: center;
-    font-family: 'Arial', sans-serif;
+    line-height: 1.8; /* Increased line height for better readability */
+    letter-spacing: 0.05em; /* Increased kerning for body text */
 }
 
-/* Passage title styling */
-#passage-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
-/* Passage text styling */
-#passage-text {
-    display: inline-flex;
-    flex-wrap: wrap;
-    gap: 5px; /* Spacing between words and input fields */
-    align-items: center;
-    font-size: 18px;
-    line-height: 1.5;
-}
-
-/* Individual input fields */
-.blank {
-    display: inline-block;
-    width: 20px;
-    height: 30px;
-    font-size: 16px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    padding: 0.25em; /* Reduced padding */
-    margin: 0 2px; /* Small space around inputs */
-}
-
-/* Group input fields */
-.input-group {
-    display: inline-flex;
-    gap: 2px; /* Small gap between fields in a group */
-    padding: 0.25em; /* Reduced padding for groups */
-}
-
-/* Correct and incorrect styling */
-.correct {
-    border-color: green;
-    background-color: #eaffea;
-}
-
-.incorrect {
-    border-color: red;
-    background-color: #ffeaea;
-}
-
-/* Timer styling */
+/* Timer */
 #timer {
-    margin-top: 20px;
-    font-size: 20px;
+    display: none; /* Hidden on the opening screen */
+    margin: 20px auto;
+    font-size: 2rem;
     font-weight: bold;
+    color: #073055ff;
+    letter-spacing: 0.05em; /* Kerning for the timer */
 }
 
-/* Button styling */
+#timer.red {
+    color: #ff0000; /* Change color to red in the last 10 seconds */
+}
+
+/* Buttons */
 button {
-    background-color: #073055;
-    color: white;
+    background-color: #073055ff;
+    color: #ffffff;
+    padding: 12px 24px; /* Larger rectangular buttons */
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px; /* Rounded corners for buttons */
     cursor: pointer;
-    margin-top: 20px;
+    font-size: 1rem;
+    letter-spacing: 0.05em; /* Kerning for button text */
+    transition: transform 0.2s, background-color 0.3s;
+    display: inline-block;
+    margin: 10px 5px; /* Adds spacing between buttons */
 }
 
 button:hover {
-    background-color: #055092;
+    background-color: #6d7681ff;
+    transform: scale(1.05);
 }
 
-button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+button:active {
+    transform: scale(0.98);
 }
+
+button[disabled] {
+    display: none; /* Hide disabled buttons */
+}
+
+/* Inputs */
+input[type="text"] {
+    border: 1.5px solid #e5e5e5ff; /* Slightly thinner border */
+    border-radius: 5px;
+    padding: 0.25em; /* Reduced padding for compact fields */
+    font-size: 1.2rem; /* Matches body text size */
+    width: 16px; /* Adjusted width for compact fields */
+    text-align: center;
+    margin: 0 2px; /* Small gap between inputs */
+    vertical-align: baseline; /* Aligns with the surrounding text */
+    line-height: 1.2; /* Matches the line height of the body text */
+}
+
+input.correct {
+    border-color: #28a745; /* Green for correct */
+    background-color: #d4edda;
+}
+
+input.incorrect {
+    border-color: #dc3545; /* Red for incorrect */
+    background-color: #f8d7da;
+}
+
+/* Input Group */
+.input-group {
+    display: inline-flex;
+    gap: 2px; /* Small gap between grouped inputs */
+}
+
+/* Dark Mode */
+body.dark-mode {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+body.dark-mode header {
+    background-color: #073055ff;
+    color: #ffffff;
+}
+
+body.dark-mode h1, body.dark-mode h2 {
+    color: #fce08bff; /* Light yellow for headings in dark mode */
+}
+
+body.dark-mode button {
+    background-color: #ffc802ff;
+    color: #073055ff;
+}
+
+body.dark-mode button:hover {
