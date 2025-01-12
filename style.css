@@ -108,7 +108,7 @@ input[type="text"] {
     border-radius: 5px;
     padding: 0.25rem; /* Reduced padding for compact fields */
     font-size: 1.2rem; /* Matches body text size */
-    width: 16px; /* Adjusted width for compact fields */
+    width: 12px; /* Adjusted width for compact fields */
     text-align: center;
     margin: 0; /* Removed spacing between fields and surrounding text */
     vertical-align: baseline; /* Aligns with the surrounding text */
@@ -152,7 +152,7 @@ body.dark-mode button:hover {
 body.dark-mode input[type="text"] {
     background-color: #333333;
     color: #ffffff;
-    border: 2px solid #6d7681ff;
+    border-color: #fce08bff;
 }
 
 body.dark-mode #timer {
