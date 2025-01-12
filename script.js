@@ -16,7 +16,7 @@ function startGame() {
 
 // Fetch passages from passages.json
 function fetchPassages() {
-  fetch('passages.json')
+  fetch('./passages.json')
     .then(response => response.json())
     .then(data => {
       passages = data;  // Store the passages
