@@ -91,9 +91,9 @@ button[disabled] {
 input[type="text"] {
     border: 1.5px solid #e5e5e5ff; /* Slightly thinner border */
     border-radius: 5px;
-    padding: 3px 5px; /* Reduced padding for smaller fields */
-    font-size: 0.9rem;
-    width: 15px; /* Half the original width of input fields */
+    padding: 2px; /* Less padding for smaller fields */
+    font-size: 1.2rem; /* Matches body text size */
+    width: 12px; /* Skinnier width for input fields */
     text-align: center;
     margin: 0 2px; /* Adds spacing between input fields */
 }
