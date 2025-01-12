@@ -11,7 +11,7 @@ const passageContainer = document.getElementById("passage-container");
 const feedbackContainer = document.getElementById("feedback-container");
 const goodLuckMessage = document.getElementById("good-luck-message");
 const submitButton = document.getElementById("submit-btn");
-const nextPassageButton = document.getElementById("next-btn");
+const nextButton = document.getElementById("next-btn");
 
 // Fetch Passages
 async function fetchPassages() {
@@ -95,7 +95,17 @@ function renderPassage() {
   submitButton.classList.remove("hidden");
 
   // Hide the next passage button
-  nextPassageButton.classList.add("hidden");
+  nextButton.classList.add("hidden");
+
+  // Add event listeners to auto-advance the cursor
+  const inputs = document.querySelectorAll("#passage-container input");
+  inputs.forEach((input, index) => {
+    input.addEventListener("input", () => {
+      if (input.value.length === input.maxLength && index < inputs.length - 1) {
+        inputs[index + 1].focus(); // Move to the next field
+      }
+    });
+  });
 }
 
 function renderTextWithBlanks(text) {
@@ -128,11 +138,10 @@ function submitAnswers() {
   feedbackContainer.innerHTML = `
     <p>You got ${correctCount} out of ${totalFields} correct (${percentageCorrect}%).</p>
   `;
-  feedbackContainer.classList.remove("hidden");
 
-  // Hide the submit button, show the next passage button
+  // Show the next passage button
+  nextButton.classList.remove("hidden");
   submitButton.classList.add("hidden");
-  nextPassageButton.classList.remove("hidden");
 }
 
 // Load Next Passage
@@ -150,8 +159,8 @@ function loadNextPassage() {
 
 // End Game
 function endGame() {
-  passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>
-    <button class="game-button start-button" onclick="restartGame()">Restart</button>`;
+  passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>`;
+  startButton.classList.remove("hidden");
 }
 
 // Restart Game
