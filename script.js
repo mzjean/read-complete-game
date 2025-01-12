@@ -44,11 +44,17 @@ function renderPassage() {
 function startTimer() {
     let timeLeft = 180; // 3 minutes
     timerElement.style.display = "block";
+    timerElement.style.color = ""; // Reset timer color
 
     timerInterval = setInterval(() => {
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
         timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+
+        // Change timer color to red when <= 10 seconds
+        if (timeLeft <= 10) {
+            timerElement.style.color = "red";
+        }
 
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
@@ -58,6 +64,12 @@ function startTimer() {
 
         timeLeft--;
     }, 1000);
+}
+
+// Stop the timer
+function stopTimer() {
+    clearInterval(timerInterval);
+    timerElement.style.color = ""; // Reset timer color
 }
 
 // Handle start button
@@ -70,7 +82,10 @@ startButton.addEventListener("click", () => {
 });
 
 // Handle submit button
-submitButton.addEventListener("click", handleSubmit);
+submitButton.addEventListener("click", () => {
+    handleSubmit();
+    stopTimer(); // Stop the timer when user submits
+});
 
 function handleSubmit() {
     const inputs = document.querySelectorAll(".blank");
