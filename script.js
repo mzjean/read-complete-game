@@ -82,4 +82,39 @@ document.addEventListener("DOMContentLoaded", function () {
         timerDisplay.classList.remove("red"); // Remove red timer class
         startTimer();
     });
+
+    // Function to render passage from the JSON data
+    function renderPassage(passage) {
+        const titleElement = document.getElementById("passage-title");
+        const textElement = document.getElementById("passage-text");
+        const passageContainer = document.getElementById("passage-container");
+
+        titleElement.textContent = passage.title;
+        
+        const words = passage.full_text.split(" ");
+        let passageHTML = "";
+        let answerIndex = 0; // For tracking the answer array
+
+        words.forEach((word) => {
+            if (word.includes("_")) {
+                // Handle word with blanks (_)
+                const blanksCount = word.length;
+                passageHTML += `<span class="word">${word.replace(/_/g, `<input type="text" maxlength="1" data-correct-answer="${passage.answers[answerIndex]}" />`)}</span> `;
+                answerIndex++; // Move to next answer in the array
+            } else {
+                passageHTML += `<span class="word">${word}</span> `;
+            }
+        });
+
+        textElement.innerHTML = passageHTML;
+    }
+
+    // Fetch the passage data and render it
+    fetch('passages.json')
+        .then(response => response.json())
+        .then(data => {
+            // You can change the passage index here to load different passages
+            const passage = data[0];  // Get the first passage as an example
+            renderPassage(passage);
+        });
 });
