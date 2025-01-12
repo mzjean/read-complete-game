@@ -37,7 +37,7 @@ body {
 .instructions {
   font-size: 1rem;
   margin: 10px 0;
-  color: #333; /* Standard text color */
+  color: #333;
 }
 
 /* Buttons */
@@ -99,11 +99,16 @@ body {
   width: 14px; /* Compact width */
   height: 22px;
   text-align: center;
-  margin: 0; /* No spacing */
-  padding: 0; /* No padding */
+  padding: 0; /* No extra padding */
   font-size: 1rem;
-  border: 1px solid #ccc; /* Default border */
+  border: 1px solid #ccc;
   border-radius: 3px;
+  margin-left: -1px; /* Remove gaps between fields */
+  vertical-align: middle; /* Align fields with text */
+}
+
+.passage-container input:first-child {
+  margin-left: 0; /* Ensure the first field has no extra margin */
 }
 
 .passage-container input:focus {
