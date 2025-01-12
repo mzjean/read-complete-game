@@ -1,218 +1,90 @@
-/* General Reset */
+/* General Styling */
 body {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  line-height: 1.6;
+    font-family: 'Poppins', Arial, sans-serif;
+    background-color: #ffffff;
+    color: #073055ff;
+    margin: 0;
+    padding: 0;
+    font-size: 1.2rem;
 }
 
-/* Header Styles */
 header {
-  background-color: #ffc802ff;
-  color: #073055ff;
-  text-align: center;
-  padding: 1rem 0;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-  font-size: 1.5rem;
+    text-align: center;
+    background-color: #ffc802ff;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Passage Container */
-#passage-container {
-  text-align: center;
-  margin: 0 auto;
-  padding: 1rem;
-  width: 80%;
+.game-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    line-height: 1.8;
 }
 
-/* Passage Title */
+#timer {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 20px auto;
+}
+
+#timer.red {
+    color: #ff0000;
+}
+
+/* Inputs */
+input[type="text"] {
+    border: 1px solid #e5e5e5ff;
+    border-radius: 5px;
+    padding: 0.25rem;
+    width: auto;
+    text-align: center;
+    margin: 0; /* No extra spacing */
+    line-height: 1.2;
+    vertical-align: middle;
+}
+
+input.correct {
+    background-color: #d4edda;
+    border-color: #28a745;
+}
+
+input.incorrect {
+    background-color: #f8d7da;
+    border-color: #dc3545;
+}
+
+/* Title */
 #passage-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #073055ff;
-  margin-bottom: 1rem;
-}
-
-/* Passage Text */
-#passage-text {
-  font-size: 1.125rem;
-  color: #073055ff;
-  text-align: justify;
-  line-height: 1.8;
-  white-space: pre-wrap; /* Preserve spacing */
-}
-
-.input-group {
-  display: inline-flex;
-  gap: 0; /* No extra spacing between input fields */
-  white-space: nowrap; /* Prevent line breaks inside input groups */
-}
-
-#passage-text span,
-#passage-text input.blank {
-  white-space: nowrap; /* Prevent breaking text and input fields */
-}
-
-/* Text Input Fields */
-input.blank {
-  font-size: 1.125rem;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  padding: 0.25rem;
-  margin: 0; /* Set margin to 0 for no spacing */
-  width: 2rem;
-  height: 2.5rem;
-}
-
-/* Grouped Input Field Wrapper */
-.input-group {
-  display: inline-flex;
-  gap: 0; /* Remove gap between grouped inputs */
-}
-
-/* Correct and Incorrect Inputs */
-input.blank.correct {
-  border-color: #4caf50;
-  background-color: #d4edda;
-}
-
-input.blank.incorrect {
-  border-color: #f44336;
-  background-color: #f8d7da;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
 }
 
 /* Buttons */
 button {
-  display: inline-block;
-  background-color: #073055ff;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    background-color: #073055ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 10px;
 }
 
 button:hover {
-  background-color: #05508c;
+    background-color: #055694;
 }
 
 button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+    background-color: #6d7681ff;
+    cursor: not-allowed;
 }
 
-/* Timer */
-#timer {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin: 1rem 0;
-}
-
-#timer.red {
-  color: #f44336;
-}
-
-/* Result Display */
-#result {
-  margin-top: 1rem;
-  font-size: 1.25rem;
-  color: #073055ff;
-}
-
-/* Analytics Display */
-#analytics {
-  font-size: 1.125rem;
-  color: #073055ff;
-  margin-top: 1rem;
-  display: none;
-}
-
-/* Dark Mode Styles */
-body.dark-mode {
-  background-color: #1c1c1c;
-  color: #fce08bff;
-}
-
-body.dark-mode #passage-title,
-body.dark-mode #passage-text,
-body.dark-mode #result,
-body.dark-mode #analytics {
-  color: #fce08bff;
-}
-
-body.dark-mode input.blank {
-  border-color: #6d7681ff;
-  background-color: #2d2d2d;
-  color: #fce08bff;
-}
-
-body.dark-mode input.blank.correct {
-  background-color: #1b5e20;
-}
-
-body.dark-mode input.blank.incorrect {
-  background-color: #7f0000;
-}
-
-body.dark-mode button {
-  background-color: #6d7681ff;
-  color: #fff;
-}
-
-body.dark-mode button:hover {
-  background-color: #555;
-}
-
-/* Dark Mode Toggle */
-#dark-mode-container {
-  margin: 1rem 0;
-  text-align: center;
-}
-
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 40px;
-  height: 20px;
-}
-
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 20px;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #073055ff;
-}
-
-input:checked + .slider:before {
-  transform: translateX(20px);
+button:focus {
+    outline: 2px solid #ffc802ff;
 }
