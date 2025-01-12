@@ -104,6 +104,7 @@ body {
   font-size: 1.1rem; /* Reduced font size for better balance */
   line-height: 1.8; /* Increased line height for readability */
   letter-spacing: 0.05em; /* Subtle kerning adjustment */
+  text-align: center; /* Center-align text and input fields */
   margin-top: 15px; /* Add spacing above passage */
 }
 
@@ -124,7 +125,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 2px; /* Slightly rounded corners */
   margin-left: 0.05em; /* Spacing between text and fields */
-  vertical-align: baseline; /* Align fields with the text baseline */
+  vertical-align: middle; /* Align fields with the text baseline */
 }
 
 /* Remove spacing between adjacent fields */
