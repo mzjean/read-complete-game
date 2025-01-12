@@ -11,6 +11,19 @@ const passageContainer = document.getElementById("passage-container");
 const feedbackContainer = document.getElementById("feedback-container");
 const goodLuckMessage = document.getElementById("good-luck-message");
 
+// Buttons
+const submitButton = document.createElement("button");
+submitButton.id = "submit-btn";
+submitButton.className = "game-button submit-button";
+submitButton.textContent = "Submit";
+submitButton.onclick = submitAnswers;
+
+const nextPassageButton = document.createElement("button");
+nextPassageButton.id = "next-passage-btn";
+nextPassageButton.className = "game-button next-button";
+nextPassageButton.textContent = "Next Passage";
+nextPassageButton.onclick = loadNextPassage;
+
 // Fetch Passages
 async function fetchPassages() {
   try {
@@ -87,8 +100,14 @@ function renderPassage() {
   passageContainer.innerHTML = `
     <h2>${passage.title}</h2>
     <p>${renderTextWithBlanks(passage.text_with_blanks)}</p>
-    <button id="submit-btn" class="game-button submit-button" onclick="submitAnswers()">Submit</button>
   `;
+
+  // Show the submit button
+  passageContainer.appendChild(submitButton);
+  submitButton.classList.remove("hidden");
+
+  // Hide the next passage button
+  nextPassageButton.classList.add("hidden");
 
   // Add event listeners to auto-advance the cursor
   const inputs = document.querySelectorAll("#passage-container input");
@@ -130,9 +149,13 @@ function submitAnswers() {
 
   feedbackContainer.innerHTML = `
     <p>You got ${correctCount} out of ${totalFields} correct (${percentageCorrect}%).</p>
-    <button class="game-button next-button" onclick="loadNextPassage()">Next Passage</button>
   `;
+  feedbackContainer.appendChild(nextPassageButton);
   feedbackContainer.classList.remove("hidden");
+
+  // Hide the submit button
+  submitButton.classList.add("hidden");
+  nextPassageButton.classList.remove("hidden");
 }
 
 // Load Next Passage
