@@ -93,7 +93,7 @@ body {
 .passage-container {
   font-size: 1.2rem;
   line-height: 1.6;
-  letter-spacing: 0.2em; /* Kerning for passage text */
+  letter-spacing: 0.1em; /* Adjusted kerning for passage text */
 }
 
 .passage-container input {
@@ -104,8 +104,8 @@ body {
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 3px;
-  margin-left: 0.2em; /* Matches letter-spacing between text and fields */
-  margin-right: 0; /* No extra margin between adjacent fields */
+  margin-left: 0.1em; /* Matches letter-spacing between text and fields */
+  margin-right: 0; /* No space between fields */
   vertical-align: middle; /* Align fields with text */
 }
 
