@@ -105,10 +105,10 @@ button[disabled] {
 /* Inputs */
 input[type="text"] {
     border: 1.5px solid #e5e5e5ff; /* Slightly thinner border */
-    border-radius: 5px;
+    border-radius: 1.5px;
     padding: 0.25rem; /* Reduced padding for compact fields */
     font-size: 1.2rem; /* Matches body text size */
-    width: 15px; /* Adjusted width for compact fields */
+    width: 18px; /* Adjusted width for compact fields */
     text-align: center;
     margin: 0; /* Removed spacing between fields and surrounding text */
     vertical-align: baseline; /* Aligns with the surrounding text */
