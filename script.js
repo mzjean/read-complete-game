@@ -4,9 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextPassageButton = document.getElementById('next-passage-button');
     const passageContainer = document.getElementById('passage-container');
     const timerDisplay = document.getElementById('timer');
-
-    // The passages JSON file path (can be modified as needed)
-    const passagesUrl = 'passages.json';
+    const passageTitle = document.getElementById('passage-title');
+    const passageText = document.getElementById('passage-text');
 
     let passages = [];
     let currentPassageIndex = 0;
@@ -14,10 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initially hide the timer
     timerDisplay.style.display = 'none';
+    submitButton.style.display = 'none';
+    nextPassageButton.style.display = 'none';
 
     // Fetch the passages when the game starts
     function fetchPassages() {
-        fetch(passagesUrl)
+        fetch('passages.json')
             .then(response => response.json())
             .then(data => {
                 passages = data;
@@ -32,16 +33,30 @@ document.addEventListener('DOMContentLoaded', function() {
     function showPassage() {
         if (currentPassageIndex < passages.length) {
             const passage = passages[currentPassageIndex];
-            passageContainer.innerHTML = `
-                <h2>${passage.title}</h2>
-                <p>${passage.text}</p>
-            `;
+            passageTitle.textContent = passage.title;
+            passageText.textContent = passage.text;
+            createAnswerFields(passage.text); // Create answer input fields based on the passage text
             startTimer(); // Start the timer for this passage
             submitButton.style.display = 'inline-block'; // Show the Submit button
             nextPassageButton.style.display = 'none'; // Hide Next Passage button until after submission
         } else {
             endGame(); // End the game when all passages are completed
         }
+    }
+
+    // Dynamically create input fields for blanks in the passage
+    function createAnswerFields(passageText) {
+        const blanks = passageText.match(/__+/g);
+        let passageWithInputs = passageText;
+        
+        blanks.forEach((blank, index) => {
+            passageWithInputs = passageWithInputs.replace(blank, `<input type="text" id="blank-${index}" class="blank" maxlength="${blank.length}" />`);
+        });
+
+        passageContainer.innerHTML = `
+            <h2>${passageTitle.textContent}</h2>
+            <p>${passageWithInputs}</p>
+        `;
     }
 
     // Start the timer for each passage
