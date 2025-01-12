@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let timer = 180; // 3 minutes in seconds
     let passages = [];
 
-    timerDisplay.style.display = "none";
-
     // Fetch passages from JSON
     fetch("passages.json")
         .then((response) => response.json())
@@ -51,9 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const passage = passages[currentPassageIndex];
             passageTitle.textContent = passage.title;
 
-            const textWithBlanks = passage.text.split(/(_+)/).map((chunk, index) => {
+            const textWithBlanks = passage.text.split(/(_+)/).map((chunk) => {
                 if (chunk.startsWith("_")) {
-                    return `<input type="text" maxlength="${chunk.length}" data-index="${index}" />`;
+                    return `<span class="input-group">${Array(chunk.length)
+                        .fill('<input type="text" maxlength="1" class="blank" />')
+                        .join("")}</span>`;
                 }
                 return chunk;
             }).join("");
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 input.classList.add("correct");
             } else {
                 input.classList.add("incorrect");
-                input.value = answer; // Fill with correct answer
+                input.value = answer;
             }
         });
 
