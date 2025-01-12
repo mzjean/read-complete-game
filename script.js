@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPassageIndex = 0;
     let timer;
 
+    // Initially hide the timer
+    timerDisplay.style.display = 'none';
+
     // Fetch the passages when the game starts
     function fetchPassages() {
         fetch(passagesUrl)
@@ -44,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start the timer for each passage
     function startTimer() {
         let timeLeft = 180; // 3 minutes in seconds
+        timerDisplay.style.display = 'inline-block'; // Show the timer
         timerDisplay.innerHTML = `Time Left: ${formatTime(timeLeft)} seconds`;
 
         timer = setInterval(() => {
