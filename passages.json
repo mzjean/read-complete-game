@@ -1,14 +1,32 @@
 [
-    {
-      "id": 1,
-      "title": "A Day at the Park",
-      "text": "It was a s_nny day in the p_rk. The b_rds were ch_rping.",
-      "answers": ["u", "a", "e", "i"]
-    },
+  {
+    "id": 1,
+    "title": "The Solar System Sun",
+    "text": "The Sun is the star at the center of the Solar System. It i_ seen i_ the s__ and gi___ light t_ the Earth. When t__ Sun i_ in t__ sky, it i_ day. When t__ Sun i_ not i_ the s__, i_ is ni___. The planets, including Earth, go around it.",
+    "answers": [
+        "s",
+        "n",
+        "k",
+        "y",
+        "v",
+        "e",
+        "e",
+        "o",
+        "h",
+        "e",
+        "s",
+        "h",
+        "e",
+        "s",
+        "g"
+        "h"
+        "t"
+    ]
+},
     {
       "id": 2,
       "title": "The Importance of Exercise",
-      "text": "Ex_rcise is imp_rtant for your h_alth and w_ll-being.",
+      "text": "Ex__rcise is imp__rtant for your h__alth and w__ll-being.",
       "answers": ["e", "o", "e", "e"]
     } 
   ]  
