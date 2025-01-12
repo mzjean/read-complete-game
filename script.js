@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }).join("");
             passageText.innerHTML = textWithBlanks;
 
-            // Enable the Submit button
-            submitButton.disabled = false;
+            // Show the Submit button
+            submitButton.style.display = "inline-block";
         }
     };
 
@@ -77,9 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const accuracy = Math.round((correctCount / total) * 100);
         resultDisplay.textContent = `You answered ${accuracy}% of the blanks correctly!`;
 
-        // Disable Submit and enable Next
-        submitButton.disabled = true;
-        nextButton.disabled = false;
+        // Hide Submit and show Next
+        submitButton.style.display = "none";
+        nextButton.style.display = "inline-block";
     };
 
     startButton.addEventListener("click", () => {
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nextButton.addEventListener("click", () => {
         if (currentPassageIndex < passages.length - 1) {
             currentPassageIndex++;
-            nextButton.disabled = true;
+            nextButton.style.display = "none";
             resultDisplay.textContent = "";
             analyticsDisplay.style.display = "none";
             passageTitle.textContent = "";
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             resultDisplay.textContent = "You've completed all passages!";
             analyticsDisplay.style.display = "block";
-            nextButton.disabled = true;
+            nextButton.style.display = "none";
         }
     });
 });
