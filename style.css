@@ -33,13 +33,15 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    padding: 0.25em; /* Reduced padding */
     margin: 0 2px; /* Small space around inputs */
 }
 
-/* Group input fields for alignment */
+/* Group input fields */
 .input-group {
     display: inline-flex;
     gap: 2px; /* Small gap between fields in a group */
+    padding: 0.25em; /* Reduced padding for groups */
 }
 
 /* Correct and incorrect styling */
