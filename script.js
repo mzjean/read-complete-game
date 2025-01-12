@@ -85,9 +85,11 @@ function renderPassage() {
 }
 
 function renderTextWithBlanks(text) {
-  return text.replace(/(_+)/g, (match, offset) => {
-    const blankId = `blank-${offset}`;
-    return `<input type="text" id="${blankId}" maxlength="${match.length}">`;
+  let blankIndex = 0;
+  return text.replace(/(_+)/g, (match) => {
+    blankIndex++;
+    const blankLength = match.length; // Number of underscores
+    return `<input type="text" id="blank-${blankIndex}" maxlength="${blankLength}" style="width: ${blankLength * 18}px;">`;
   });
 }
 
