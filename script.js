@@ -85,28 +85,28 @@ document.addEventListener("DOMContentLoaded", () => {
         let userAnswers = [];
         inputGroups.forEach((group) => {
             const inputs = Array.from(group.querySelectorAll(".blank")); // Convert NodeList to Array
-            let groupAnswer = inputs.map((input) => input.value.toLowerCase()).join("");
+            let groupAnswer = inputs.map((input) => input.value.trim().toLowerCase()).join(""); // Trim and lowercase
             userAnswers.push(groupAnswer);
         });
 
         // Check answers
         inputGroups.forEach((group, index) => {
             const inputs = Array.from(group.querySelectorAll(".blank")); // Convert NodeList to Array
-            const isCorrect = userAnswers[index] === correctAnswers[index];
+            const isCorrect = userAnswers[index] === correctAnswers[index].toLowerCase(); // Ensure lowercase comparison
 
             inputs.forEach((input, inputIndex) => {
                 input.disabled = true;
                 input.classList.add(isCorrect ? "correct" : "incorrect");
 
                 if (!isCorrect) {
-                    input.value = correctAnswers[index][inputIndex];
+                    input.value = correctAnswers[index][inputIndex]; // Fill with correct answers for incorrect fields
                 }
             });
         });
 
         const total = correctAnswers.length;
         const accuracy = Math.round(
-            (userAnswers.filter((ans, idx) => ans === correctAnswers[idx]).length / total) * 100
+            (userAnswers.filter((ans, idx) => ans === correctAnswers[idx].toLowerCase()).length / total) * 100
         );
         resultDisplay.textContent = `You answered ${accuracy}% of the blanks correctly!`;
 
