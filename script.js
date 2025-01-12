@@ -37,6 +37,7 @@ function validatePassages(data) {
 // Start Game
 function startGame() {
   startButton.classList.add("hidden");
+  document.getElementById("good-luck-message").classList.add("hidden");
   timerElement.classList.remove("hidden");
   passageContainer.classList.remove("hidden");
   timeLeft = 180;
