@@ -28,9 +28,9 @@ body {
 /* Header */
 .game-header {
   color: #073055ff;
-  padding: 20px;
-  border-radius: 10px;
-  font-size: 1.8rem;
+  padding: 10px 0; /* Reduced padding to bring header closer to the top */
+  font-size: 1.5rem; /* Smaller header text */
+  margin-top: 10px; /* Additional spacing to position closer to the top */
 }
 
 /* Instructions */
