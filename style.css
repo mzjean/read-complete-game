@@ -101,13 +101,15 @@ body {
 
 /* Passage Container */
 .passage-container {
+  display: flex; /* Use flexbox for better alignment */
+  flex-wrap: wrap; /* Wrap text and inputs to stay within the container */
+  justify-content: center; /* Center the content horizontally */
+  align-items: baseline; /* Align the text and input fields by their baseline */
   font-size: 1.1rem; /* Reduced font size for better balance */
   line-height: 1.8; /* Increased line height for readability */
   letter-spacing: 0.05em; /* Subtle kerning adjustment */
-  text-align: center; /* Center-align text and input fields */
-  display: inline-block; /* Ensure the text and inputs are treated as a single block */
-  margin: 0 auto; /* Center the block horizontally */
-  width: auto; /* Allow the content to take its natural width */
+  margin-top: 15px; /* Add spacing above passage */
+  text-align: center; /* Ensure text aligns properly */
 }
 
 /* Passage Title */
@@ -119,8 +121,8 @@ body {
 
 /* Input Fields in Passage */
 .passage-container input {
-  width: 12px; /* Smaller width to blend with the text */
-  height: 20px; /* Reduced height */
+  width: 14px; /* Adjusted width for consistency */
+  height: 24px; /* Adjusted height for better visibility */
   text-align: center;
   padding: 0; /* No extra padding */
   font-size: 1rem; /* Matches the text size */
