@@ -30,11 +30,9 @@ function renderPassage() {
     // Replace underscores with the correct number of input fields
     const textWithBlanks = passage.text.replace(/_+/g, (match) => {
         const numFields = match.length; // Number of underscores
-        let inputFields = "";
-        for (let i = 0; i < numFields; i++) {
-            inputFields += `<input type="text" maxlength="1" class="blank" />`;
-        }
-        return inputFields; // Insert the appropriate number of fields
+        return `<span class="input-group">${Array(numFields)
+            .fill('<input type="text" maxlength="1" class="blank" />')
+            .join("")}</span>`;
     });
 
     passageText.innerHTML = textWithBlanks;
@@ -88,20 +86,33 @@ submitButton.addEventListener("click", () => {
 });
 
 function handleSubmit() {
-    const inputs = document.querySelectorAll(".blank");
+    const inputGroups = document.querySelectorAll(".input-group");
     const passage = passages[currentPassageIndex];
-    const userAnswers = Array.from(inputs).map((input) => input.value.toLowerCase());
     const correctAnswers = passage.answers;
 
+    let userAnswers = [];
+    inputGroups.forEach((group) => {
+        const inputs = group.querySelectorAll(".blank");
+        let groupAnswer = Array.from(inputs)
+            .map((input) => input.value.toLowerCase())
+            .join("");
+        userAnswers.push(groupAnswer);
+    });
+
     // Check answers
-    inputs.forEach((input, index) => {
-        if (userAnswers[index] === correctAnswers[index]) {
-            input.classList.add("correct");
-        } else {
-            input.classList.add("incorrect");
-            input.value = correctAnswers[index]; // Show correct answer
-        }
-        input.disabled = true; // Disable inputs
+    inputGroups.forEach((group, index) => {
+        const inputs = group.querySelectorAll(".blank");
+        const isCorrect = userAnswers[index] === correctAnswers[index];
+
+        inputs.forEach((input) => {
+            input.disabled = true;
+            input.classList.add(isCorrect ? "correct" : "incorrect");
+
+            if (!isCorrect) {
+                // Show the correct answer in all fields
+                input.value = correctAnswers[index][inputs.indexOf(input)];
+            }
+        });
     });
 
     submitButton.style.display = "none";
