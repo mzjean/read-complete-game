@@ -1,128 +1,137 @@
-let currentPassageIndex = 0;
-let timer;
-let timeRemaining = 180; // 3 minutes for the timer
+document.addEventListener("DOMContentLoaded", function () {
+    let timer;
+    let timeRemaining = 180; // Set time to 3 minutes (in seconds)
+    let timerRunning = false;
 
-// Load the passage data from the provided JSON
-let passages = [];
-fetch('passages.json')
-  .then(response => response.json())
-  .then(data => {
-    passages = data;  // Store the loaded passages in the array
-    renderPassage();  // Display the first passage
-  })
-  .catch(error => console.error("Error loading passages:", error));
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
+    const body = document.body;
+    const timerDisplay = document.getElementById("timer");
 
-// Start the timer and show the passage when "Start" is clicked
-document.getElementById("start-button").addEventListener("click", startGame);
+    // Dark mode toggle functionality
+    darkModeToggle.addEventListener("change", function () {
+        body.classList.toggle("dark-mode");
+    });
 
-function startGame() {
-  document.getElementById("passage-container").style.display = "block";  // Show the passage
-  document.getElementById("start-button").style.display = "none";  // Hide the start button
-  startTimer();  // Start the countdown timer
-}
+    // Timer logic
+    function startTimer() {
+        if (timerRunning) return; // Prevent multiple timers
+        timerRunning = true;
+        timer = setInterval(() => {
+            timeRemaining--;
+            let minutes = Math.floor(timeRemaining / 60);
+            let seconds = timeRemaining % 60;
+            timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 
-function startTimer() {
-  timer = setInterval(function() {
-    timeRemaining--;
-    let minutes = Math.floor(timeRemaining / 60);
-    let seconds = timeRemaining % 60;
-    document.getElementById("timer").textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            // Change color when time reaches 30 seconds
+            if (timeRemaining <= 30) {
+                timerDisplay.classList.add("red");
+            }
 
-    if (timeRemaining <= 30) {
-      document.getElementById("timer").classList.add("red");  // Turn the timer red in the last 30 seconds
+            // When timer reaches 0, stop it and trigger submit
+            if (timeRemaining <= 0) {
+                clearInterval(timer);
+                timerRunning = false;
+                submitAnswers();
+            }
+        }, 1000);
     }
 
-    if (timeRemaining <= 0) {
-      clearInterval(timer);  // Stop the timer
-      submitAnswers();  // Auto-submit when the timer reaches zero
+    // Start the timer when the start button is clicked
+    document.getElementById("start-button").addEventListener("click", function () {
+    document.getElementById("passage-container").classList.remove("hidden");
+        startTimer();
+    document.getElementById("passage-container").classList.remove("hidden");
+        timerDisplay.style.display = "block"; // Show the timer
+    });
+
+    // Submit answers function
+    function submitAnswers() {
+        const inputs = document.querySelectorAll("input[type='text']");
+        inputs.forEach(input => {
+            const correctAnswer = input.getAttribute("data-correct-answer");
+            if (input.value.toLowerCase() === correctAnswer) {
+                input.classList.add("correct");
+            } else {
+                input.classList.add("incorrect");
+            }
+        });
+
+        // Disable submit button and show next passage button
+        document.getElementById("submit-button").disabled = true;
+        document.getElementById("next-passage-button").style.display = "inline-block";
     }
-  }, 1000);
-}
 
-// Render the passage and fill the blanks with input fields
-function renderPassage() {
-  let passage = passages[currentPassageIndex];
-  document.getElementById("passage-title").textContent = passage.title;
-  
-  let passageText = passage.text_with_blanks;
-  let passageHTML = passageText.split(/([_]+)/).map(part => {
-    if (part === "_") {
-      return '<input type="text" class="blank" maxlength="1">';
-    } else {
-      return `<span class="plain-text">${part}</span>`;
+    // Event listeners for input fields to automatically move to the next field
+    const textFields = document.querySelectorAll("input[type='text']");
+    textFields.forEach((field, index) => {
+        field.addEventListener("input", function () {
+            if (field.value.length === 1 && index < textFields.length - 1) {
+                textFields[index + 1].focus(); // Automatically move to next field
+            }
+        });
+    });
+
+    // Next passage button logic
+    document.getElementById("next-passage-button").addEventListener("click", function () {
+        // Reset the game and proceed to the next passage
+        document.getElementById("next-passage-button").style.display = "none";
+        document.getElementById("submit-button").disabled = false;
+        
+        // Clear inputs and reset the timer
+        const inputs = document.querySelectorAll("input[type='text']");
+        inputs.forEach(input => {
+        input.value = "";
+        input.classList.remove("correct", "incorrect");
+    });
+        timeRemaining = 180; // Reset to 3 minutes
+        timerDisplay.classList.remove("red"); // Remove red timer class
+        startTimer();
+    document.getElementById("passage-container").classList.remove("hidden");
+    });
+
+    // Function to render passage from the JSON data
+    function renderPassage(passage) {
+        const titleElement = document.getElementById("passage-title");
+        const textElement = document.getElementById("passage-text");
+        const passageContainer = document.getElementById("passage-container");
+
+        titleElement.textContent = passage.title;
+        
+        const words = passage.text_with_blanks.split(" ");
+        let passageHTML = "";
+        let answerIndex = 0; // For tracking the answer array
+
+        words.forEach((word) => {
+            if (word.includes("_")) {
+                // Handle word with blanks (_)
+                const blanksCount = word.length;
+                passageHTML += `<span class="word">${word.replace(/_/g, `<input type="text" maxlength="1" data-correct-answer="${passage.answer_mapping[answerIndex]}" />`)}</span> `;
+                answerIndex++; // Move to next answer in the array
+            } else {
+                passageHTML += `<span class="word">${word}</span> `;
+            }
+        });
+
+        textElement.innerHTML = passageHTML;
     }
-  }).join('');
-  
-  document.getElementById("passage-container").innerHTML = passageHTML;
-}
 
-// Submit the answers and show results
-document.getElementById("submit-button").addEventListener("click", submitAnswers);
-
-function submitAnswers() {
-  let inputs = document.querySelectorAll('.blank');
-  let passage = passages[currentPassageIndex];
-  let correctAnswers = passage.answer_mapping;
-  
-  inputs.forEach((input, index) => {
-    if (input.value.toLowerCase() === correctAnswers[index].toLowerCase()) {
-      input.classList.add('correct');
-    } else {
-      input.classList.add('incorrect');
-    }
-  });
-
-  // Show the "Next Passage" button
-  document.getElementById("next-passage-button").style.display = "block";
-}
-
-// Move to the next passage
-document.getElementById("next-passage-button").addEventListener("click", nextPassage);
-
-function nextPassage() {
-  currentPassageIndex++;
-  
-  if (currentPassageIndex >= passages.length) {
-    // If there are no more passages, show a congratulations message
-    document.getElementById("passage-container").innerHTML = "<h2>Congratulations! You've completed all passages.</h2>";
-    clearInterval(timer);  // Stop the timer
-    document.getElementById("next-passage-button").style.display = "none";  // Hide the button
-    return;
-  }
-
-  timeRemaining = 180;  // Reset timer for the next passage
-  document.getElementById("next-passage-button").style.display = "none";  // Hide the button until next submission
-  renderPassage();  // Render the new passage
-  clearInterval(timer);  // Clear the previous timer
-  startTimer();  // Start the timer for the new passage
-}
-
-// Auto-focus on the next text field when the user fills the current one
-document.addEventListener("input", function(event) {
-  if (event.target.classList.contains("blank") && event.target.value.length === 1) {
-    let nextInput = event.target.nextElementSibling;
-    if (nextInput && nextInput.classList.contains("blank")) {
-      nextInput.focus();
-    }
-  }
+    // Fetch the passage data and render it
+    fetch('passages.json')
+        .then(response => response.json())
+        .then(data => {
+            // You can change the passage index here to load different passages
+            const passage = data[0];  // Get the first passage as an example
+            renderPassage(passage);
+        });
 });
 
-// Dark Mode Toggle
-document.getElementById("dark-mode-toggle").addEventListener("click", toggleDarkMode);
 
-function toggleDarkMode() {
-  document.body.classList.toggle("dark-mode");
-
-  // Adjust input field styling when in dark mode
-  if (document.body.classList.contains("dark-mode")) {
-    document.querySelectorAll(".blank").forEach(input => {
-      input.classList.remove("yellow-outline");
-      input.classList.add("grey-outline");
-    });
-  } else {
-    document.querySelectorAll(".blank").forEach(input => {
-      input.classList.remove("grey-outline");
-      input.classList.add("yellow-outline");
-    });
-  }
-}
+// Automatically move to the next text field after input
+document.addEventListener("input", function (e) {
+    if (e.target.tagName === "INPUT" && e.target.value.length === 1) {
+        const nextInput = e.target.nextElementSibling;
+        if (nextInput && nextInput.tagName === "INPUT") {
+            nextInput.focus();
+        }
+    }
+});
