@@ -1,30 +1,82 @@
-/* Ensure text and inputs stay aligned properly */
+/* Main container styling */
+#passage-container {
+    margin: 20px auto;
+    max-width: 800px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Passage title styling */
+#passage-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Passage text styling */
 #passage-text {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: 2px; /* Adjust the spacing between words and fields */
+    gap: 5px; /* Spacing between words and input fields */
     align-items: center;
+    font-size: 18px;
+    line-height: 1.5;
 }
 
-/* Style individual input fields */
+/* Individual input fields */
 .blank {
     display: inline-block;
-    width: 20px; /* Adjust width based on your requirements */
-    height: 25px;
+    width: 20px;
+    height: 30px;
     font-size: 16px;
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    margin: 0 2px; /* Add some space around inputs */
+    margin: 0 2px; /* Small space around inputs */
 }
 
-/* Prevent line breaks mid-word */
-.blank::placeholder {
-    color: transparent; /* Optional: Hide placeholder text */
+/* Group input fields for alignment */
+.input-group {
+    display: inline-flex;
+    gap: 2px; /* Small gap between fields in a group */
 }
 
-/* Ensure input fields stay inline with text */
-.blank + span {
-    display: inline-block;
+/* Correct and incorrect styling */
+.correct {
+    border-color: green;
+    background-color: #eaffea;
+}
+
+.incorrect {
+    border-color: red;
+    background-color: #ffeaea;
+}
+
+/* Timer styling */
+#timer {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Button styling */
+button {
+    background-color: #073055;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #055092;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
