@@ -38,40 +38,14 @@ h2 {
 
 /* Timer */
 #timer {
-    display: none; /* Hidden initially */
     margin: 20px auto;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
     color: #073055ff;
 }
 
 #timer.red {
     color: #ff0000; /* Change color to red in the last 10 seconds */
-}
-
-.circular-timer {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    margin: 20px auto;
-}
-
-.circular-timer svg {
-    transform: rotate(-90deg);
-}
-
-.circular-timer circle {
-    fill: none;
-    stroke-width: 8;
-    stroke-linecap: round;
-}
-
-.timer-background {
-    stroke: #e5e5e5ff;
-}
-
-.timer-foreground {
-    stroke: #073055ff;
-    transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
 }
 
 /* Buttons */
@@ -120,18 +94,63 @@ input.incorrect {
     background-color: #f8d7da;
 }
 
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+/* Dark Mode Toggle */
+#dark-mode-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-#passage-container {
-    animation: fadeIn 0.5s ease;
+#dark-mode-label {
+    font-size: 1rem;
+    margin-right: 10px;
+    color: #073055ff;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #e5e5e5ff;
+    transition: 0.4s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background-color: white;
+    bottom: 4px;
+    left: 4px;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: #073055ff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(30px);
 }
 
 /* Dark Mode */
@@ -160,6 +179,20 @@ body.dark-mode input[type="text"] {
     border: 2px solid #6d7681ff;
 }
 
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+#passage-container {
+    animation: fadeIn 0.5s ease;
+}
+
 /* Responsive Design */
 @media screen and (max-width: 600px) {
     h1 {
@@ -177,10 +210,5 @@ body.dark-mode input[type="text"] {
 
     .game-container {
         padding: 10px;
-    }
-
-    .circular-timer {
-        width: 80px;
-        height: 80px;
     }
 }
