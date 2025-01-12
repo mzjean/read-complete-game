@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Fetch the passages when the game starts
     function fetchPassages() {
-        fetch('passages.json')
+        fetch('./passages.json') // Path adjusted to root directory
             .then(response => response.json())
             .then(data => {
                 passages = data;
