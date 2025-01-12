@@ -150,6 +150,7 @@ body.dark-mode button:hover {
 }
 
 body.dark-mode input[type="text"] {
+    border-color: #cccccc;
     background-color: #333333;
     color: #ffffff;
     border-color: #fce08bff;
@@ -233,6 +234,8 @@ input:checked + .slider:before {
 }
 
 #passage-container {
+    max-width: 600px;
+    margin: 0 auto;
     animation: fadeIn 0.5s ease;
 }
 
