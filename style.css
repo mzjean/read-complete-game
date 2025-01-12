@@ -93,6 +93,7 @@ body {
 .passage-container {
   font-size: 1.2rem;
   line-height: 1.6;
+  letter-spacing: 0.05em; /* Added kerning for readability */
 }
 
 .passage-container input {
@@ -112,7 +113,7 @@ body {
 }
 
 .passage-container input:focus {
-  outline: 2px solid #073055ff;
+  outline: none; /* Removed focus outline */
 }
 
 .passage-container input.correct {
