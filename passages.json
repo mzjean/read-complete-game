@@ -1,62 +1,163 @@
 [
-    {
-        "id": 1,
-        "title": "The Sun in the Sky",
-        "text": "The Sun is the star at the center of the Solar System. It is seen in the sky and gives light to the Earth. When the Sun is in the sky, it is day. When the Sun is not in the sky, it is night. The planets, including Earth, go around it.",
-        "answers": [
-            "t",
-            "s",
-            "i",
-            "t",
-            "s",
-            "a",
-            "t",
-            "e",
-            "g",
-            "i",
-            "s",
-            "s",
-            "k",
-            "y",
-            "t",
-            "n",
-            "s",
-            "i",
-            "t",
-            "e",
-            "s"
-        ],
-        "full_text": "The Sun is the star at the center of the Solar System. It is seen in the sky and gives light to the Earth. When the Sun is in the sky, it is day. When the Sun is not in the sky, it is night. The planets, including Earth, go around it."
-    },
-    {
-        "id": 2,
-        "title": "Minneapolis and the Twin Cities",
-        "text": "Minneapolis is a city in Minnesota. It is next to St. Paul, Minnesota. St. Paul and Minneapolis are called the Twin Cities because they are right next to each other. Minneapolis is the biggest city in Minnesota with about 370,000 people. People who live here enjoy the lakes, parks, and river. The Mississippi River runs through the city.",
-        "answers": [
-            "m",
-            "i",
-            "n",
-            "n",
-            "e",
-            "a",
-            "p",
-            "o",
-            "l",
-            "i",
-            "s",
-            "t",
-            "n",
-            "e",
-            "x",
-            "t",
-            "o",
-            "s",
-            "t",
-            "p",
-            "a",
-            "u",
-            "l"
-        ],
-        "full_text": "Minneapolis is a city in Minnesota. It is next to St. Paul, Minnesota. St. Paul and Minneapolis are called the Twin Cities because they are right next to each other. Minneapolis is the biggest city in Minnesota with about 370,000 people. People who live here enjoy the lakes, parks, and river. The Mississippi River runs through the city."
+  {
+    "passage_id": 1,
+    "title": "The Solar System Sun",
+    "original_text": "The Sun is the star at the center of the Solar System. It is seen in the sky and gives light to the Earth. When the Sun is in the sky, it is day. When the Sun is not in the sky, it is night.",
+    "text_with_blanks": "The Sun is the star at the center of the Solar System. It i_ seen i_ the s__ and gi___ light t_ the Earth. When t__ Sun i_ in t__ sky, it i_ day. When t__ Sun i_ not i_ the s__, i_ is ni___.",
+    "answer_mapping": {
+      "i_": ["s"],
+      "i_": ["n"],
+      "s__": ["k", "y"],
+      "gi___": ["v", "e", "s"],
+      "t_": ["o"],
+      "t__": ["h", "e"],
+      "i_": ["s"],
+      "t__": ["h", "e"],
+      "i_": ["s"],
+      "t__": ["h", "e"],
+      "i_": ["s"],
+      "i_": ["n"],
+      "s__": ["k", "y"],
+      "ni___": ["g", "h", "t"]
     }
+  },
+  {
+    "passage_id": 2,
+    "title": "Minneapolis and St. Paul",
+    "original_text": "Minneapolis is a city in Minnesota. It is next to St. Paul, Minnesota. St. Paul and Minneapolis are called the Twin Cities because they are right next to each other. Minneapolis is the biggest city in Minnesota with about 370,000 people. People who live here enjoy the lakes, parks, and river.",
+    "text_with_blanks": "Minneapolis is a city in Minnesota. It i_ next t_ St. Paul, Minnesota. St. Paul and Minneapolis are cal___ the Twin Cities bec____ they a__ right ne__ to ea__ other. Minneapolis i_ the big____ city i_ Minnesota wi__ about 370,000 people. People w__ live he__ enjoy t__ lakes, parks, and ri___.",
+    "answer_mapping": {
+      "i_": ["s"],
+      "t_": ["o"],
+      "cal___": ["l", "l", "e"],
+      "bec____": ["a", "u", "s", "e"],
+      "a__": ["r", "e"],
+      "ne__": ["x", "t"],
+      "ea__": ["c", "h"],
+      "i_": ["s"],
+      "big____": ["g", "e", "s", "t"],
+      "i_": ["s"],
+      "wi__": ["t", "h"],
+      "w__": ["h", "o"],
+      "he__": ["r", "e"],
+      "t__": ["h", "e"],
+      "ri___": ["v", "e", "r"]
+    }
+  },
+  {
+    "passage_id": 3,
+    "title": "Birds and Their World",
+    "original_text": "Birds of different types can live in freezing cold environments.",
+    "text_with_blanks": "Birds o_ different ty___ can li__ in free____ cold enviro______.",
+    "answer_mapping": {
+      "o_": ["f"],
+      "ty___": ["p", "e", "s"],
+      "li__": ["v", "e"],
+      "free____": ["z", "i", "n", "g", "c"],
+      "enviro______": ["n", "m", "e", "n", "t", "s"]
+    }
+  },
+  {
+    "passage_id": 4,
+    "title": "Humpback Whales",
+    "original_text": "Humpback whales can live up to 45 years. They migrate between the places they feed in the winter and the places they give birth in the summer. They usually live alone.",
+    "text_with_blanks": "Humpback whales can live up to 45 years. They mig____ between t_ places th_ feed i_ the win___ and t_ places th_ give bi___ in t_ summer. They usually live alone.",
+    "answer_mapping": {
+      "mig____": ["r", "a", "t", "e"],
+      "t_": ["o"],
+      "th_": ["e"],
+      "i_": ["s"],
+      "win___": ["t", "e", "r"],
+      "t_": ["o"],
+      "th_": ["e"],
+      "bi___": ["r", "t", "h"],
+      "t_": ["o"]
+    }
+  },
+  {
+    "passage_id": 5,
+    "title": "The Lost Generation",
+    "original_text": "The novel was called The Sun Also Rises. It is about young Americans in Europe after World War One. The war had destroyed their dreams and had given them nothing to replace those dreams.",
+    "text_with_blanks": "The novel was called The Sun Also Rises. It i_ about yo___ Americans i_ Europe af___ World War One. The w_ had dest______ their dre___ and h_ given th_ nothing t_ replace th___ dreams.",
+    "answer_mapping": {
+      "i_": ["s"],
+      "yo___": ["u", "n", "g"],
+      "i_": ["n"],
+      "af___": ["t", "e", "r"],
+      "w_": ["a"],
+      "dest______": ["r", "o", "y", "e", "d"],
+      "dre___": ["a", "m", "s"],
+      "h_": ["a"],
+      "th_": ["e"],
+      "t_": ["o"],
+      "th___": ["o", "s", "e"]
+    }
+  },
+  {
+    "passage_id": 6,
+    "title": "Exercise and Mental Health",
+    "original_text": "Physical exercise is recommended for management of mild depression and has a moderate effect on symptoms. It is equivalent to the use of medications or psychological therapies for most people. In older people, it does appear to decrease depression.",
+    "text_with_blanks": "Physical exercise is recommended for management of mild depression and has a moderate effect on symptoms. It i_ equivalent t_ the u___ of medic______ or psycho________ therapies f_ most pe____. In older people, it does appear t_ decrease depression.",
+    "answer_mapping": {
+      "i_": ["s"],
+      "t_": ["o"],
+      "u___": ["s", "e", "r"],
+      "medic______": ["a", "t", "i", "o", "n", "s"],
+      "psycho________": ["l", "o", "g", "i", "c", "a", "l"],
+      "f_": ["o"],
+      "pe____": ["o", "p", "l", "e"],
+      "t_": ["o"],
+      "decrease": ["d"]
+    }
+  },
+  {
+    "passage_id": 7,
+    "title": "Canberra’s Waste Vision",
+    "original_text": "In 1996 Canberra was the first city in the world to set a vision of no waste by 2010. The strategy aimed to achieve a waste-free society by 2010, through the combined efforts of industry, government, and community.",
+    "text_with_blanks": "In 1996 Canberra was the first city in the world to set a vision of no waste by 2010. The stra____ aimed t_ achieve a waste-free soc____ by 2010, thr____ the comb____ efforts o_ industry, government, and comm_____.",
+    "answer_mapping": {
+      "stra____": ["t", "e", "g", "y"],
+      "t_": ["o"],
+      "soc____": ["i", "e", "t", "y"],
+      "thr____": ["o", "u", "g", "h"],
+      "comb____": ["i", "n", "e", "d"],
+      "o_": ["f"],
+      "comm_____": ["u", "n", "i", "t", "y"]
+    }
+  },
+  {
+    "passage_id": 8,
+    "title": "Electrical Engineering",
+    "original_text": "Electrical engineering has many subdisciplines, the most popular of which are listed below. Although there are electrical engineers who focus exclusively on one of these subdisciplines, many deal with a combination of them.",
+    "text_with_blanks": "Electrical engineering has many subdisciplines, the most popular of which are listed below. Although th___ are elect______ engineers w__ focus excl______ on o_ of th___ subdisciplines, many de__ with a combination o_ them.",
+    "answer_mapping": {
+      "th___": ["e", "r", "e"],
+      "elect______": ["r", "i", "c", "a", "l"],
+      "w__": ["h", "o"],
+      "excl______": ["u", "s", "i", "v", "e", "l", "y"],
+      "o_": ["f"],
+      "th___": ["e", "s", "e"],
+      "de__": ["a", "l"],
+      "o_": ["f"]
+    }
+  },
+ {
+  "passage_id": 9,
+  "title": "The Opera Score",
+  "original_text": "The orchestral score of the opera was published in late 1899 by Casa Ricordi. In contrast to his other operas, Puccini appeared to be satisfied with his initial score, which remained relatively unchanged in the 1909 edition prepared by Osbourne McConachy.",
+  "text_with_blanks": "The orchestral score of the opera was published in late 1899 by Casa Ricordi. In cont____ t_ h__ other ope___, Puccini appeared t_ be sati______ with h__ initial sc___, wh___ remained relat______ unchanged i_ the 1909 edition prep_____ by Osbourne McConachy.",
+  "answer_mapping": {
+    "cont____": ["r", "a", "s", "t"],
+    "t_": ["o"],
+    "h__": ["i"],
+    "ope___": ["r", "a", "s"],
+    "t_": ["o"],
+    "sati______": ["s", "f", "i", "e", "d"],
+    "h__": ["i"],
+    "sc___": ["o", "r", "e"],
+    "wh___": ["i", "c", "h"],
+    "relat______": ["i", "v", "e", "l", "y"],
+    "prep_____": ["a", "r", "e", "d"]
+  }
+}
 ]
