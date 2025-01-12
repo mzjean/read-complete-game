@@ -104,9 +104,13 @@ body {
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 3px;
-  margin-left: 0.1em; /* Matches letter-spacing between text and fields */
-  margin-right: 0; /* No space between fields */
+  margin-left: 0.1em; /* Spacing between text and fields */
   vertical-align: middle; /* Align fields with text */
+}
+
+/* Remove spacing between adjacent fields */
+.passage-container input + input {
+  margin-left: 0; /* No space between adjacent fields */
 }
 
 .passage-container input:first-child {
