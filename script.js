@@ -8,14 +8,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const timerDisplay = document.getElementById("timer");
     const resultDisplay = document.getElementById("result");
     const analyticsDisplay = document.getElementById("analytics");
-    const body = document.body;
 
     let currentPassageIndex = 0;
     let timerInterval;
     let timer = 180; // 3 minutes in seconds
     let passages = [];
 
-    // Fetch passages from JSON
+    // Hide timer initially
+    timerDisplay.style.display = "none";
+
+    // Fetch passages
     fetch("passages.json")
         .then((response) => response.json())
         .then((data) => {
