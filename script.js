@@ -1,113 +1,96 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const startGameButton = document.getElementById('start-game-button');
-    const submitButton = document.getElementById('submit-button');
-    const nextPassageButton = document.getElementById('next-passage-button');
-    const timerDisplay = document.getElementById('timer');
-    const passageContent = document.getElementById('passage-content');
+let currentPassageIndex = 0;
+let timerInterval;
+let timer = 180; // 3 minutes in seconds
+
+document.addEventListener("DOMContentLoaded", () => {
+    const startButton = document.getElementById("start-button");
+    const nextButton = document.getElementById("next-button");
+    const passageTitle = document.getElementById("passage-title");
+    const passageText = document.getElementById("passage-text");
+    const timerDisplay = document.getElementById("timer");
+    const resultDisplay = document.getElementById("result");
+    const analyticsDisplay = document.getElementById("analytics");
+
     let passages = [];
-    let currentPassageIndex = 0;
-    let timer;
-    
-    // Initially hide timer and buttons
-    timerDisplay.style.display = 'none';
-    submitButton.style.display = 'none';
-    nextPassageButton.style.display = 'none';
 
-    // Fetch passages from the JSON file
-    function fetchPassages() {
-        const passagesData = [
-            {
-                "id": 1,
-                "title": "A Day at the Park",
-                "text": "It was a s__nny day in the p__rk. The b__rds were ch__rping.",
-                "answers": ["u", "a", "e", "i"]
-            },
-            {
-                "id": 2,
-                "title": "The Importance of Exercise",
-                "text": "Ex__rcise is imp__rtant for your h__alth and w__ll-being.",
-                "answers": ["e", "o", "e", "e"]
-            }
-        ];
-        passages = passagesData;
-        showPassage(); // Display the first passage
-    }
-
-    // Show the current passage and timer
-    function showPassage() {
-        if (currentPassageIndex < passages.length) {
-            const passage = passages[currentPassageIndex];
-            passageContent.innerHTML = `
-                <h2>${passage.title}</h2>
-                <p>${createAnswerFields(passage.text)}</p>
-            `;
-            startTimer(); // Start the timer for this passage
-            submitButton.style.display = 'inline-block';
-            nextPassageButton.style.display = 'none'; // Hide Next Passage button until after submission
-        } else {
-            endGame(); // End the game when all passages are completed
-        }
-    }
-
-    // Create the input fields for blanks in the passage
-    function createAnswerFields(text) {
-        const blanks = text.match(/__+/g); // Match blanks in the text
-        let passageWithInputs = text;
-
-        blanks.forEach((blank, index) => {
-            passageWithInputs = passageWithInputs.replace(blank, `<input type="text" id="blank-${index}" class="blank" maxlength="${blank.length}" />`);
+    // Fetch passages from passages.json
+    fetch("passages.json")
+        .then((response) => response.json())
+        .then((data) => {
+            passages = data;
         });
 
-        return passageWithInputs;
-    }
+    const updateTimerDisplay = () => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+        timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    };
 
-    // Start the timer for each passage
-    function startTimer() {
-        let timeLeft = 180; // 3 minutes in seconds
-        timerDisplay.style.display = 'inline-block'; // Show the timer
-        timerDisplay.innerHTML = `Time Left: ${formatTime(timeLeft)} seconds`;
-
-        timer = setInterval(() => {
-            timeLeft--;
-            timerDisplay.innerHTML = `Time Left: ${formatTime(timeLeft)} seconds`;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                submitAnswer(); // Submit automatically when the time runs out
+    const startTimer = () => {
+        timer = 180; // Reset timer
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            timer--;
+            updateTimerDisplay();
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                autoSubmit();
             }
         }, 1000);
-    }
+    };
 
-    // Format the timer display as M:SS
-    function formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-    }
+    const loadPassage = () => {
+        const passage = passages[currentPassageIndex];
+        passageTitle.textContent = passage.title;
+        let textWithBlanks = passage.text.split("").map((char, index) => {
+            return char === "_" ? `<input type="text" maxlength="1" data-index="${index}" />` : char;
+        }).join("");
+        passageText.innerHTML = textWithBlanks;
+    };
 
-    // Submit the current answer and show the Next Passage button
-    function submitAnswer() {
-        clearInterval(timer);
-        submitButton.style.display = 'none'; // Hide the Submit button
-        nextPassageButton.style.display = 'inline-block'; // Show the Next Passage button
-    }
+    const autoSubmit = () => {
+        const inputs = document.querySelectorAll("#passage-text input");
+        const passage = passages[currentPassageIndex];
+        let correctCount = 0;
 
-    // Show the next passage when the button is clicked
-    nextPassageButton.addEventListener('click', function() {
-        currentPassageIndex++;
-        showPassage();
+        inputs.forEach((input, idx) => {
+            const answer = passage.answers[idx];
+            if (input.value.toLowerCase() === answer) {
+                correctCount++;
+                input.style.backgroundColor = "#d4edda";
+            } else {
+                input.style.backgroundColor = "#f8d7da";
+                input.value = answer; // Show correct answer
+            }
+        });
+
+        const total = passage.answers.length;
+        const accuracy = Math.round((correctCount / total) * 100);
+        resultDisplay.textContent = `You answered ${accuracy}% of the blanks correctly!`;
+        nextButton.disabled = false;
+    };
+
+    startButton.addEventListener("click", () => {
+        startButton.disabled = true;
+        nextButton.disabled = true;
+        loadPassage();
+        startTimer();
     });
 
-    // Start the game when the Start button is clicked
-    startGameButton.addEventListener('click', function() {
-        fetchPassages();
-        startGameButton.style.display = 'none'; // Hide the Start Game button
+    nextButton.addEventListener("click", () => {
+        if (currentPassageIndex < passages.length - 1) {
+            currentPassageIndex++;
+            startButton.disabled = false;
+            nextButton.disabled = true;
+            resultDisplay.textContent = "";
+            analyticsDisplay.style.display = "none";
+            clearInterval(timerInterval);
+            passageTitle.textContent = "";
+            passageText.innerHTML = "";
+            timerDisplay.textContent = "3:00";
+        } else {
+            resultDisplay.textContent = "You've completed all passages!";
+            analyticsDisplay.style.display = "block";
+        }
     });
-
-    // End the game and show a completion message
-    function endGame() {
-        passageContent.innerHTML = "<h2>You've completed all of the passages! Good job!</h2>";
-        timerDisplay.style.display = 'none'; // Hide the timer when game ends
-        submitButton.style.display = 'none'; // Hide the submit button
-        nextPassageButton.style.display = 'none'; // Hide the next passage button
-    }
 });
