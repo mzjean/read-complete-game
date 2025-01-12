@@ -1,137 +1,108 @@
-document.addEventListener("DOMContentLoaded", function () {
-    let timer;
-    let timeRemaining = 180; // Set time to 3 minutes (in seconds)
-    let timerRunning = false;
-
-    const darkModeToggle = document.getElementById("dark-mode-toggle");
-    const body = document.body;
+document.addEventListener("DOMContentLoaded", () => {
+    // DOM Elements
+    const startButton = document.getElementById("start-button");
+    const submitButton = document.getElementById("submit-button");
+    const nextButton = document.getElementById("next-button");
+    const passageContainer = document.getElementById("passage-container");
+    const passageTitle = document.getElementById("passage-title");
+    const passageText = document.getElementById("passage-text");
     const timerDisplay = document.getElementById("timer");
+    const resultDisplay = document.getElementById("result");
+    const analyticsDisplay = document.getElementById("analytics");
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
 
-    // Dark mode toggle functionality
-    darkModeToggle.addEventListener("change", function () {
-        body.classList.toggle("dark-mode");
-    });
+    let currentPassageIndex = 0;
+    let timerInterval;
+    let timer = 180; // 3 minutes in seconds
+    let passages = [];
 
-    // Timer logic
-    function startTimer() {
-        if (timerRunning) return; // Prevent multiple timers
-        timerRunning = true;
-        timer = setInterval(() => {
-            timeRemaining--;
-            let minutes = Math.floor(timeRemaining / 60);
-            let seconds = timeRemaining % 60;
-            timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    // Hide timer initially
+    timerDisplay.style.display = "none";
 
-            // Change color when time reaches 30 seconds
-            if (timeRemaining <= 30) {
-                timerDisplay.classList.add("red");
-            }
+    // Fetch passages from JSON
+    fetch("passages.json")
+        .then((response) => response.json())
+        .then((data) => {
+            passages = data;
+        })
+        .catch((error) => {
+            console.error("Error fetching passages:", error);
+            resultDisplay.textContent = "Failed to load passages. Please try again later.";
+        });
 
-            // When timer reaches 0, stop it and trigger submit
-            if (timeRemaining <= 0) {
-                clearInterval(timer);
-                timerRunning = false;
-                submitAnswers();
+    const updateTimerDisplay = () => {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+        timerDisplay.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+
+        // Change timer color in the last 10 seconds
+        if (timer <= 10) {
+            timerDisplay.classList.add("red");
+        } else {
+            timerDisplay.classList.remove("red");
+        }
+    };
+
+    const startTimer = () => {
+        timer = 180; // Reset timer
+        updateTimerDisplay();
+        timerDisplay.style.display = "block";
+        timerInterval = setInterval(() => {
+            timer--;
+            updateTimerDisplay();
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                autoSubmit();
             }
         }, 1000);
-    }
+    };
 
-    // Start the timer when the start button is clicked
-    document.getElementById("start-button").addEventListener("click", function () {
-    document.getElementById("passage-container").classList.remove("hidden");
+    const loadPassage = () => {
+        const passage = passages[currentPassageIndex];
+        passageTitle.textContent = passage.title;
+        passageText.innerHTML = passage.text;
+    };
+
+    const autoSubmit = () => {
+        // Logic for auto-submitting the answer
+        resultDisplay.textContent = "Time's up! Your answer has been submitted.";
+        nextButton.style.display = "block";
+    };
+
+    startButton.addEventListener("click", () => {
+        startButton.style.display = "none";
+        submitButton.style.display = "block";
+        loadPassage();
         startTimer();
-    document.getElementById("passage-container").classList.remove("hidden");
-        timerDisplay.style.display = "block"; // Show the timer
     });
 
-    // Submit answers function
-    function submitAnswers() {
-        const inputs = document.querySelectorAll("input[type='text']");
-        inputs.forEach(input => {
-            const correctAnswer = input.getAttribute("data-correct-answer");
-            if (input.value.toLowerCase() === correctAnswer) {
-                input.classList.add("correct");
-            } else {
-                input.classList.add("incorrect");
-            }
-        });
-
-        // Disable submit button and show next passage button
-        document.getElementById("submit-button").disabled = true;
-        document.getElementById("next-passage-button").style.display = "inline-block";
-    }
-
-    // Event listeners for input fields to automatically move to the next field
-    const textFields = document.querySelectorAll("input[type='text']");
-    textFields.forEach((field, index) => {
-        field.addEventListener("input", function () {
-            if (field.value.length === 1 && index < textFields.length - 1) {
-                textFields[index + 1].focus(); // Automatically move to next field
-            }
-        });
+    submitButton.addEventListener("click", () => {
+        clearInterval(timerInterval); // Stop the timer
+        autoSubmit();
     });
 
-    // Next passage button logic
-    document.getElementById("next-passage-button").addEventListener("click", function () {
-        // Reset the game and proceed to the next passage
-        document.getElementById("next-passage-button").style.display = "none";
-        document.getElementById("submit-button").disabled = false;
-        
-        // Clear inputs and reset the timer
-        const inputs = document.querySelectorAll("input[type='text']");
-        inputs.forEach(input => {
-        input.value = "";
-        input.classList.remove("correct", "incorrect");
-    });
-        timeRemaining = 180; // Reset to 3 minutes
-        timerDisplay.classList.remove("red"); // Remove red timer class
-        startTimer();
-    document.getElementById("passage-container").classList.remove("hidden");
-    });
-
-    // Function to render passage from the JSON data
-    function renderPassage(passage) {
-        const titleElement = document.getElementById("passage-title");
-        const textElement = document.getElementById("passage-text");
-        const passageContainer = document.getElementById("passage-container");
-
-        titleElement.textContent = passage.title;
-        
-        const words = passage.text_with_blanks.split(" ");
-        let passageHTML = "";
-        let answerIndex = 0; // For tracking the answer array
-
-        words.forEach((word) => {
-            if (word.includes("_")) {
-                // Handle word with blanks (_)
-                const blanksCount = word.length;
-                passageHTML += `<span class="word">${word.replace(/_/g, `<input type="text" maxlength="1" data-correct-answer="${passage.answer_mapping[answerIndex]}" />`)}</span> `;
-                answerIndex++; // Move to next answer in the array
-            } else {
-                passageHTML += `<span class="word">${word}</span> `;
-            }
-        });
-
-        textElement.innerHTML = passageHTML;
-    }
-
-    // Fetch the passage data and render it
-    fetch('passages.json')
-        .then(response => response.json())
-        .then(data => {
-            // You can change the passage index here to load different passages
-            const passage = data[0];  // Get the first passage as an example
-            renderPassage(passage);
-        });
-});
-
-
-// Automatically move to the next text field after input
-document.addEventListener("input", function (e) {
-    if (e.target.tagName === "INPUT" && e.target.value.length === 1) {
-        const nextInput = e.target.nextElementSibling;
-        if (nextInput && nextInput.tagName === "INPUT") {
-            nextInput.focus();
+    nextButton.addEventListener("click", () => {
+        if (currentPassageIndex < passages.length - 1) {
+            currentPassageIndex++;
+            nextButton.style.display = "none";
+            resultDisplay.textContent = "";
+            analyticsDisplay.style.display = "none";
+            passageTitle.textContent = "";
+            passageText.innerHTML = "";
+            loadPassage();
+            startTimer();
+        } else {
+            passageContainer.style.display = "none";
+            nextButton.style.display = "none";
+            timerDisplay.style.display = "none";
+            resultDisplay.textContent = "You've completed all passages! Well done!";
+            analyticsDisplay.style.display = "block";
+            analyticsDisplay.textContent = "Your performance analytics will appear here.";
         }
-    }
+    });
+
+    // Dark mode toggle
+    darkModeToggle.addEventListener("change", () => {
+        document.body.classList.toggle("dark-mode", darkModeToggle.checked);
+    });
 });
