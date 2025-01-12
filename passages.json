@@ -2,13 +2,13 @@
     {
       "id": 1,
       "title": "A Day at the Park",
-      "text": "It was a s__nny day in the p__rk. The b__rds were ch__rping.",
+      "text": "It was a s_nny day in the p_rk. The b_rds were ch_rping.",
       "answers": ["u", "a", "e", "i"]
     },
     {
       "id": 2,
       "title": "The Importance of Exercise",
-      "text": "Ex__rcise is imp__rtant for your h__alth and w__ll-being.",
+      "text": "Ex_rcise is imp_rtant for your h_alth and w_ll-being.",
       "answers": ["e", "o", "e", "e"]
     } 
   ]  
