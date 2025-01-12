@@ -1,45 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Read and Complete Game</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Read and Complete</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <header>
-            <h1>Read and Complete Game</h1>
-            <!-- Dark Mode Toggle Section -->
-            <div id="dark-mode-container">
-                <span id="dark-mode-label">Dark Mode:</span>
-                <label class="switch">
-                    <input type="checkbox" id="dark-mode-toggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </header>
-        <main>
-            <!-- Passage Text and Fields -->
-            <div id="passage-container">
-                <h2 id="passage-title"></h2>
-                <p id="passage-text"></p>
-                <!-- Input fields will be dynamically inserted here -->
-            </div>
-            <div class="controls">
-                <!-- Game Control Buttons -->
-                <button id="start-button" aria-label="Start Game">Start</button>
-                <button id="submit-button" aria-label="Submit Answer" class="hidden">Submit</button>
-                <button id="next-passage-button" aria-label="Next Passage" class="hidden">Next Passage</button>
-            </div>
-            <div id="timer" class="hidden">3:00</div> <!-- Timer hidden initially -->
-        </main>
-        <footer>
-            <!-- Game Results and Analytics -->
-            <p id="result"></p>
-            <div id="analytics"></div>
-        </footer>
+  <!-- Main Game Container -->
+  <div id="game-container">
+    
+    <!-- Passage Display -->
+    <div id="passage-container">
+      <!-- Passage Title (Dynamically Loaded) -->
+      <h2 id="passage-title"></h2> <!-- Dynamically populated title -->
+
+      <!-- Passage Text with Blanks -->
+      <div id="passage-text-with-blanks"></div> <!-- Dynamically populated passage with blanks -->
+
     </div>
-    <script src="script.js"></script>
+
+    <!-- Timer Section (Initially Hidden) -->
+    <div id="timer" style="display: none;"></div> <!-- Timer displayed when the game starts -->
+
+    <!-- Buttons for Submitting and Next Passage -->
+    <div>
+      <button id="submit-button" style="display: none;">Submit</button> <!-- Initially hidden -->
+      <button id="next-passage-button" style="display: none;">Next Passage</button> <!-- Initially hidden -->
+    </div>
+  </div>
+
+  <!-- JavaScript File -->
+  <script src="script.js"></script>
 </body>
 </html>
