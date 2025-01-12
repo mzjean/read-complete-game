@@ -10,19 +10,8 @@ const timerElement = document.getElementById("timer");
 const passageContainer = document.getElementById("passage-container");
 const feedbackContainer = document.getElementById("feedback-container");
 const goodLuckMessage = document.getElementById("good-luck-message");
-
-// Buttons
-const submitButton = document.createElement("button");
-submitButton.id = "submit-btn";
-submitButton.className = "game-button submit-button";
-submitButton.textContent = "Submit";
-submitButton.onclick = submitAnswers;
-
-const nextPassageButton = document.createElement("button");
-nextPassageButton.id = "next-passage-btn";
-nextPassageButton.className = "game-button next-button";
-nextPassageButton.textContent = "Next Passage";
-nextPassageButton.onclick = loadNextPassage;
+const submitButton = document.getElementById("submit-btn");
+const nextPassageButton = document.getElementById("next-btn");
 
 // Fetch Passages
 async function fetchPassages() {
@@ -103,21 +92,10 @@ function renderPassage() {
   `;
 
   // Show the submit button
-  passageContainer.appendChild(submitButton);
   submitButton.classList.remove("hidden");
 
   // Hide the next passage button
   nextPassageButton.classList.add("hidden");
-
-  // Add event listeners to auto-advance the cursor
-  const inputs = document.querySelectorAll("#passage-container input");
-  inputs.forEach((input, index) => {
-    input.addEventListener("input", () => {
-      if (input.value.length === input.maxLength && index < inputs.length - 1) {
-        inputs[index + 1].focus(); // Move to the next field
-      }
-    });
-  });
 }
 
 function renderTextWithBlanks(text) {
@@ -150,10 +128,9 @@ function submitAnswers() {
   feedbackContainer.innerHTML = `
     <p>You got ${correctCount} out of ${totalFields} correct (${percentageCorrect}%).</p>
   `;
-  feedbackContainer.appendChild(nextPassageButton);
   feedbackContainer.classList.remove("hidden");
 
-  // Hide the submit button
+  // Hide the submit button, show the next passage button
   submitButton.classList.add("hidden");
   nextPassageButton.classList.remove("hidden");
 }
