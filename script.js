@@ -1,8 +1,5 @@
-let currentPassageIndex = 0;
-let timerInterval;
-let timer = 180; // 3 minutes in seconds
-
 document.addEventListener("DOMContentLoaded", () => {
+    // DOM Elements
     const startButton = document.getElementById("start-button");
     const nextButton = document.getElementById("next-button");
     const passageTitle = document.getElementById("passage-title");
@@ -11,13 +8,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultDisplay = document.getElementById("result");
     const analyticsDisplay = document.getElementById("analytics");
 
+    let currentPassageIndex = 0;
+    let timerInterval;
+    let timer = 180; // 3 minutes in seconds
     let passages = [];
 
     // Fetch passages from passages.json
-    fetch("passages.json")
+    fetch("./passages.json")
         .then((response) => response.json())
         .then((data) => {
             passages = data;
+        })
+        .catch((error) => {
+            console.error("Error fetching passages:", error);
         });
 
     const updateTimerDisplay = () => {
@@ -40,12 +43,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const loadPassage = () => {
-        const passage = passages[currentPassageIndex];
-        passageTitle.textContent = passage.title;
-        let textWithBlanks = passage.text.split("").map((char, index) => {
-            return char === "_" ? `<input type="text" maxlength="1" data-index="${index}" />` : char;
-        }).join("");
-        passageText.innerHTML = textWithBlanks;
+        if (currentPassageIndex < passages.length) {
+            const passage = passages[currentPassageIndex];
+            passageTitle.textContent = passage.title;
+            const textWithBlanks = passage.text.split("").map((char, index) => {
+                return char === "_" ? `<input type="text" maxlength="1" data-index="${index}" />` : char;
+            }).join("");
+            passageText.innerHTML = textWithBlanks;
+        }
     };
 
     const autoSubmit = () => {
@@ -73,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
     startButton.addEventListener("click", () => {
         startButton.disabled = true;
         nextButton.disabled = true;
+        resultDisplay.textContent = "";
+        analyticsDisplay.style.display = "none";
         loadPassage();
         startTimer();
     });
