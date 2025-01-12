@@ -2,61 +2,63 @@ document.addEventListener('DOMContentLoaded', function() {
     const startGameButton = document.getElementById('start-game-button');
     const submitButton = document.getElementById('submit-button');
     const nextPassageButton = document.getElementById('next-passage-button');
-    const passageContainer = document.getElementById('passage-container');
     const timerDisplay = document.getElementById('timer');
-    const passageTitle = document.getElementById('passage-title');
-    const passageText = document.getElementById('passage-text');
-    
+    const passageContent = document.getElementById('passage-content');
     let passages = [];
     let currentPassageIndex = 0;
     let timer;
-
-    // Initially hide the timer
+    
+    // Initially hide timer and buttons
     timerDisplay.style.display = 'none';
     submitButton.style.display = 'none';
     nextPassageButton.style.display = 'none';
 
-    // Fetch the passages when the game starts
+    // Fetch passages from the JSON file
     function fetchPassages() {
-        fetch('./passages.json') // Path adjusted to root directory
-            .then(response => response.json())
-            .then(data => {
-                passages = data;
-                showPassage(); // Show the first passage
-            })
-            .catch(error => {
-                console.error('Error fetching passages:', error);
-            });
+        const passagesData = [
+            {
+                "id": 1,
+                "title": "A Day at the Park",
+                "text": "It was a s__nny day in the p__rk. The b__rds were ch__rping.",
+                "answers": ["u", "a", "e", "i"]
+            },
+            {
+                "id": 2,
+                "title": "The Importance of Exercise",
+                "text": "Ex__rcise is imp__rtant for your h__alth and w__ll-being.",
+                "answers": ["e", "o", "e", "e"]
+            }
+        ];
+        passages = passagesData;
+        showPassage(); // Display the first passage
     }
 
-    // Display the current passage
+    // Show the current passage and timer
     function showPassage() {
         if (currentPassageIndex < passages.length) {
             const passage = passages[currentPassageIndex];
-            passageTitle.textContent = passage.title;
-            passageText.textContent = passage.text;
-            createAnswerFields(passage.text); // Create answer input fields based on the passage text
+            passageContent.innerHTML = `
+                <h2>${passage.title}</h2>
+                <p>${createAnswerFields(passage.text)}</p>
+            `;
             startTimer(); // Start the timer for this passage
-            submitButton.style.display = 'inline-block'; // Show the Submit button
+            submitButton.style.display = 'inline-block';
             nextPassageButton.style.display = 'none'; // Hide Next Passage button until after submission
         } else {
             endGame(); // End the game when all passages are completed
         }
     }
 
-    // Dynamically create input fields for blanks in the passage
-    function createAnswerFields(passageText) {
-        const blanks = passageText.match(/__+/g);
-        let passageWithInputs = passageText;
-        
+    // Create the input fields for blanks in the passage
+    function createAnswerFields(text) {
+        const blanks = text.match(/__+/g); // Match blanks in the text
+        let passageWithInputs = text;
+
         blanks.forEach((blank, index) => {
             passageWithInputs = passageWithInputs.replace(blank, `<input type="text" id="blank-${index}" class="blank" maxlength="${blank.length}" />`);
         });
 
-        passageContainer.innerHTML = `
-            <h2>${passageTitle.textContent}</h2>
-            <p>${passageWithInputs}</p>
-        `;
+        return passageWithInputs;
     }
 
     // Start the timer for each passage
@@ -103,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // End the game and show a completion message
     function endGame() {
-        passageContainer.innerHTML = "<h2>You've completed all of the passages! Good job!</h2>";
+        passageContent.innerHTML = "<h2>You've completed all of the passages! Good job!</h2>";
         timerDisplay.style.display = 'none'; // Hide the timer when game ends
         submitButton.style.display = 'none'; // Hide the submit button
         nextPassageButton.style.display = 'none'; // Hide the next passage button
