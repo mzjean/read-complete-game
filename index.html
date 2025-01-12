@@ -8,11 +8,13 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Header -->
   <header class="game-header">
     <h1>Read and Complete Game</h1>
   </header>
 
-  <main class="game-container">
+  <!-- Main Content -->
+  <main class="main-container">
     <!-- Instructions -->
     <p class="instructions">Type the missing letters to complete the text below.</p>
 
@@ -29,12 +31,15 @@
       <!-- Results will be dynamically displayed here -->
     </div>
 
-    <!-- Buttons -->
-    <div class="start-section">
+    <!-- Buttons Section -->
+    <div class="button-section">
       <button id="start-game-btn" class="game-button start-button">Start Game</button>
+      <button id="submit-btn" class="game-button submit-button hidden">Submit</button>
+      <button id="next-btn" class="game-button next-button hidden">Next Passage</button>
     </div>
   </main>
 
+  <!-- Footer -->
   <footer class="game-footer">
     <p id="good-luck-message">Good luck!</p>
   </footer>
