@@ -70,7 +70,6 @@ body {
   }
   
   .passage-container input {
-    width: 18px;
     height: 22px;
     text-align: center;
     margin: 0 2px;
@@ -81,7 +80,7 @@ body {
   
   .passage-container input:focus {
     outline: 2px solid #073055ff;
-  }
+  }  
   
   /* Feedback Container */
   .feedback-container {
