@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // DOM Elements
     const startButton = document.getElementById("start-button");
     const submitButton = document.getElementById("submit-button");
     const nextButton = document.getElementById("next-button");
@@ -8,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const timerDisplay = document.getElementById("timer");
     const resultDisplay = document.getElementById("result");
     const analyticsDisplay = document.getElementById("analytics");
+    const body = document.body;
 
     let currentPassageIndex = 0;
     let timerInterval;
@@ -17,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Hide timer initially
     timerDisplay.style.display = "none";
 
-    // Fetch passages
+    // Fetch passages from JSON
     fetch("passages.json")
         .then((response) => response.json())
         .then((data) => {
@@ -33,9 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const startTimer = () => {
-        timer = 180;
+        timer = 180; // Reset timer
         updateTimerDisplay();
-        timerDisplay.style.display = "block";
+        timerDisplay.style.display = "block"; // Show the timer
         timerInterval = setInterval(() => {
             timer--;
             updateTimerDisplay();
@@ -83,7 +85,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        const accuracy = Math.round((correctCount / correctAnswers.length) * 100);
+        const total = correctAnswers.length;
+        const accuracy = Math.round((correctCount / total) * 100);
         resultDisplay.textContent = `You answered ${accuracy}% of the blanks correctly!`;
 
         submitButton.style.display = "none";
@@ -91,16 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     startButton.addEventListener("click", () => {
-        startButton.style.display = "none";
+        startButton.style.display = "none"; // Hide Start button
         resultDisplay.textContent = "";
         analyticsDisplay.style.display = "none";
-        passageContainer.style.display = "block";
+        passageContainer.style.display = "block"; // Ensure the container is visible
         loadPassage();
         startTimer();
     });
 
     submitButton.addEventListener("click", () => {
-        clearInterval(timerInterval);
+        clearInterval(timerInterval); // Stop the timer
         autoSubmit();
     });
 
@@ -112,12 +115,16 @@ document.addEventListener("DOMContentLoaded", () => {
             analyticsDisplay.style.display = "none";
             passageTitle.textContent = "";
             passageText.innerHTML = "";
+            timerDisplay.textContent = "3:00";
             loadPassage();
             startTimer();
         } else {
-            passageContainer.style.display = "none";
+            // Hide passage container and buttons after the last passage
+            passageContainer.style.display = "none"; // Completely hides the container
             nextButton.style.display = "none";
             timerDisplay.style.display = "none";
+
+            // Show a completion message
             resultDisplay.textContent = "You've completed all passages! Well done!";
             analyticsDisplay.style.display = "block";
             analyticsDisplay.textContent = "Your performance analytics will appear here.";
