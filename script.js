@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const startButton = document.getElementById("start-button");
     const submitButton = document.getElementById("submit-button");
     const nextButton = document.getElementById("next-button");
+    const passageContainer = document.getElementById("passage-container"); // New reference for hiding the container
     const passageTitle = document.getElementById("passage-title");
     const passageText = document.getElementById("passage-text");
     const timerDisplay = document.getElementById("timer");
@@ -98,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
         startButton.style.display = "none"; // Hide Start button
         resultDisplay.textContent = "";
         analyticsDisplay.style.display = "none";
+        passageContainer.style.display = "block"; // Ensure the container is visible
         loadPassage();
         startTimer();
     });
@@ -119,9 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
             loadPassage();
             startTimer();
         } else {
-            // Hide passage and buttons after the last one
-            passageTitle.textContent = "";
-            passageText.innerHTML = "";
+            // Hide passage container and buttons after the last passage
+            passageContainer.style.display = "none"; // Completely hides the container
             nextButton.style.display = "none";
             timerDisplay.style.display = "none";
 
