@@ -122,6 +122,6 @@ function endGame() {
 }
 
 // Start the game when the page is ready
-document.getElementById('start-game-button').addEventListener('click', () => {
+document.getElementById('start-game-button').addEventListener('click', function() {
   fetchPassages(); // Load the passages
 });
