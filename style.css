@@ -1,139 +1,210 @@
-/* General Styling */
+/* General Reset */
 body {
-    font-family: 'Poppins', Arial, sans-serif;
-    background-color: #ffffff;
-    color: #073055ff;
-    margin: 0;
-    padding: 0;
-    font-size: 1.2rem; /* Increased body text size */
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
 }
 
+/* Header Styles */
 header {
-    text-align: center;
-    background-color: #ffc802ff;
-    padding: 20px;
-    border-bottom: 2px solid #e5e5e5ff;
-    border-radius: 15px; /* Rounded corners for header background */
-    margin: 20px; /* Adds spacing around the header */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for better effect */
+  background-color: #ffc802ff;
+  color: #073055ff;
+  text-align: center;
+  padding: 1rem 0;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
-h1, h2 {
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-weight: bold;
-    letter-spacing: 0.03em; /* Reduced kerning for headers */
+/* Passage Container */
+#passage-container {
+  text-align: center;
+  margin: 0 auto;
+  padding: 1rem;
+  width: 80%;
 }
 
-h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
+/* Passage Title */
+#passage-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #073055ff;
+  margin-bottom: 1rem;
 }
 
-h2 {
-    font-size: 1.5rem;
-    color: #073055ff;
-    margin-bottom: 15px;
+/* Passage Text */
+#passage-text {
+  font-size: 1.125rem;
+  color: #073055ff;
+  text-align: justify;
+  line-height: 1.8;
 }
 
-/* Game Container */
-.game-container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-    text-align: center;
-    line-height: 1.8; /* Increased line height for better readability */
-    letter-spacing: 0.05em; /* Increased kerning for body text */
+/* Text Input Fields */
+input.blank {
+  font-size: 1.125rem;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  padding: 0.25rem; /* Adjusted Padding */
+  margin: 0 0.1rem;
+  width: 2rem;
+  height: 2.5rem;
 }
 
-/* Timer */
-#timer {
-    display: none; /* Hidden on the opening screen */
-    margin: 20px auto;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #073055ff;
-    letter-spacing: 0.05em; /* Kerning for the timer */
+/* Grouped Input Field Wrapper */
+.input-group {
+  display: inline-flex;
+  gap: 0.1rem;
 }
 
-#timer.red {
-    color: #ff0000; /* Change color to red in the last 10 seconds */
+.input-group input.blank {
+  padding: 0.25rem; /* Adjusted Padding for Grouped Inputs */
+}
+
+/* Correct and Incorrect Inputs */
+input.blank.correct {
+  border-color: #4caf50;
+  background-color: #d4edda;
+}
+
+input.blank.incorrect {
+  border-color: #f44336;
+  background-color: #f8d7da;
 }
 
 /* Buttons */
 button {
-    background-color: #073055ff;
-    color: #ffffff;
-    padding: 12px 24px; /* Larger rectangular buttons */
-    border: none;
-    border-radius: 8px; /* Rounded corners for buttons */
-    cursor: pointer;
-    font-size: 1rem;
-    letter-spacing: 0.05em; /* Kerning for button text */
-    transition: transform 0.2s, background-color 0.3s;
-    display: inline-block;
-    margin: 10px 5px; /* Adds spacing between buttons */
+  display: inline-block;
+  background-color: #073055ff;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #6d7681ff;
-    transform: scale(1.05);
+  background-color: #05508c;
 }
 
-button:active {
-    transform: scale(0.98);
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
-button[disabled] {
-    display: none; /* Hide disabled buttons */
+/* Timer */
+#timer {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1rem 0;
 }
 
-/* Inputs */
-input[type="text"] {
-    border: 1.5px solid #e5e5e5ff; /* Slightly thinner border */
-    border-radius: 5px;
-    padding: 0.25em; /* Reduced padding for compact fields */
-    font-size: 1.2rem; /* Matches body text size */
-    width: 16px; /* Adjusted width for compact fields */
-    text-align: center;
-    margin: 0 2px; /* Small gap between inputs */
-    vertical-align: baseline; /* Aligns with the surrounding text */
-    line-height: 1.2; /* Matches the line height of the body text */
+#timer.red {
+  color: #f44336;
 }
 
-input.correct {
-    border-color: #28a745; /* Green for correct */
-    background-color: #d4edda;
+/* Result Display */
+#result {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: #073055ff;
 }
 
-input.incorrect {
-    border-color: #dc3545; /* Red for incorrect */
-    background-color: #f8d7da;
+/* Analytics Display */
+#analytics {
+  font-size: 1.125rem;
+  color: #073055ff;
+  margin-top: 1rem;
+  display: none;
 }
 
-/* Input Group */
-.input-group {
-    display: inline-flex;
-    gap: 2px; /* Small gap between grouped inputs */
-}
-
-/* Dark Mode */
+/* Dark Mode Styles */
 body.dark-mode {
-    background-color: #1e1e1e;
-    color: #ffffff;
+  background-color: #1c1c1c;
+  color: #fce08bff;
 }
 
-body.dark-mode header {
-    background-color: #073055ff;
-    color: #ffffff;
+body.dark-mode #passage-title,
+body.dark-mode #passage-text,
+body.dark-mode #result,
+body.dark-mode #analytics {
+  color: #fce08bff;
 }
 
-body.dark-mode h1, body.dark-mode h2 {
-    color: #fce08bff; /* Light yellow for headings in dark mode */
+body.dark-mode input.blank {
+  border-color: #6d7681ff;
+  background-color: #2d2d2d;
+  color: #fce08bff;
+}
+
+body.dark-mode input.blank.correct {
+  background-color: #1b5e20;
+}
+
+body.dark-mode input.blank.incorrect {
+  background-color: #7f0000;
 }
 
 body.dark-mode button {
-    background-color: #ffc802ff;
-    color: #073055ff;
+  background-color: #6d7681ff;
+  color: #fff;
 }
 
 body.dark-mode button:hover {
+  background-color: #555;
+}
+
+/* Dark Mode Toggle */
+#dark-mode-container {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #073055ff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
