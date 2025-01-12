@@ -3,44 +3,44 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  height: 100vh; /* Full viewport height */
+  display: flex; /* Flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  background-color: #f9f9f9; /* Light background */
   color: #333;
   text-align: center;
 }
 
-/* Game Container */
-.game-container {
+/* Main Wrapper to Stack Elements */
+.main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px; /* Consistent spacing between elements */
   width: 100%;
-  max-width: 600px;
-  padding: 20px;
+  max-width: 800px; /* Limit max width for readability */
   box-sizing: border-box;
-  margin-top: 100px; /* Adjusted for the fixed header height */
+  text-align: center;
 }
 
 /* Header */
 .game-header {
-  position: fixed; /* Keeps the header static across pages */
-  top: 0; /* Sticks to the top of the viewport */
-  width: 100%; /* Full width to span the screen */
-  background-color: #ffffff; /* White background for visibility */
+  position: static; /* Header will remain part of the normal flow */
+  width: 100%; /* Full width */
+  background-color: #ffffff; /* White background */
   color: #073055ff;
-  padding: 10px 0; /* Consistent padding */
-  font-size: 1.3rem; /* Slightly smaller header text */
+  padding: 10px 0;
+  font-size: 1.5rem; /* Header font size */
   font-weight: bold;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for separation */
-  z-index: 1000; /* Ensures the header stays above other elements */
 }
 
 /* Instructions */
 .instructions {
   font-size: 1rem;
-  margin-top: 30px; /* Added spacing below header */
-  margin-bottom: 20px; /* Space between instructions and button */
+  margin: 0; /* Reset margin for clean alignment */
   color: #333;
 }
 
@@ -52,7 +52,6 @@ body {
   border: none;
   cursor: pointer;
   transition: transform 0.2s ease, background-color 0.2s ease;
-  margin: 10px 0; /* Consistent spacing for buttons */
 }
 
 .start-button {
@@ -88,28 +87,25 @@ body {
 /* Timer */
 .timer {
   font-size: 1.1rem;
-  margin-bottom: 20px; /* Add spacing below the timer */
 }
 
 /* Center "Good luck!" */
 #good-luck-message {
-  margin-top: 20px; /* Ensure consistent spacing */
   font-size: 1rem;
   color: #333;
-  text-align: center; /* Center the text */
+  margin-top: 10px; /* Space between button and message */
 }
 
 /* Passage Container */
 .passage-container {
-  display: flex; /* Use flexbox for better alignment */
-  flex-wrap: wrap; /* Wrap text and inputs to stay within the container */
-  justify-content: center; /* Center the content horizontally */
-  align-items: baseline; /* Align the text and input fields by their baseline */
-  font-size: 1.1rem; /* Reduced font size for better balance */
+  display: flex; /* Flexbox for better alignment */
+  flex-wrap: wrap; /* Allow wrapping for long lines */
+  justify-content: center; /* Center all content horizontally */
+  align-items: baseline; /* Align inputs and text properly */
+  font-size: 1.1rem; /* Font size for text */
   line-height: 1.8; /* Increased line height for readability */
   letter-spacing: 0.05em; /* Subtle kerning adjustment */
-  margin-top: 15px; /* Add spacing above passage */
-  text-align: center; /* Ensure text aligns properly */
+  margin: 10px 0; /* Spacing around passage container */
 }
 
 /* Passage Title */
@@ -121,24 +117,20 @@ body {
 
 /* Input Fields in Passage */
 .passage-container input {
-  width: 14px; /* Adjusted width for consistency */
-  height: 24px; /* Adjusted height for better visibility */
+  width: 14px; /* Input width */
+  height: 24px; /* Input height */
   text-align: center;
   padding: 0; /* No extra padding */
-  font-size: 1rem; /* Matches the text size */
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 2px; /* Slightly rounded corners */
   margin-left: 0.05em; /* Spacing between text and fields */
-  vertical-align: middle; /* Align fields with the text baseline */
+  vertical-align: middle; /* Align inputs with text */
 }
 
 /* Remove spacing between adjacent fields */
 .passage-container input + input {
-  margin-left: 0; /* No space between adjacent fields */
-}
-
-.passage-container input:first-child {
-  margin-left: 0; /* Ensure the first field has no extra margin */
+  margin-left: 0; /* Remove extra space */
 }
 
 .passage-container input:focus {
@@ -153,8 +145,4 @@ body {
 .passage-container input.incorrect {
   background-color: #f8d7da; /* Red background */
   border-color: #dc3545;
-}
-
-.hidden {
-  display: none;
 }
