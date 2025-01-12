@@ -1,129 +1,92 @@
-let passages = []; // Global array to store passages
-let currentPassageIndex = 0; // Tracks the current passage being shown
-let timer; // Timer variable to store the interval
-let timeLeft = 180; // Timer set to 3 minutes (180 seconds)
+document.addEventListener('DOMContentLoaded', function() {
+    const startGameButton = document.getElementById('start-game-button');
+    const submitButton = document.getElementById('submit-button');
+    const nextPassageButton = document.getElementById('next-passage-button');
+    const passageContainer = document.getElementById('passage-container');
+    const timerDisplay = document.getElementById('timer');
 
-// Function to fetch passages from the passages.json file
-function fetchPassages() {
-  fetch('passages.json') // Ensure this path is correct (adjust if in a different folder)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to load passages');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Passages fetched:', data); // Log the fetched passages for debugging
-      passages = data; // Store the passages in the global array
-      if (passages.length > 0) {
-        showPassage(currentPassageIndex); // Show the first passage
-      } else {
-        console.error('No passages found.');
-      }
-    })
-    .catch(error => {
-      console.error("Error fetching passages:", error);
+    // The passages JSON file path (can be modified as needed)
+    const passagesUrl = 'passages.json';
+
+    let passages = [];
+    let currentPassageIndex = 0;
+    let timer;
+
+    // Fetch the passages when the game starts
+    function fetchPassages() {
+        fetch(passagesUrl)
+            .then(response => response.json())
+            .then(data => {
+                passages = data;
+                showPassage(); // Show the first passage
+            })
+            .catch(error => {
+                console.error('Error fetching passages:', error);
+            });
+    }
+
+    // Display the current passage
+    function showPassage() {
+        if (currentPassageIndex < passages.length) {
+            const passage = passages[currentPassageIndex];
+            passageContainer.innerHTML = `
+                <h2>${passage.title}</h2>
+                <p>${passage.text}</p>
+            `;
+            startTimer(); // Start the timer for this passage
+            submitButton.style.display = 'inline-block'; // Show the Submit button
+            nextPassageButton.style.display = 'none'; // Hide Next Passage button until after submission
+        } else {
+            endGame(); // End the game when all passages are completed
+        }
+    }
+
+    // Start the timer for each passage
+    function startTimer() {
+        let timeLeft = 180; // 3 minutes in seconds
+        timerDisplay.innerHTML = `Time Left: ${formatTime(timeLeft)} seconds`;
+
+        timer = setInterval(() => {
+            timeLeft--;
+            timerDisplay.innerHTML = `Time Left: ${formatTime(timeLeft)} seconds`;
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                submitAnswer(); // Submit automatically when the time runs out
+            }
+        }, 1000);
+    }
+
+    // Format the timer display as M:SS
+    function formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    }
+
+    // Submit the current answer and show the Next Passage button
+    function submitAnswer() {
+        clearInterval(timer);
+        submitButton.style.display = 'none'; // Hide the Submit button
+        nextPassageButton.style.display = 'inline-block'; // Show the Next Passage button
+    }
+
+    // Show the next passage when the button is clicked
+    nextPassageButton.addEventListener('click', function() {
+        currentPassageIndex++;
+        showPassage();
     });
-}
 
-// Function to show a passage and start the timer
-function showPassage(index) {
-  if (index >= passages.length) {
-    endGame(); // If no more passages, end the game
-    return;
-  }
+    // Start the game when the Start button is clicked
+    startGameButton.addEventListener('click', function() {
+        fetchPassages();
+        startGameButton.style.display = 'none'; // Hide the Start Game button
+    });
 
-  const passage = passages[index];
-  const passageContainer = document.getElementById('passage-container');
-  const timerElement = document.getElementById('timer');
-  const submitButton = document.getElementById('submit-button');
-  const nextPassageButton = document.getElementById('next-passage-button');
-
-  // Display the passage title and blanks
-  passageContainer.innerHTML = `
-    <h2>${passage.title}</h2>
-    <p id="passage-text">${passage.text.replace(/__/g, '<input type="text" maxlength="1" class="blank" />')}</p>
-  `;
-  passageContainer.style.display = 'block'; // Make passage visible
-
-  // Show the submit button
-  submitButton.style.display = 'inline-block';
-  nextPassageButton.style.display = 'none'; // Hide "Next Passage" button until the user submits
-
-  // Start the timer
-  startTimer();
-
-  // Add event listener for the submit button
-  submitButton.onclick = function () {
-    handleSubmit();
-    nextPassageButton.style.display = 'inline-block'; // Show next passage button after submit
-    submitButton.style.display = 'none'; // Hide submit button after submission
-  };
-
-  // Add event listener for the next passage button
-  nextPassageButton.onclick = function () {
-    currentPassageIndex++;
-    showPassage(currentPassageIndex); // Show next passage
-  };
-}
-
-// Start the countdown timer and update the UI
-function startTimer() {
-  timeLeft = 180; // Reset the time for each passage
-  updateTimerDisplay();
-
-  // Set a timer to update the countdown every second
-  timer = setInterval(() => {
-    timeLeft--;
-    updateTimerDisplay();
-
-    if (timeLeft <= 0) {
-      clearInterval(timer); // Stop the timer
-      handleSubmit(); // Submit automatically when time runs out
-      document.getElementById('next-passage-button').style.display = 'inline-block'; // Show next passage button
-      document.getElementById('submit-button').style.display = 'none'; // Hide submit button
+    // End the game and show a completion message
+    function endGame() {
+        passageContainer.innerHTML = "<h2>You've completed all of the passages! Good job!</h2>";
+        timerDisplay.style.display = 'none'; // Hide the timer when game ends
+        submitButton.style.display = 'none'; // Hide the submit button
+        nextPassageButton.style.display = 'none'; // Hide the next passage button
     }
-  }, 1000);
-}
-
-// Update the timer display in M:SS format
-function updateTimerDisplay() {
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
-  document.getElementById('timer').textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds} seconds`;
-}
-
-// Handle the submission of answers
-function handleSubmit() {
-  const blanks = document.querySelectorAll('.blank');
-  let correctCount = 0;
-
-  // Check each input field for correct answers
-  blanks.forEach((blank, index) => {
-    const correctAnswer = passages[currentPassageIndex].answers[index]; // Assuming answers array is defined in passages.json
-    if (blank.value.toLowerCase() === correctAnswer.toLowerCase()) {
-      correctCount++;
-      blank.classList.add('correct');
-    } else {
-      blank.classList.add('incorrect');
-    }
-  });
-
-  // Show feedback and hide the submit button
-  alert(`You got ${correctCount} out of ${blanks.length} correct!`);
-}
-
-// End the game after all passages are completed
-function endGame() {
-  const passageContainer = document.getElementById('passage-container');
-  passageContainer.innerHTML = `
-    <h2>You've completed all of the passages! Good job!</h2>
-  `;
-  document.getElementById('next-passage-button').style.display = 'none'; // Hide next passage button after the last passage
-  document.getElementById('submit-button').style.display = 'none'; // Hide submit button after the last passage
-}
-
-// Start the game when the page is ready
-document.getElementById('start-game-button').addEventListener('click', function() {
-  fetchPassages(); // Load the passages
 });
