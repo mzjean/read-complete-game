@@ -1,8 +1,99 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  flex-direction: column;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Header */
+.game-header {
+  color: #073055ff;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 1.8rem;
+}
+
+/* Instructions */
+.instructions {
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #333;
+}
+
+/* Buttons */
+.game-button {
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.start-button {
+  background-color: #073055ff;
+  color: white;
+}
+
+.start-button:hover {
+  background-color: #05263b;
+  transform: scale(1.05);
+}
+
+.submit-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.next-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.next-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Timer */
+.timer {
+  font-size: 1.25rem;
+}
+
+.timer.hidden {
+  display: none;
+}
+
 /* Passage Text */
 .passage-container {
   font-size: 1.2rem;
   line-height: 1.6;
-  letter-spacing: 0.2em; /* Adjusted kerning to match text field spacing */
+  letter-spacing: 0.2em; /* Kerning for passage text */
 }
 
 .passage-container input {
@@ -13,7 +104,8 @@
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 3px;
-  margin-left: 0.2em; /* Matches the letter-spacing for consistent flow */
+  margin-left: 0.2em; /* Matches letter-spacing between text and fields */
+  margin-right: 0; /* No extra margin between adjacent fields */
   vertical-align: middle; /* Align fields with text */
 }
 
@@ -23,4 +115,18 @@
 
 .passage-container input:focus {
   outline: none; /* No focus outline */
+}
+
+.passage-container input.correct {
+  background-color: #d4edda; /* Green background */
+  border-color: #28a745;
+}
+
+.passage-container input.incorrect {
+  background-color: #f8d7da; /* Red background */
+  border-color: #dc3545;
+}
+
+.hidden {
+  display: none;
 }
