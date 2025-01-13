@@ -16,18 +16,20 @@ const debugMode = true; // Enable debug logging
 const startButton = document.getElementById("start-game-btn");
 const submitButton = document.getElementById("submit-btn");
 const nextButton = document.getElementById("next-btn");
+const startOverButton = document.getElementById("start-over-btn");
 const timerElement = document.getElementById("timer");
 const passageContainer = document.getElementById("passage-container");
 const feedbackContainer = document.getElementById("feedback-container");
 
 // Utility Functions
-function setButtonVisibility({ start = false, submit = false, next = false }) {
+function setButtonVisibility({ start = false, submit = false, next = false, startOver = false }) {
   startButton?.classList.toggle("hidden", !start);
   submitButton?.classList.toggle("hidden", !submit);
   nextButton?.classList.toggle("hidden", !next);
+  startOverButton?.classList.toggle("hidden", !startOver);
 
   if (debugMode) {
-    console.log("Button visibility updated:", { start, submit, next });
+    console.log("Button visibility updated:", { start, submit, next, startOver });
   }
 }
 
@@ -189,9 +191,10 @@ function loadNextPassage() {
 }
 
 function endGame() {
-  passageContainer.innerHTML = '<h2>Congratulations!</h2><br><p>You completed all passages.</p>';
-  timerElement.classList.add("hidden");
-  setButtonVisibility({ start: true });
+  passageContainer.innerHTML = '<h2>Congratulations!</h2><br><h3>You completed all passages.</h3>';
+  timerElement.classList.add("hidden"); // Hide the timer
+  feedbackContainer.classList.add("hidden"); // Hide the score
+  setButtonVisibility({ startOver: true }); // Show "Start Over" button
 }
 
 // Initialization
@@ -206,3 +209,9 @@ window.onload = async () => {
 startButton?.addEventListener("click", startGame);
 submitButton?.addEventListener("click", submitAnswers);
 nextButton?.addEventListener("click", loadNextPassage);
+startOverButton?.addEventListener("click", () => {
+  setButtonVisibility({ start: true });
+  feedbackContainer.classList.add("hidden"); // Hide feedback
+  passageContainer.innerHTML = ""; // Clear game content
+  timerElement.classList.add("hidden"); // Hide timer
+});
