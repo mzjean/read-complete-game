@@ -1,148 +1,145 @@
-/* General Reset */
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background-color: #f9f9f9;
-  color: #333;
-  text-align: center;
+// Global Variables
+let passages = [];
+let currentPassageIndex = 0;
+let timer;
+let timeLeft = 180; // 3 minutes
+
+// DOM Elements
+const startButton = document.getElementById("start-game-btn");
+const submitButton = document.getElementById("submit-btn");
+const nextButton = document.getElementById("next-btn");
+const timerElement = document.getElementById("timer");
+const passageContainer = document.getElementById("passage-container");
+const feedbackContainer = document.getElementById("feedback-container");
+const goodLuckMessage = document.getElementById("good-luck-message");
+
+// Fetch Passages from JSON
+async function fetchPassages() {
+  try {
+    const response = await fetch("passages.json");
+    if (!response.ok) throw new Error("Failed to fetch passages.");
+    passages = await response.json();
+  } catch (error) {
+    alert("Unable to load passages. Please try again later.");
+    console.error(error);
+  }
 }
 
-/* Header */
-.game-header {
-  background-color: #ffffff;
-  color: #073055ff;
-  font-size: 1.8rem;
-  font-weight: bold;
-  padding: 10px 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  text-align: center;
+// Start Game
+function startGame() {
+  setButtonVisibility({ start: false, submit: true });
+  goodLuckMessage.classList.add("hidden");
+  timerElement.classList.remove("hidden");
+  passageContainer.classList.remove("hidden");
+
+  timeLeft = 180;
+  currentPassageIndex = 0;
+  startTimer();
+  loadPassage(currentPassageIndex);
 }
 
-/* Main Content Area */
-.main-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px; /* Consistent spacing between blocks */
-  padding: 20px;
+// Timer Logic
+function startTimer() {
+  timerElement.textContent = formatTime(timeLeft);
+  timer = setInterval(() => {
+    timeLeft--;
+    timerElement.textContent = formatTime(timeLeft);
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      submitAnswers();
+    }
+  }, 1000);
 }
 
-/* Instructions */
-.instructions {
-  font-size: 1.1rem;
-  color: #333;
-  margin: 0;
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
 }
 
-/* Timer */
-.timer {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+// Load a Passage
+function loadPassage(index) {
+  const passage = passages[index];
+  passageContainer.innerHTML = `
+    <h2>${passage.title}</h2>
+    <p>${renderTextWithBlanks(passage.text_with_blanks)}</p>
+  `;
+  feedbackContainer.classList.add("hidden");
+  setButtonVisibility({ submit: true, next: false });
+
+  const inputs = passageContainer.querySelectorAll("input");
+  inputs.forEach((input, idx) => {
+    input.addEventListener("input", () => {
+      if (input.value.length === input.maxLength && idx < inputs.length - 1) {
+        inputs[idx + 1].focus();
+      }
+    });
+  });
 }
 
-.timer.warning {
-  color: #ffc107; /* Yellow for warning state */
+function renderTextWithBlanks(text) {
+  return text.replace(/_/g, '<input type="text" maxlength="1">');
 }
 
-.timer.danger {
-  color: #dc3545; /* Red for danger state */
+// Submit Answers
+function submitAnswers() {
+  clearInterval(timer);
+
+  const passage = passages[currentPassageIndex];
+  const inputs = passageContainer.querySelectorAll("input");
+  let correctCount = 0;
+
+  inputs.forEach((input, idx) => {
+    const userAnswer = input.value.toLowerCase();
+    const correctAnswers = passage.answer_mapping[`i_${idx + 1}`] || [];
+    if (correctAnswers.includes(userAnswer)) {
+      input.classList.add("correct");
+      correctCount++;
+    } else {
+      input.classList.add("incorrect");
+    }
+  });
+
+  const total = inputs.length;
+  const percentage = ((correctCount / total) * 100).toFixed(2);
+
+  feedbackContainer.innerHTML = `
+    <p>You got ${correctCount} out of ${total} correct (${percentage}%).</p>
+  `;
+  feedbackContainer.classList.remove("hidden");
+  setButtonVisibility({ submit: false, next: true });
 }
 
-/* Passage Title */
-.passage-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 15px;
+// Load Next Passage
+function loadNextPassage() {
+  currentPassageIndex++;
+  if (currentPassageIndex < passages.length) {
+    timeLeft = 180;
+    startTimer();
+    loadPassage(currentPassageIndex);
+  } else {
+    endGame();
+  }
 }
 
-/* Passage Container */
-.passage-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: baseline;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  letter-spacing: 0.05em; /* Slight kerning */
-  margin-bottom: 20px;
+// End Game
+function endGame() {
+  passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>`;
+  timerElement.classList.add("hidden");
+  setButtonVisibility({ start: true, submit: false, next: false });
 }
 
-/* Input Fields */
-.passage-container input {
-  width: 14px;
-  height: 24px;
-  text-align: center;
-  font-size: 1rem;
-  padding: 0;
-  margin: 0 0.05em; /* Minimal spacing between fields */
-  border: 1px solid #ccc;
-  border-radius: 2px;
+// Set Button Visibility
+function setButtonVisibility({ start = false, submit = false, next = false }) {
+  startButton.classList.toggle("hidden", !start);
+  submitButton.classList.toggle("hidden", !submit);
+  nextButton.classList.toggle("hidden", !next);
 }
 
-.passage-container input:focus {
-  outline: none; /* No focus outline */
-}
-
-.passage-container input.correct {
-  background-color: #d4edda; /* Light green for correct */
-  border-color: #28a745;
-}
-
-.passage-container input.incorrect {
-  background-color: #f8d7da; /* Light red for incorrect */
-  border-color: #dc3545;
-}
-
-/* Buttons */
-.game-button {
-  font-size: 1.2rem;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.start-button {
-  background-color: #073055ff;
-  color: white;
-}
-
-.start-button:hover {
-  background-color: #05263b;
-  transform: scale(1.05);
-}
-
-.submit-button {
-  background-color: #28a745;
-  color: white;
-}
-
-.submit-button:hover {
-  background-color: #218838;
-  transform: scale(1.05);
-}
-
-.next-button {
-  background-color: #007bff;
-  color: white;
-}
-
-.next-button:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-/* Footer */
-.game-footer {
-  font-size: 1rem;
-  color: #333;
-  margin-top: 20px;
-}
+// Initialize
+window.onload = async () => {
+  await fetchPassages();
+  startButton.addEventListener("click", startGame);
+  submitButton.addEventListener("click", submitAnswers);
+  nextButton.addEventListener("click", loadNextPassage);
+};
