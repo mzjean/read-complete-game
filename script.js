@@ -190,9 +190,9 @@ function loadNextPassage() {
 
 function endGame() {
   passageContainer.innerHTML = `
-  <h2>Congratulations!</h2>
-  <h3>You completed all passages.</h3>
-`;
+    <h2>Congratulations!</h2>
+    <h3>You completed all passages.</h3>
+  `;
   timerElement.classList.add("hidden"); // Hide the timer
   feedbackContainer.classList.add("hidden"); // Hide the score
   setButtonVisibility({ startOver: true }); // Show "Start Over" button
@@ -212,9 +212,5 @@ startButton?.addEventListener("click", startGame);
 submitButton?.addEventListener("click", submitAnswers);
 nextButton?.addEventListener("click", loadNextPassage);
 startOverButton?.addEventListener("click", () => {
-  setButtonVisibility({ start: true });
-  feedbackContainer.classList.add("hidden"); // Hide feedback
-  passageContainer.innerHTML = ""; // Clear game content
-  timerElement.classList.add("hidden"); // Hide timer
-  console.log("Start Over clicked. Resetting game."); // Debug log
+  window.location.reload(); // Refresh the entire page
 });
