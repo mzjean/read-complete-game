@@ -189,7 +189,7 @@ function loadNextPassage() {
 }
 
 function endGame() {
-  passageContainer.innerHTML = '<h2>Congratulations! You completed all passages.</h2>';
+  passageContainer.innerHTML = '<h2>Congratulations!</h2><br><p>You completed all passages.</p>';
   timerElement.classList.add("hidden");
   setButtonVisibility({ start: true });
 }
