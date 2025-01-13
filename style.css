@@ -1,145 +1,206 @@
-// Global Variables
-let passages = [];
-let currentPassageIndex = 0;
-let timer;
-let timeLeft = 180; // 3 minutes
+:root {
+  --primary-color: #007bff;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --background-color: #f9f9f9;
+  --text-color: #333;
+}
 
-// DOM Elements
-const startButton = document.getElementById("start-game-btn");
-const submitButton = document.getElementById("submit-btn");
-const nextButton = document.getElementById("next-btn");
-const timerElement = document.getElementById("timer");
-const passageContainer = document.getElementById("passage-container");
-const feedbackContainer = document.getElementById("feedback-container");
-const goodLuckMessage = document.getElementById("good-luck-message");
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #f9f9f9, #e6f7ff);
+  color: var(--text-color);
+  height: 100vh;
+  text-align: center;
+}
 
-// Fetch Passages from JSON
-async function fetchPassages() {
-  try {
-    const response = await fetch("passages.json");
-    if (!response.ok) throw new Error("Failed to fetch passages.");
-    passages = await response.json();
-  } catch (error) {
-    alert("Unable to load passages. Please try again later.");
-    console.error(error);
+header {
+  margin-top: 20px;
+}
+
+.instructions {
+  font-size: 1.4rem; /* Increased font size for clarity */
+  font-weight: bold; /* Bold text for better emphasis */
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.timer {
+  font-size: 2rem; /* Larger font size for visibility */
+  font-weight: bold;
+  color: #333;
+  position: absolute;
+  top: 20px;
+  left: 20px; /* Prominent positioning */
+  transition: color 0.3s, transform 0.3s ease-in-out;
+}
+
+.timer.warning {
+  color: var(--warning-color);
+  animation: pulse 1s infinite;
+}
+
+.timer.danger {
+  color: var(--danger-color);
+  animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
   }
 }
 
-// Start Game
-function startGame() {
-  setButtonVisibility({ start: false, submit: true });
-  goodLuckMessage.classList.add("hidden");
-  timerElement.classList.remove("hidden");
-  passageContainer.classList.remove("hidden");
-
-  timeLeft = 180;
-  currentPassageIndex = 0;
-  startTimer();
-  loadPassage(currentPassageIndex);
+.passage-container {
+  margin: 20px auto;
+  max-width: 800px; /* Wider container for readability */
+  padding: 20px; /* Added padding for a polished look */
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for card effect */
+  font-size: 1.2rem;
+  line-height: 1.6; /* Balanced spacing for text */
+  text-align: left;
+  white-space: normal;
+  word-break: break-word;
+  letter-spacing: 0.05em;
 }
 
-// Timer Logic
-function startTimer() {
-  timerElement.textContent = formatTime(timeLeft);
-  timer = setInterval(() => {
-    timeLeft--;
-    timerElement.textContent = formatTime(timeLeft);
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      submitAnswers();
-    }
-  }, 1000);
+.passage-container span {
+  display: inline-flex; /* Align text and blanks inline */
+  align-items: center;
+  white-space: nowrap;
 }
 
-function formatTime(seconds) {
-  const minutes = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+.passage-container span > input:first-child {
+  margin-left: 0.2em; /* Small space between a letter and the first blank */
 }
 
-// Load a Passage
-function loadPassage(index) {
-  const passage = passages[index];
-  passageContainer.innerHTML = `
-    <h2>${passage.title}</h2>
-    <p>${renderTextWithBlanks(passage.text_with_blanks)}</p>
-  `;
-  feedbackContainer.classList.add("hidden");
-  setButtonVisibility({ submit: true, next: false });
-
-  const inputs = passageContainer.querySelectorAll("input");
-  inputs.forEach((input, idx) => {
-    input.addEventListener("input", () => {
-      if (input.value.length === input.maxLength && idx < inputs.length - 1) {
-        inputs[idx + 1].focus();
-      }
-    });
-  });
+.passage-container span > input:not(:first-child) {
+  margin-left: 0; /* Remove space between consecutive blanks */
 }
 
-function renderTextWithBlanks(text) {
-  return text.replace(/_/g, '<input type="text" maxlength="1">');
+.passage-container input {
+  width: 2ch; /* Slightly larger blanks */
+  height: 2rem;
+  text-align: center;
+  font-size: 1rem;
+  margin: 0; /* Remove default margin */
+  border: 1px solid #ccc;
+  border-radius: 5px; /* Rounded corners for a polished look */
+  transition: all 0.3s ease; /* Smooth focus animation */
 }
 
-// Submit Answers
-function submitAnswers() {
-  clearInterval(timer);
-
-  const passage = passages[currentPassageIndex];
-  const inputs = passageContainer.querySelectorAll("input");
-  let correctCount = 0;
-
-  inputs.forEach((input, idx) => {
-    const userAnswer = input.value.toLowerCase();
-    const correctAnswers = passage.answer_mapping[`i_${idx + 1}`] || [];
-    if (correctAnswers.includes(userAnswer)) {
-      input.classList.add("correct");
-      correctCount++;
-    } else {
-      input.classList.add("incorrect");
-    }
-  });
-
-  const total = inputs.length;
-  const percentage = ((correctCount / total) * 100).toFixed(2);
-
-  feedbackContainer.innerHTML = `
-    <p>You got ${correctCount} out of ${total} correct (${percentage}%).</p>
-  `;
-  feedbackContainer.classList.remove("hidden");
-  setButtonVisibility({ submit: false, next: true });
+.passage-container input:focus {
+  outline: none;
+  border-color: var(--primary-color); /* Blue border on focus */
 }
 
-// Load Next Passage
-function loadNextPassage() {
-  currentPassageIndex++;
-  if (currentPassageIndex < passages.length) {
-    timeLeft = 180;
-    startTimer();
-    loadPassage(currentPassageIndex);
-  } else {
-    endGame();
-  }
+.passage-container input.correct {
+  background-color: #d4edda; /* Soft green for correct answers */
+  border-color: var(--success-color);
 }
 
-// End Game
-function endGame() {
-  passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>`;
-  timerElement.classList.add("hidden");
-  setButtonVisibility({ start: true, submit: false, next: false });
+.passage-container input.incorrect {
+  background-color: #f8d7da;
+  border-color: var(--danger-color);
 }
 
-// Set Button Visibility
-function setButtonVisibility({ start = false, submit = false, next = false }) {
-  startButton.classList.toggle("hidden", !start);
-  submitButton.classList.toggle("hidden", !submit);
-  nextButton.classList.toggle("hidden", !next);
+.button-section {
+  margin-top: 20px;
 }
 
-// Initialize
-window.onload = async () => {
-  await fetchPassages();
-  startButton.addEventListener("click", startGame);
-  submitButton.addEventListener("click", submitAnswers);
-  nextButton.addEventListener("click", loadNextPassage);
-};
+.game-button {
+  padding: 12px 24px; /* Better padding for usability */
+  font-size: 1rem;
+  border-radius: 8px; /* Rounded corners */
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth hover effect */
+}
+
+.game-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.05); /* Slightly enlarge */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+.end-game-summary {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.end-game-summary h2 {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.end-game-summary ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.end-game-summary ul li {
+  font-size: 1.1rem;
+  margin: 5px 0;
+  line-height: 1.5;
+}
+
+table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1.1rem;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+.hidden {
+  display: none;
+}
+
+footer {
+  margin-top: auto;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
