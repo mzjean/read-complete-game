@@ -10,19 +10,8 @@ const timerElement = document.getElementById("timer");
 const passageContainer = document.getElementById("passage-container");
 const feedbackContainer = document.getElementById("feedback-container");
 const goodLuckMessage = document.getElementById("good-luck-message");
-
-// Buttons
-const submitButton = document.createElement("button");
-submitButton.id = "submit-btn";
-submitButton.className = "game-button submit-button";
-submitButton.textContent = "Submit";
-submitButton.onclick = submitAnswers;
-
-const nextPassageButton = document.createElement("button");
-nextPassageButton.id = "next-passage-btn";
-nextPassageButton.className = "game-button next-button";
-nextPassageButton.textContent = "Next Passage";
-nextPassageButton.onclick = loadNextPassage;
+const submitButton = document.getElementById("submit-btn");
+const nextButton = document.getElementById("next-btn");
 
 // Fetch Passages
 async function fetchPassages() {
@@ -62,6 +51,9 @@ function startGame() {
   timeLeft = 180;
   startTimer();
   renderPassage();
+
+  // Show the submit button
+  submitButton.classList.remove("hidden");
 }
 
 // Timer Logic
@@ -102,14 +94,7 @@ function renderPassage() {
     <p>${renderTextWithBlanks(passage.text_with_blanks)}</p>
   `;
 
-  // Show the submit button
-  passageContainer.appendChild(submitButton);
-  submitButton.classList.remove("hidden");
-
-  // Hide the next passage button
-  nextPassageButton.classList.add("hidden");
-
-  // Add event listeners to auto-advance the cursor
+  // Add event listeners for inputs
   const inputs = document.querySelectorAll("#passage-container input");
   inputs.forEach((input, index) => {
     input.addEventListener("input", () => {
@@ -118,6 +103,10 @@ function renderPassage() {
       }
     });
   });
+
+  // Ensure buttons are toggled correctly
+  submitButton.classList.remove("hidden");
+  nextButton.classList.add("hidden");
 }
 
 function renderTextWithBlanks(text) {
@@ -143,19 +132,17 @@ function submitAnswers() {
     }
   });
 
-  // Calculate percentage correct
   const totalFields = inputs.length;
   const percentageCorrect = ((correctCount / totalFields) * 100).toFixed(2);
 
   feedbackContainer.innerHTML = `
     <p>You got ${correctCount} out of ${totalFields} correct (${percentageCorrect}%).</p>
   `;
-  feedbackContainer.appendChild(nextPassageButton);
   feedbackContainer.classList.remove("hidden");
 
-  // Hide the submit button
+  // Toggle buttons
   submitButton.classList.add("hidden");
-  nextPassageButton.classList.remove("hidden");
+  nextButton.classList.remove("hidden");
 }
 
 // Load Next Passage
@@ -173,8 +160,9 @@ function loadNextPassage() {
 
 // End Game
 function endGame() {
-  passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>
-    <button class="game-button start-button" onclick="restartGame()">Restart</button>`;
+  passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>`;
+  feedbackContainer.classList.add("hidden");
+  timerElement.classList.add("hidden");
 }
 
 // Restart Game
@@ -191,4 +179,6 @@ function displayError(message) {
 window.onload = async () => {
   await fetchPassages();
   startButton.addEventListener("click", startGame);
+  submitButton.addEventListener("click", submitAnswers);
+  nextButton.addEventListener("click", loadNextPassage);
 };
