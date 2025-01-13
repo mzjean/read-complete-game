@@ -37,13 +37,18 @@ function validatePassages(data) {
   });
 }
 
+// Set Button Visibility
+function setButtonVisibility({ showStart = false, showSubmit = false, showNext = false }) {
+  startButton.classList.toggle("hidden", !showStart);
+  submitButton.classList.toggle("hidden", !showSubmit);
+  nextButton.classList.toggle("hidden", !showNext);
+}
+
 // Start Game
 function startGame() {
-  // Hide the start button and good luck message
-  startButton.classList.add("hidden");
+  console.log("Game started."); // Debugging
+  setButtonVisibility({ showSubmit: true });
   goodLuckMessage.classList.add("hidden");
-
-  // Show timer and passage container
   timerElement.classList.remove("hidden");
   passageContainer.classList.remove("hidden");
 
@@ -51,9 +56,6 @@ function startGame() {
   timeLeft = 180;
   startTimer();
   renderPassage();
-
-  // Show the submit button
-  submitButton.classList.remove("hidden");
 }
 
 // Timer Logic
@@ -99,14 +101,10 @@ function renderPassage() {
   inputs.forEach((input, index) => {
     input.addEventListener("input", () => {
       if (input.value.length === input.maxLength && index < inputs.length - 1) {
-        inputs[index + 1].focus(); // Move to the next field
+        inputs[index + 1].focus();
       }
     });
   });
-
-  // Ensure buttons are toggled correctly
-  submitButton.classList.remove("hidden");
-  nextButton.classList.add("hidden");
 }
 
 function renderTextWithBlanks(text) {
@@ -140,9 +138,7 @@ function submitAnswers() {
   `;
   feedbackContainer.classList.remove("hidden");
 
-  // Toggle buttons
-  submitButton.classList.add("hidden");
-  nextButton.classList.remove("hidden");
+  setButtonVisibility({ showNext: true });
 }
 
 // Load Next Passage
@@ -153,6 +149,7 @@ function loadNextPassage() {
     timeLeft = 180;
     startTimer();
     renderPassage();
+    setButtonVisibility({ showSubmit: true });
   } else {
     endGame();
   }
@@ -163,6 +160,7 @@ function endGame() {
   passageContainer.innerHTML = `<h2>Congratulations! You completed all passages.</h2>`;
   feedbackContainer.classList.add("hidden");
   timerElement.classList.add("hidden");
+  setButtonVisibility({ showStart: true });
 }
 
 // Restart Game
