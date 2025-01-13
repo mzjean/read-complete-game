@@ -28,9 +28,7 @@ function setButtonVisibility({ start = false, submit = false, next = false, star
   nextButton?.classList.toggle("hidden", !next);
   startOverButton?.classList.toggle("hidden", !startOver);
 
-  if (debugMode) {
-    console.log("Button visibility updated:", { start, submit, next, startOver });
-  }
+  console.log("Button visibility updated:", { start, submit, next, startOver }); // Debug log
 }
 
 function formatTime(seconds) {
@@ -191,10 +189,14 @@ function loadNextPassage() {
 }
 
 function endGame() {
-  passageContainer.innerHTML = '<h2>Congratulations!</h2><br><h3>You completed all passages.</h3>';
+  passageContainer.innerHTML = `
+  <h2>Congratulations!</h2>
+  <h3>You completed all passages.</h3>
+`;
   timerElement.classList.add("hidden"); // Hide the timer
   feedbackContainer.classList.add("hidden"); // Hide the score
   setButtonVisibility({ startOver: true }); // Show "Start Over" button
+  console.log("End game reached, showing Start Over button."); // Debug log
 }
 
 // Initialization
@@ -214,4 +216,5 @@ startOverButton?.addEventListener("click", () => {
   feedbackContainer.classList.add("hidden"); // Hide feedback
   passageContainer.innerHTML = ""; // Clear game content
   timerElement.classList.add("hidden"); // Hide timer
+  console.log("Start Over clicked. Resetting game."); // Debug log
 });
