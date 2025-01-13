@@ -1,3 +1,10 @@
+// Utility Function for Sanitizing HTML
+function sanitizeHTML(str) {
+  const tempDiv = document.createElement("div");
+  tempDiv.textContent = str;
+  return tempDiv.innerHTML;
+}
+
 // Global Variables
 let passages = []; // Main data source
 let currentPassageIndex = 0;
@@ -15,12 +22,12 @@ const feedbackContainer = document.getElementById("feedback-container");
 
 // Utility Functions
 function setButtonVisibility({ start = false, submit = false, next = false }) {
-  startButton.classList.toggle("hidden", !start);
-  submitButton.classList.toggle("hidden", !submit);
-  nextButton.classList.toggle("hidden", !next);
+  startButton?.classList.toggle("hidden", !start);
+  submitButton?.classList.toggle("hidden", !submit);
+  nextButton?.classList.toggle("hidden", !next);
 
   if (debugMode) {
-    console.log("Button visibility updated:", { start: start, submit, next });
+    console.log("Button visibility updated:", { start, submit, next });
   }
 }
 
@@ -87,8 +94,8 @@ function loadPassage(index) {
   }
 
   passageContainer.innerHTML = `
-    <h2>${passage.title}</h2>
-    <p>${renderTextWithBlanks(passage.text_with_blanks)}</p>
+    <h2>${sanitizeHTML(passage.title)}</h2>
+    <p>${renderTextWithBlanks(sanitizeHTML(passage.text_with_blanks))}</p>
   `;
   feedbackContainer.classList.add("hidden");
   setButtonVisibility({ submit: true });
@@ -103,6 +110,8 @@ function loadPassage(index) {
         }
       } else {
         input.value = ""; // Clear invalid input
+        input.classList.add("input-error");
+        setTimeout(() => input.classList.remove("input-error"), 2000);
       }
     });
 
@@ -187,11 +196,13 @@ function endGame() {
 
 // Initialization
 window.onload = async () => {
-  await fetchPassages();
-  setButtonVisibility({ start: true });
+  if (typeof document !== "undefined") {
+    await fetchPassages();
+    setButtonVisibility({ start: true });
+  }
 };
 
 // Event Listeners
-startButton.addEventListener("click", startGame);
-submitButton.addEventListener("click", submitAnswers);
-nextButton.addEventListener("click", loadNextPassage);
+startButton?.addEventListener("click", startGame);
+submitButton?.addEventListener("click", submitAnswers);
+nextButton?.addEventListener("click", loadNextPassage);
