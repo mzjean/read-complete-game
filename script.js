@@ -20,7 +20,7 @@ function setButtonVisibility({ start = false, submit = false, next = false }) {
   nextButton.classList.toggle("hidden", !next);
 
   if (debugMode) {
-    console.log("Button visibility updated:", { start, submit, next });
+    console.log("Button visibility updated:", { start: start, submit, next });
   }
 }
 
