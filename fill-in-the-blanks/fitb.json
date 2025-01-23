@@ -1,0 +1,714 @@
+[
+    {
+        "passage_id": 1,
+        "original_text": "Scientists strive to understand how the world works to help improve everyone’s lives.",
+        "text_with_blanks": "Scientists strive to unde______ how the world works to help improve everyone’s lives.",
+        "answer_mapping": {
+            "1": [
+                "r",
+                "s",
+                "t",
+                "a",
+                "n",
+                "d"
+            ]
+        }
+    },
+    {
+        "passage_id": 2,
+        "original_text": "After several attempts to reach him, I finally got a call from Jamar.",
+        "text_with_blanks": "After several attempts to reach him, I fin____ got a call from Jamar.",
+        "answer_mapping": {
+            "1": [
+                "a",
+                "l",
+                "l",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 3,
+        "original_text": "Did you find any evidence to support your theory?",
+        "text_with_blanks": "Did you find any evi_____ to support your theory?",
+        "answer_mapping": {
+            "1": [
+                "d",
+                "e",
+                "n",
+                "c",
+                "e"
+            ]
+        }
+    },
+    {
+        "passage_id": 4,
+        "original_text": "The rocket’s trajectory indicated it would land far off the intended mark.",
+        "text_with_blanks": "The rocket’s traj______ indicated it would land far off the intended mark.",
+        "answer_mapping": {
+            "1": [
+                "e",
+                "c",
+                "t",
+                "o",
+                "r",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 5,
+        "original_text": "I managed to bargain with the shop owner to bring the price of the used laptop down to half.",
+        "text_with_blanks": "I managed to bar____ with the shop owner to bring the price of the used laptop down to half.",
+        "answer_mapping": {
+            "1": [
+                "g",
+                "a",
+                "i",
+                "n"
+            ]
+        }
+    },
+    {
+        "passage_id": 6,
+        "original_text": "In examining the financial records, irregularities were found, suggesting fraudulent activities.",
+        "text_with_blanks": "In examining the financial records, irregularities were found, suggesting frau______ activities.",
+        "answer_mapping": {
+            "1": [
+                "d",
+                "u",
+                "l",
+                "e",
+                "n",
+                "t"
+            ]
+        }
+    },
+    {
+        "passage_id": 7,
+        "original_text": "Over the years as I’ve developed other hobbies, I’ve noticed my interest in video games dwindle significantly.",
+        "text_with_blanks": "Over the years as I’ve developed other hobbies, I’ve noticed my interest in video games dwi____ significantly.",
+        "answer_mapping": {
+            "1": [
+                "n",
+                "d",
+                "l",
+                "e"
+            ]
+        }
+    },
+    {
+        "passage_id": 8,
+        "original_text": "The arduous climb to the top of the mountain left her feeling exhausted and exhilarated at the end.",
+        "text_with_blanks": "The ard____ climb to the top of the mountain left her feeling exhausted and exhilarated at the end.",
+        "answer_mapping": {
+            "1": [
+                "u",
+                "o",
+                "u",
+                "s"
+            ]
+        }
+    },
+    {
+        "passage_id": 9,
+        "original_text": "The chameleon, a master of adaptation, can camouflage itself to blend perfectly with its surroundings.",
+        "text_with_blanks": "The chameleon, a master of adaptation, can camo______ itself to blend perfectly with its surroundings.",
+        "answer_mapping": {
+            "1": [
+                "u",
+                "f",
+                "l",
+                "a",
+                "g",
+                "e"
+            ]
+        }
+    },
+    {
+        "passage_id": 10,
+        "original_text": "The teacher asked us to write a short paragraph about our favorite memory.",
+        "text_with_blanks": "The teacher asked us to write a short para_____ about our favorite memory.",
+        "answer_mapping": {
+            "1": [
+                "g",
+                "r",
+                "a",
+                "p",
+                "h"
+            ]
+        }
+    },
+    {
+        "passage_id": 11,
+        "original_text": "She was so nervous that her hands began to tremble while she spoke.",
+        "text_with_blanks": "She was so nervous that her hands began to tre____ while she spoke.",
+        "answer_mapping": {
+            "1": [
+                "m",
+                "b",
+                "l",
+                "e"
+            ]
+        }
+    },
+    {
+        "passage_id": 12,
+        "original_text": "To succeed in school, you must develop good study habits.",
+        "text_with_blanks": "To succeed in school, you must dev____ good study habits.",
+        "answer_mapping": {
+            "1": [
+                "e",
+                "l",
+                "o",
+                "p"
+            ]
+        }
+    },
+    {
+        "passage_id": 13,
+        "original_text": "His answer was so vague that it only added to our confusion.",
+        "text_with_blanks": "His answer was so vague that it only added to our confu____.",
+        "answer_mapping": {
+            "1": [
+                "s",
+                "i",
+                "o",
+                "n"
+            ]
+        }
+    },
+    {
+        "passage_id": 14,
+        "original_text": "The athlete’s determination and dedication were truly inspiring.",
+        "text_with_blanks": "The athlete’s determination and dedication were truly inspi____.",
+        "answer_mapping": {
+            "1": [
+                "r",
+                "i",
+                "n",
+                "g"
+            ]
+        }
+    },
+    {
+        "passage_id": 15,
+        "original_text": "I was surprised to see how quickly the room filled with people.",
+        "text_with_blanks": "I was sur______ to see how quickly the room filled with people.",
+        "answer_mapping": {
+            "1": [
+                "p",
+                "r",
+                "i",
+                "s",
+                "e",
+                "d"
+            ]
+        }
+    },
+    {
+        "passage_id": 16,
+        "original_text": "The movie was so captivating that I forgot to check the time.",
+        "text_with_blanks": "The movie was so capti______ that I forgot to check the time.",
+        "answer_mapping": {
+            "1": [
+                "v",
+                "a",
+                "t",
+                "i",
+                "n",
+                "g"
+            ]
+        }
+    },
+    {
+        "passage_id": 17,
+        "original_text": "The artist’s vivid imagination was evident in every painting.",
+        "text_with_blanks": "The artist’s vivid imag_______ was evident in every painting.",
+        "answer_mapping": {
+            "1": [
+                "i",
+                "n",
+                "a",
+                "t",
+                "i",
+                "o",
+                "n"
+            ]
+        }
+    },
+    {
+        "passage_id": 18,
+        "original_text": "The old building was decorated with colorful lights for the festival.",
+        "text_with_blanks": "The old building was dec______ with colorful lights for the festival.",
+        "answer_mapping": {
+            "1": [
+                "o",
+                "r",
+                "a",
+                "t",
+                "e",
+                "d"
+            ]
+        }
+    },
+    {
+        "passage_id": 19,
+        "original_text": "I was cautiously optimistic about our chances of winning.",
+        "text_with_blanks": "I was cau_______ optimistic about our chances of winning.",
+        "answer_mapping": {
+            "1": [
+                "t",
+                "i",
+                "o",
+                "u",
+                "s",
+                "l",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 20,
+        "original_text": "The detectives were determined to uncover the truth behind the mystery.",
+        "text_with_blanks": "The detectives were determined to unc____ the truth behind the mystery.",
+        "answer_mapping": {
+            "1": [
+                "o",
+                "v",
+                "e",
+                "r"
+            ]
+        }
+    },
+    {
+        "passage_id": 21,
+        "original_text": "His arrogant attitude alienated many of his friends over time.",
+        "text_with_blanks": "His arrogant attitude alie_____ many of his friends over time.",
+        "answer_mapping": {
+            "1": [
+                "n",
+                "a",
+                "t",
+                "e",
+                "d"
+            ]
+        }
+    },
+    {
+        "passage_id": 22,
+        "original_text": "The team’s cohesion improved after they spent a weekend together.",
+        "text_with_blanks": "The team’s coh_____ improved after they spent a weekend together.",
+        "answer_mapping": {
+            "1": [
+                "e",
+                "s",
+                "i",
+                "o",
+                "n"
+            ]
+        }
+    },
+    {
+        "passage_id": 23,
+        "original_text": "The invention of the smartphone was a groundbreaking achievement.",
+        "text_with_blanks": "The invention of the smartphone was a grou__________ achievement.",
+        "answer_mapping": {
+            "1": [
+                "n",
+                "d",
+                "b",
+                "r",
+                "e",
+                "a",
+                "k",
+                "i",
+                "n",
+                "g"
+            ]
+        }
+    },
+    {
+        "passage_id": 24,
+        "original_text": "Her expressive eyes conveyed more than words could ever say.",
+        "text_with_blanks": "Her expressive eyes conveyed more than words co___ ever say.",
+        "answer_mapping": {
+            "1": [
+                "u",
+                "l",
+                "d"
+            ]
+        }
+    },
+    {
+        "passage_id": 25,
+        "original_text": "Despite his difficulties, he remained resilient and hopeful.",
+        "text_with_blanks": "Despite his difficulties, he remained resil____ and hopeful.",
+        "answer_mapping": {
+            "1": [
+                "i",
+                "e",
+                "n",
+                "t"
+            ]
+        }
+    },
+    {
+        "passage_id": 26,
+        "original_text": "We all have an innate curiosity to explore the unknown.",
+        "text_with_blanks": "We all have an innate curi_____ to explore the unknown.",
+        "answer_mapping": {
+            "1": [
+                "o",
+                "s",
+                "i",
+                "t",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 27,
+        "original_text": "The scenic route offered stunning views of the mountains and valleys.",
+        "text_with_blanks": "The scenic route off____ stunning views of the mountains and valleys.",
+        "answer_mapping": {
+            "1": [
+                "e",
+                "r",
+                "e",
+                "d"
+            ]
+        }
+    },
+    {
+        "passage_id": 28,
+        "original_text": "The book was an allegory about the struggle for justice and freedom.",
+        "text_with_blanks": "The book was an alle____ about the struggle for justice and freedom.",
+        "answer_mapping": {
+            "1": [
+                "g",
+                "o",
+                "r",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 29,
+        "original_text": "The sound of laughter resonated throughout the room.",
+        "text_with_blanks": "The sound of laughter res______ throughout the room.",
+        "answer_mapping": {
+            "1": [
+                "o",
+                "n",
+                "a",
+                "t",
+                "e",
+                "d"
+            ]
+        }
+    },
+    {
+        "passage_id": 30,
+        "original_text": "She took every opportunity to improve her skills and grow as a person.",
+        "text_with_blanks": "She took every opp________ to improve her skills and grow as a person.",
+        "answer_mapping": {
+            "1": [
+                "o",
+                "r",
+                "t",
+                "u",
+                "n",
+                "i",
+                "t",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 31,
+        "original_text": "The company aims to sustain growth by focusing on innovation.",
+        "text_with_blanks": "The company aims to sus____ growth by focusing on innovation.",
+        "answer_mapping": {
+            "1": [
+                "t",
+                "a",
+                "i",
+                "n"
+            ]
+        }
+    },
+    {
+        "passage_id": 32,
+        "original_text": "I was skeptical about the plan at first, but it turned out to be brilliant.",
+        "text_with_blanks": "I was skeptical about the plan at first, but it turned out to be bri______.",
+        "answer_mapping": {
+            "1": [
+                "l",
+                "l",
+                "i",
+                "a",
+                "n",
+                "t"
+            ]
+        }
+    },
+    {
+        "passage_id": 33,
+        "original_text": "The majestic waterfall was a testament to the beauty of nature.",
+        "text_with_blanks": "The majestic waterfall was a testa____ to the beauty of nature.",
+        "answer_mapping": {
+            "1": [
+                "m",
+                "e",
+                "n",
+                "t"
+            ]
+        }
+    },
+    {
+        "passage_id": 34,
+        "original_text": "They fought for their freedom with unparalleled courage and unity.",
+        "text_with_blanks": "They fought for their fre____ with unparalleled courage and unity.",
+        "answer_mapping": {
+            "1": [
+                "e",
+                "d",
+                "o",
+                "m"
+            ]
+        }
+    },
+    {
+        "passage_id": 35,
+        "original_text": "Her speech was so eloquent that it left the audience in awe.",
+        "text_with_blanks": "Her speech was so eloq____ that it left the audience in awe.",
+        "answer_mapping": {
+            "1": [
+                "u",
+                "e",
+                "n",
+                "t"
+            ]
+        }
+    },
+    {
+        "passage_id": 36,
+        "original_text": "The decision was unprecedented and marked a turning point in history.",
+        "text_with_blanks": "The decision was unprec_______ and marked a turning point in history.",
+        "answer_mapping": {
+            "1": [
+                "e",
+                "d",
+                "e",
+                "n",
+                "t",
+                "e",
+                "d"
+            ]
+        }
+    },
+    {
+        "passage_id": 37,
+        "original_text": "The young writer aspired to carve a niche for herself in literature.",
+        "text_with_blanks": "The young writer aspired to carve a ni___ for herself in literature.",
+        "answer_mapping": {
+            "1": [
+                "c",
+                "h",
+                "e"
+            ]
+        }
+    },
+    {
+        "passage_id": 38,
+        "original_text": "He was commended for his selflessness and bravery during the crisis.",
+        "text_with_blanks": "He was com______ for his selflessness and bravery during the crisis.",
+        "answer_mapping": {
+            "1": [
+                "m",
+                "e",
+                "n",
+                "d",
+                "e",
+                "d"
+            ]
+        }
+    },
+    {
+        "passage_id": 39,
+        "original_text": "The architecture of the building was simply breathtaking.",
+        "text_with_blanks": "The architecture of the building was sim___ breathtaking.",
+        "answer_mapping": {
+            "1": [
+                "p",
+                "l",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 40,
+        "original_text": "The community came together to support those affected by the disaster.",
+        "text_with_blanks": "The community came tog_____ to support those affected by the disaster.",
+        "answer_mapping": {
+            "1": [
+                "e",
+                "t",
+                "h",
+                "e",
+                "r"
+            ]
+        }
+    },
+    {
+        "passage_id": 41,
+        "original_text": "His words were so poignant that they left a lasting impression.",
+        "text_with_blanks": "His words were so poignant impr______.",
+        "answer_mapping": {
+            "1": [
+                "e",
+                "s",
+                "s",
+                "i",
+                "o",
+                "n",
+                "l",
+                "a",
+                "g"
+            ]
+        }
+    },
+    {
+        "passage_id": 42,
+        "original_text": "The politician’s transparency won her the trust of the voters.",
+        "text_with_blanks": "The politician’s trans_______ won her the trust of the voters.",
+        "answer_mapping": {
+            "1": [
+                "p",
+                "a",
+                "r",
+                "e",
+                "n",
+                "c",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 43,
+        "original_text": "She was intrinsically motivated to pursue her dreams, despite obstacles.",
+        "text_with_blanks": "She was intrin_______ motivated to pursue her dreams, despite obstacles.",
+        "answer_mapping": {
+            "1": [
+                "s",
+                "i",
+                "c",
+                "a",
+                "l",
+                "l",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 44,
+        "original_text": "We had a robust discussion about the future of renewable energy.",
+        "text_with_blanks": "We had a robust dis_______ about the future of renewable energy.",
+        "answer_mapping": {
+            "1": [
+                "c",
+                "u",
+                "s",
+                "s",
+                "i",
+                "o",
+                "n"
+            ]
+        }
+    },
+    {
+        "passage_id": 45,
+        "original_text": "The committee faced a contentious issue that divided the members.",
+        "text_with_blanks": "The committee faced a conte______ issue that divided the members.",
+        "answer_mapping": {
+            "1": [
+                "n",
+                "t",
+                "i",
+                "o",
+                "u",
+                "s"
+            ]
+        }
+    },
+    {
+        "passage_id": 46,
+        "original_text": "The film’s underlying theme was the importance of family and resilience.",
+        "text_with_blanks": "The film’s under_____ theme was the importance of family and resilience.",
+        "answer_mapping": {
+            "1": [
+                "l",
+                "y",
+                "i",
+                "n",
+                "g"
+            ]
+        }
+    },
+    {
+        "passage_id": 47,
+        "original_text": "The novel provided a thought-provoking perspective on human nature.",
+        "text_with_blanks": "The novel provided a thought-prov_____ perspective on human nature.",
+        "answer_mapping": {
+            "1": [
+                "o",
+                "k",
+                "i",
+                "n",
+                "g"
+            ]
+        }
+    },
+    {
+        "passage_id": 48,
+        "original_text": "The scientist’s speech shed light on the impact of climate change.",
+        "text_with_blanks": "The scientist’s speech shed li___ on the impact of climate change.",
+        "answer_mapping": {
+            "1": [
+                "g",
+                "h",
+                "t"
+            ]
+        }
+    },
+    {
+        "passage_id": 49,
+        "original_text": "Her deep compassion and empathy were genuinely appreciated by everyone.",
+        "text_with_blanks": "Her deep compassion and empathy were genu_____ appreciated by everyone.",
+        "answer_mapping": {
+            "1": [
+                "i",
+                "n",
+                "e",
+                "l",
+                "y"
+            ]
+        }
+    },
+    {
+        "passage_id": 50,
+        "original_text": "The hotel has 87 unique and comfortable rooms of which ten are spacious suites including two signature top floor suites..",
+        "text_with_blanks": "The hotel has 87 unique and comfortable rooms of which ten are spacious suites including two sig______ top floor suites.",
+        "answer_mapping": {
+            "1": [
+                "n",
+                "a",
+                "t",
+                "u",
+                "r",
+                "e"
+            ]
+        }
+    }
+]
