@@ -1,37 +1,17 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Read and Complete Game</title>
+  <title>DET Practice App</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header Section -->
-  <header>
-    <h1>Practice: Read and Complete</h1>
-    <p class="instructions">Type the missing letters to complete the text below.</p>
-  </header>
-
-  <!-- Main Game Area -->
-  <main>
-    <div id="timer" class="timer hidden">Time Left: 3:00</div>
-    <div id="passage-container" class="passage-container hidden"></div>
-    <div id="feedback-container" class="feedback-container hidden"></div>
-    <div class="button-section">
-      <button id="start-game-btn" class="game-button start-button">Start Game</button>
-      <button id="submit-btn" class="game-button submit-button hidden">Submit</button>
-      <button id="next-btn" class="game-button next-button hidden">Next Passage</button>
-    </div>
-  </main>
-
-  <!-- Footer Section -->
-  <footer>
-    <p id="good-luck-message">Good luck, y'all!</p>
-  </footer>
-
-  <!-- JavaScript -->
-  <script src="script.js"></script>
+  <h1>Welcome to DET Practice</h1>
+  <p>Select a practice mode:</p>
+  <div class="button-section">
+    <button class="game-button" onclick="location.href='fill-in-the-blanks/index.html'">Fill in the Blanks</button>
+    <button class="game-button" onclick="location.href='read-and-complete/index.html'">Read and Complete</button>
+  </div>
 </body>
 </html>
