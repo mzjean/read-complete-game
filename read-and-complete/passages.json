@@ -1,0 +1,494 @@
+[
+  {
+    "passage_id": 1,
+    "title": "The Solar System Sun",
+    "original_text": "The Sun is the star at the center of the Solar System. It is seen in the sky and gives light to the Earth. When the Sun is in the sky, it is day. When the Sun is not in the sky, it is night.",
+    "text_with_blanks": "The Sun is the star at the center of the Solar System. It i_ seen i_ the s__ and gi___ light t_ the Earth. When t__ Sun i_ in t__ sky, it i_ day. When t__ Sun i_ not i_ the s__, i_ is ni___.",
+    "answer_mapping": {
+      "1": ["s"],
+      "2": ["n"],
+      "3": ["k", "y"],
+      "4": ["v", "e", "s"],
+      "5": ["o"],
+      "6": ["h", "e"],
+      "7": ["s"],
+      "8": ["h", "e"],
+      "9": ["s"],
+      "10": ["h", "e"],
+      "11": ["s"],
+      "12": ["n"],
+      "13": ["k", "y"],
+      "14": ["s"],
+      "15": ["g", "h", "t"]
+    }
+    //source: DET Guide 2024-10-28
+  },
+  {
+    "passage_id": 2,
+    "title": "Minneapolis and St. Paul",
+    "original_text": "Minneapolis is a city in Minnesota. It is next to St. Paul, Minnesota. St. Paul and Minneapolis are called the Twin Cities because they are right next to each other. Minneapolis is the biggest city in Minnesota with about 370,000 people. People who live here enjoy the lakes, parks, and river.",
+    "text_with_blanks": "Minneapolis is a city in Minnesota. It i_ next t_ St. Paul, Minnesota. St. Paul and Minneapolis are cal___ the Twin Cities bec____ they a__ right ne__ to ea__ other. Minneapolis i_ the big____ city i_ Minnesota wi__ about 370,000 people. People w__ live he__ enjoy t__ lakes, parks, and ri___.",
+    "answer_mapping": {
+      "1": ["s"],
+      "2": ["o"],
+      "3": ["l", "e", "d"],
+      "4": ["a", "u", "s", "e"],
+      "5": ["r", "e"],
+      "6": ["x", "t"],
+      "7": ["c", "h"],
+      "8": ["s"],
+      "9": ["g", "e", "s", "t"],
+      "10": ["n"],
+      "11": ["t", "h"],
+      "12": ["h", "o"],
+      "13": ["r", "e"],
+      "14": ["h", "e"],
+      "15": ["v", "e", "r"]
+    }
+    //source: DET Guide 2024-10-28
+  },
+  {
+    "passage_id": 3,
+    "title": "Birds and Their World",
+    "original_text": "Birds are found on every continent of the world. Birds of different types can live in freezing cold environments, and others can live in hot deserts. Birds live in forests, in grasslands, on cliff faces, in river banks, on stony sea shores, down mine shafts, and in the roofs of houses.",
+    "text_with_blanks": "Birds are found on every continent of the world. Birds o_ different ty___ can li__ in free____ cold enviro______, a__ others c__ live i_ hot des____. Birds live in forests, in grasslands, on cliff faces, in river banks, on stony sea shores, down mine shafts and in the roofs of houses.",
+    "answer_mapping": {
+      "1": ["f"],
+      "2": ["p", "e", "s"],
+      "3": ["v", "e"],
+      "4": ["z", "i", "n", "g"],
+      "5": ["n", "m", "e", "n", "t", "s"],
+      "6": ["n", "d"],
+      "7": ["a", "n"],
+      "8": ["n"],
+      "9": ["d", "e", "r", "t", "s"]
+    }
+    //source: DET Guide 2024-10-28
+  },
+  {
+    "passage_id": 4,
+    "title": "Humpback Whales",
+    "original_text": "Humpback whales can live up to 45 years. They migrate between the places they feed in the winter and the places they give birth in the summer. They usually live alone.",
+    "text_with_blanks": "Humpback whales can live up to 45 years. They mig____ between t__ places th__ feed i_ the win___ and t__ places th__ give bi___ in t__ summer. They usually live alone.",
+    "answer_mapping": {
+      "1": ["r", "a", "t", "e"],
+      "2": ["h", "e"],
+      "3": ["e", "y"],
+      "4": ["n"],
+      "5": ["t", "e", "r"],
+      "6": ["h", "e"],
+      "7": ["e", "y"],
+      "8": ["r", "t", "h"],
+      "9": ["h", "e"]
+    }
+    //source: DET Guide 2024-10-28
+  },
+  {
+    "passage_id": 5,
+    "title": "The Lost Generation",
+    "original_text": "The novel was called The Sun Also Rises. It is about young Americans in Europe after World War One. The war had destroyed their dreams and had given them nothing to replace those dreams. The writer Gertrude Stein later called these people members of “The Lost Generation.”",
+    "text_with_blanks": "The novel was called The Sun Also Rises. It i_ about yo___ Americans i_ Europe af___ World War One. The w__ had dest_____ their dre___ and h_ _ given th__ nothing t_ replace th___ dreams. The writer Gertrude Stein later called these people members of “The Lost Generation.”",
+    "answer_mapping": {
+      "1": ["s"],
+      "2": ["u", "n", "g"],
+      "3": ["n"],
+      "4": ["t", "e", "r"],
+      "5": ["a", "r"],
+      "6": ["r", "o", "y", "e", "d"],
+      "7": ["a", "m", "s"],
+      "8": ["a", "d"],
+      "9": ["e", "m"],
+      "10": ["o"],
+      "11": ["e", "m"]
+    }
+    //source: DET Guide 2024-10-28
+  },
+  {
+    "passage_id": 6,
+    "title": "Exercise and Mental Health",
+    "original_text": "Physical exercise is recommended for management of mild depression and has a moderate effect on symptoms. It is equivalent to the use of medications or psychological therapies for most people. In older people, it does appear to decrease depression.",
+    "text_with_blanks": "Physical exercise is recommended for management of mild depression and has a moderate effect on symptoms. It i_ equivalent t_ the u__ of medic_____ or psycho________ therapies f__ most peo___. In older people, it does appear to decrease depression.",
+    "answer_mapping": {
+      "1": ["s"],
+      "2": ["o"],
+      "3": ["s", "e"],
+      "4": ["m", "e", "d", "i", "c", "a", "t", "i", "o", "n", "s"],
+      "5": ["p", "s", "y", "c", "h", "o", "l", "o", "g", "i", "c", "a", "l"],
+      "6": ["o", "r"],
+      "7": ["p", "l", "e"]
+    }
+    //source: DET Guide 2024-10-28
+  },
+  {
+    "passage_id": 7,
+    "title": "Canberra’s Waste Vision",
+    "original_text": "In 1996 Canberra was the first city in the world to set a vision of no waste by 2010. The strategy aimed to achieve a waste-free society by 2010, through the combined efforts of industry, government, and community. By early 2010, it was apparent that the ACT Government initiative had failed.",
+    "text_with_blanks": "In 1996 Canberra was the first city in the world to set a vision of no waste by 2010. The stra____ aimed t_ achieve a waste-free soc____ by 2010, thr____ the comb____ efforts o_ industry, government, and comm____. By early 2010, it was apparent that the ACT Government initiative had failed.",
+    "answer_mapping": {
+      "1": ["t", "e", "g", "y"],
+      "2": ["o"],
+      "3": ["s", "o", "c", "i", "e", "t", "y"],
+      "4": ["o", "u", "g", "h"],
+      "5": ["i", "n", "e", "d"],
+      "6": ["f"],
+      "7": ["u", "n", "i", "t", "y"]
+    }
+    //source: DET Guide 2024-10-28
+  },
+  {
+    "passage_id": 8,
+    "title": "Electrical Engineering",
+    "original_text": "Electrical engineering has many subdisciplines, the most popular of which are listed below. Although there are electrical engineers who focus exclusively on one of these subdisciplines, many deal with a combination of them. Sometimes certain fields, such as electronic engineering and computer engineering, are considered separate disciplines in their own right.",
+    "text_with_blanks": "Electrical engineering has many subdisciplines, the most popular of which are listed below. Although th___ are elect_____ engineers w__ focus exclu_______ on o__ of th___ subdisciplines, many de__ with a combination o_ them. Sometimes certain fields, such as electronic engineering and computer engineering, are considered separate disciplines in their own right.",
+    "answer_mapping": {
+      "1": ["e", "r", "e"],
+      "2": ["r", "i", "c", "a", "l"],
+      "3": ["h", "o"],
+      "4": ["s", "i", "v", "e", "l", "y"],
+      "5": ["n", "e"],
+      "6": ["e", "s", "e"],
+      "7": ["a", "l"],
+      "8": ["f"]
+    }
+    //source: DET Guide 2024-10-28
+  },
+  {
+    "passage_id": 9,
+    "title": "The Opera Score",
+    "original_text": "The orchestral score of the opera was published in late 1899 by Casa Ricordi. In contrast to his other operas, Puccini appeared to be satisfied with his initial score, which remained relatively unchanged in the 1909 edition prepared by Osbourne McConachy. An unamended edition was published by Dover Press in 1991.",
+    "text_with_blanks": "The orchestral score of the opera was published in late 1899 by Casa Ricordi. In cont____ to h__ other ope___, Puccini appeared t_ be sati_____ with h__ initial sc___, wh___ remained relat_____ unchanged i_ the 1909 edition prep____ by Osbourne McConachy. An unamended edition was published by Dover Press in 1991.",
+    "answer_mapping": {
+      "1": ["r", "a", "s", "t"],
+      "2": ["i", "s"],
+      "3": ["r", "a", "s"],
+      "4": ["s", "f", "i", "e", "d"],
+      "5": ["i", "s"],
+      "6": ["o", "r", "e"],
+      "7": ["i", "c", "h"],
+      "8": ["i", "v", "e", "l", "y"],
+      "9": ["n"],
+      "10": ["a", "r", "e", "d"]
+    }
+    //source: DET Guide 2024-10-28
+  },
+  {
+    "passage_id": 10,
+    "title": "Antibiotics and Their Uses",
+    "original_text": "An antibiotic is a chemical compound that kills bacteria or slows their growth. They are used as medicine to treat and cure diseases caused by bacteria. The first antibiotic discovered was Penicillin, a natural antibiotic produced by a fungus. Production of antibiotics first began in 1939, and in the modern day, they are made by chemical synthesis. Antibiotics can not be used to treat viruses.",
+    "text_with_blanks": "An antibiotic is a chemical compound that kills bacteria or slows their growth. They a__ used as medi____ to treat and cu__ diseases caused by bact____. The fi___ antibiotic disco_____ was Penicillin, a nat____ antibiotic prod____ by a fungus. Production o_ antibiotics first be___ in 1939, a__ in the mod___ day, they are ma__ by chem____ synthesis. Antibiotics can not be used to treat viruses.",
+    "answer_mapping": {
+      "1": ["a", "r", "e"],
+      "2": ["m", "e", "d", "i", "c", "i", "n", "e"],
+      "3": ["r", "e"],
+      "4": ["e", "r", "i", "a"],
+      "5": ["r", "s", "t"],
+      "6": ["v", "e", "r", "e", "d"],
+      "7": ["u", "r", "a", "l"],
+      "8": ["u", "c", "e", "d"],
+      "9": ["f"],
+      "10": ["g", "a", "n"],
+      "11": ["n", "d"],
+      "12": ["e", "r", "n"],
+      "13": ["d", "e"],
+      "14": ["i", "c", "a", "l"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 11,
+    "title": "The Printing Press",
+    "original_text": "Johannes Gutenberg introduced the concept of movable type and the printing press to Europe. While this may not sound like a big deal at first, the printing press is often considered as the most important invention in modern times. Think about how important information is today. Without books and computers, you wouldn’t be able to learn to pass on information or to share scientific discoveries. Prior to Gutenberg introducing the printing press, making a book was a laborious process in Europe.",
+    "text_with_blanks": "Johannes Gutenberg introduced the concept of movable type and the printing press to Europe. While th__ may not so___ like a big deal at f___, the printing press is of___ considered as the mo___ important inve_____ in mod___ times. Think about how imp0______ information is to___. Without bo___ and comp______ you wouldn’t be able to le___ to pa___ on information or to sh___ scientific disco______. Prior to Gutenberg introducing the printing press, making a book was a laborious process in Europe.",
+    "answer_mapping": {
+      "1": ["i", "s"],
+      "2": ["u", "n", "d"],
+      "3": ["i", "r", "s", "t"],
+      "4": ["t", "e", "n"],
+      "5": ["s", "t"],
+      "6": ["n", "t", "i", "o", "n"],
+      "7": ["e", "r", "n"],
+      "8": ["o", "r", "t", "a", "n", "t"],
+      "9": ["d", "a", "y"],
+      "10": ["o", "k", "s"],
+      "11": ["u", "t", "e", "r", "s"],
+      "12": ["a", "r", "n"],
+      "13": ["s", "s"],
+      "14": ["a", "r", "e"],
+      "15": ["v", "e", "r", "i", "e", "s"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 12,
+    "title": "Birds of Prey",
+    "original_text": "Birds of prey have been treated very differently over the years. For example, during the Middle Ages, red kites were highly valued. As scavengers, they helped to keep the streets of London and other towns clean of waste. However, attitudes towards red kites and other birds of prey changed in the 16th century, when a series of laws encouraged people to kill them as vermin. It wasn’t until 1954 that new laws were passed to make it illegal to kill birds of prey.",
+    "text_with_blanks": "Birds of prey have been treated very differently over the years. For exa____ during the Middle Ages, red kites were hig___ valued. As scavengers, they hel___ to keep the str____ of London and ot___ towns cl___ of waste. However, atti______ towards red kites and ot___ birds of prey cha____ in the 16th cen____, when a se____ of laws encou______ people to ki___ them as vermin. It wasn’t until 1954 that new laws were passed to make it illegal to kill birds of prey.",
+    "answer_mapping": {
+      "1": ["m", "p", "l", "e"],
+      "2": ["h", "l", "y"],
+      "3": ["p", "e", "d"],
+      "4": ["e", "e", "t", "s"],
+      "5": ["h", "e", "r"],
+      "6": ["e", "a", "n"],
+      "7": ["t", "u", "d", "e", "s"],
+      "8": ["h", "e", "r"],
+      "9": ["n", "g", "e", "d"],
+      "10": ["t", "u", "r", "y"],
+      "11": ["r", "i", "e", "s"],
+      "12": ["r", "a", "g", "e", "d"],
+      "13": ["l", "l"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 13,
+    "title": "Owls as Symbols of Learning",
+    "original_text": "Did you know owls are a symbol of learning? Libraries and bookstores sometimes use pictures of owls to represent reading or wisdom. Maybe this is because owls can see in the dark, detecting things that others can’t see. They are silent, quick, and keen to themselves. They sometimes have a watchful, thoughtful look. Owls can’t really read, but they are smart.",
+    "text_with_blanks": "Did you know owls are a symbol of learning? Libraries and books______ sometimes use pict____ of owls to repr_____ reading or wis____. Maybe this is bec____ owls can see in the da___, dete_____ things that oth___ can’t see. They are sil____, quick and ke___ to thems____. They some______ have a watchful, thou_____ look. Owls can’t really read, but they are smart.",
+    "answer_mapping": {
+      "1": ["t", "o", "r", "e", "s"],
+      "2": ["u", "r", "e", "s"],
+      "3": ["e", "s", "e", "n", "t"],
+      "4": ["d", "o", "m"],
+      "5": ["a", "u", "s", "e"],
+      "6": ["r", "k"],
+      "7": ["c", "t", "i", "n", "g"],
+      "8": ["e", "r", "s"],
+      "9": ["e", "n", "t"],
+      "10": ["e", "n"],
+      "11": ["e", "l", "v", "e", "s"],
+      "12": ["t", "i", "m", "e", "s"],
+      "13": ["g", "h", "t", "f", "u", "l"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 14,
+    "title": "Toy Story",
+    "original_text": "Toy Story is a 1995 American animated movie. It was the first Pixar animated movie. Pixar made the movie while Disney packaged it and sold the reels of the movie to movie theaters. It was released on November 22, 1995. It was the first animated movie to be completely done with computers instead of hand-drawn animation. Toy Story has three sequels: Toy Story 2 released in 1999, Toy Story 3 released in 2010, and Toy Story 4 released in 2019.",
+    "text_with_blanks": "Toy Story is a 1995 American animated movie. It w__ the first Pixar anim_____ movie. Pixar ma___ the movie Whi___ Disney packaged it and so___ the reels of the mo___ to movie Thea____. It was rele_____ on November 22, 1995. It was the fi___ animated mo___ to be compl_____ done with comp______ instead of hand-drawn anima____. Toy Story has three seq____: Toy Story 2 released in 1999, Toy Story 3 released in 2010, and Toy Story 4 released in 2019.",
+    "answer_mapping": {
+      "1": ["a", "s"],
+      "2": ["a", "t", "e", "d"],
+      "3": ["d", "e"],
+      "4": ["l", "e"],
+      "5": ["l", "d"],
+      "6": ["v", "i", "e"],
+      "7": ["e", "r", "s"],
+      "8": ["a", "s", "e", "d"],
+      "9": ["r", "s", "t"],
+      "10": ["v", "i", "e"],
+      "11": ["e", "t", "e", "l", "y"],
+      "12": ["u", "t", "e", "r", "s"],
+      "13": ["t", "i", "o", "n"],
+      "14": ["u", "e", "l", "s"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 15,
+    "title": "Steve Jobs and Apple",
+    "original_text": "Steve Jobs was a Silicon Valley businessman most famous for his work with the company Apple. Together with Apple co-founder Steve Wozniak, Jobs helped make the idea of the personal computer popular in the late 1970s. In the early 1980s, Steve at Apple, Jobs was one of the first to see the potential of using a mouse to control things on a computer screen. Jobs is credited with revolutionizing personal computers.",
+    "text_with_blanks": "Steve Jobs was a Silicon Valley businessman most famous for his work with the company Apple. Together wi___ Apple co-founder Steve Wozniak, Jobs he____ make the id___ of the pers____ computer pop____ in the la___ 1970s. In the ea____ 1980s, St___ at Apple, Jobs was o___ of the fi___ to see the pote_____ of using a mouse to con____ things on a computer scr____. Jobs is credited with revolutionizing personal computers.",
+    "answer_mapping": {
+      "1": ["t", "h"],
+      "2": ["l", "p", "e", "d"],
+      "3": ["e", "a"],
+      "4": ["o", "n", "a", "l"],
+      "5": ["u", "l", "a", "r"],
+      "6": ["t", "e"],
+      "7": ["r", "l", "y"],
+      "8": ["e", "v", "e"],
+      "9": ["n", "e"],
+      "10": ["r", "s", "t"],
+      "11": ["n", "t", "i", "a", "l"],
+      "12": ["t", "r", "o", "l"],
+      "13": ["e", "e", "n"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 16,
+    "title": "London: A Historical City",
+    "original_text": "London is the capital and largest city of England. London is the biggest city in Western Europe and the world’s largest financial center. For a long time, London was a small city. All its people lived inside the walls that were built by the Romans. Thus, the area is still called the City of London. There were many villages around the city. Gradually, more people came to live there. Then, step by step, the villages joined together into one huge city.",
+    "text_with_blanks": "London is the capital and largest city of England. London i_ the big____ city in Western Europe, and the world’s lar_____ financial cen____. For a long ti___, London was a sm____ city. All its people lived ins___ the walls that were built by the Romans. Thus, ar___ is still cal____ the City of London. There were many vill_____ around the city. Grad______, more pe____ came to li___ there. Then, step by step, the villages joined together into one huge city.",
+    "answer_mapping": {
+      "1": ["s"],
+      "2": ["g", "e", "s", "t"],
+      "3": ["g", "e", "s", "t"],
+      "4": ["t", "e", "r"],
+      "5": ["m", "e"],
+      "6": ["a", "l", "l"],
+      "7": ["i", "d", "e"],
+      "8": ["e", "a"],
+      "9": ["l", "l", "e", "d"],
+      "10": ["a", "g", "e", "s"],
+      "11": ["u", "a", "l", "l", "y"],
+      "12": ["o", "p", "l", "e"],
+      "13": ["v", "e"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 17,
+    "title": "Diversity in London",
+    "original_text": "Most people in London are British. However, London also has many immigrants. These people came from many different countries. They speak many different languages and have different religions and cultures. There are also many people from different countries who stay in London for business. Many people visit London as tourists. They may see the famous sights of London, which include palaces, churches, and museums.",
+    "text_with_blanks": "Most people in London are British. However, London al___ has many immig____. These people came fr___ many different cou______. They speak many different la_______ and have different religions and cu______. There are also many people from dif______ countries who stay in London for bus______. Many people visit London as to______. They may see the famous sights of London, which include palaces, churches, and museums.",
+    "answer_mapping": {
+      "1": ["s", "o"],
+      "2": ["r", "a", "n", "t", "s"],
+      "3": ["o", "m"],
+      "4": ["n", "t", "r", "i", "e", "s"],
+      "5": ["n", "g", "u", "a", "g", "e", "s"],
+      "6": ["l", "t", "u", "r", "e", "s"],
+      "7": ["f", "e", "r", "e", "n", "t"],
+      "8": ["i", "n", "e", "s", "s"],
+      "9": ["u", "r", "i", "s", "t", "s"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 18,
+    "title": "TikTok: A Social Media Phenomenon",
+    "original_text": "TikTok is an online video-sharing social networking service. It lets people create short videos and share looping videos of 60 seconds. Users can post anything from life hacks to dances or even recipes. It is popular in Canada, the United States, and other parts of the world. It was first released under the name of Musical.ly but was later bought out and renamed TikTok. It is one of the fastest-growing social media apps today.",
+    "text_with_blanks": "TikTok is an online video-sharing social networking service. It le___ people cre___ short vid____ and sh___ looping videos of 60-sec____. Users can po___ anything fr___ life hacks to dan____ or even recipes. It is pop____ in Canada, The United States, and other pa___ of the world. It was fi___ released un___ the name of musical.ly but was la___ bought out and ren____ TikTok. It is one of the fastest-growing social media apps today.",
+    "answer_mapping": {
+      "1": ["t", "s"],
+      "2": ["a", "t", "e"],
+      "3": ["e", "o", "s"],
+      "4": ["a", "r", "e"],
+      "5": ["o", "n", "d", "s"],
+      "6": ["s", "t"],
+      "7": ["o", "m"],
+      "8": ["c", "e", "s"],
+      "9": ["u", "l", "a", "r"],
+      "10": ["r", "t", "s"],
+      "11": ["r", "s", "t"],
+      "12": ["d", "e", "r"],
+      "13": ["t", "e", "r"],
+      "14": ["a", "m", "e", "d"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 19,
+    "title": "Journalism and Its Role",
+    "original_text": "Journalism refers to the production and distribution of reports on recent events. The word journalism applies to the occupation, using methods of gathering information and using literary techniques. Various forms of journalistic mediums include print, television, radio, internet, and in the past: newsreels. Concepts of the appropriate role for journalism vary between countries. In some nations, the news media is controlled by government intervention and is not fully independent.",
+    "text_with_blanks": "Journalism refers to the production and distribution of reports on recent events. The wo___ journalism app____ to the occupation, using met____ of gathering inform______ and using literary techniques. Various fo___ of journalistic mediums inc____: print, television, ra___, internet, and in the pa__: newsreels. Concepts of the appropriate ro___ for journalism va___ between coun______. In some nat____, the news media is controlled by the government intervention and is not fully independent.",
+    "answer_mapping": {
+      "1": ["r", "d"],
+      "2": ["l", "i", "e", "s"],
+      "3": ["h", "o", "d", "s"],
+      "4": ["a", "t", "i", "o", "n"],
+      "5": ["r", "m", "s"],
+      "6": ["l", "u", "d", "e"],
+      "7": ["d", "i", "o"],
+      "8": ["s", "t"],
+      "9": ["l", "e"],
+      "10": ["r", "y"],
+      "11": ["t", "r", "i", "e", "s"],
+      "12": ["i", "o", "n", "s"]
+    }
+    //source: HOTSHOT24
+  },
+  {
+    "passage_id": 20,
+    "title": "The Olympic Games Closing Ceremony",
+    "original_text": "The closing ceremony of the Olympic Games takes place after all sporting events have concluded. Flag-bearers from each participating country enter the stadium. They are followed by the athletes who enter together without any national distinction. Three national flags are hoisted while the corresponding national anthems are played. The flag of Greece is raised to honor the birthplace of the Olympic Games, the flag of the current host country, and the flag of the country hosting the next Summer or Winter Olympic Games is also flown.",
+    "text_with_blanks": "The closing ceremony of the Olympic Games takes place after all sporting events have concluded. Flag-bearers fr___ each parti______ country enter the sta____. They are foll____ by the athletes w___ enter together wit____ any national distinction. Three nati____ flags are hoisted wh____ the corresponding national ant____ are pla____. The flag o_ Greece to honor the birth____ of the Olympic Games, t__ flag of the cur____ host country, and the flag of the country hos____ the next Summer or Winter Olympic Games is also flown.",
+    "answer_mapping": {
+      "1": ["o", "m"],
+      "2": ["c", "i", "p", "a", "t", "i", "n", "g"],
+      "3": ["d", "i", "u", "m"],
+      "4": ["o", "w", "e", "d"],
+      "5": ["h", "o"],
+      "6": ["h", "o", "u", "t"],
+      "7": ["o", "n", "a", "l"],
+      "8": ["i", "l", "e"],
+      "9": ["h", "e", "m", "s"],
+      "10": ["y", "e", "d"],
+      "11": ["f"],
+      "12": ["p", "l", "a", "c", "e"],
+      "13": ["h", "e"],
+      "14": ["r", "r", "e", "n", "t"],
+      "15": ["t", "i", "n", "g"]
+    }
+    //source: TEACHER LUKE
+  },
+  {
+    "passage_id": 21,
+    "title": "Astronomy and Its History",
+    "original_text": "Astronomy is one of the oldest sciences. Ancient people used the positions of the stars to navigate and to find when was the best time to plant crops. Astronomy is very similar to astrophysics. A related subject, cosmology, is concerned with studying the Universe as a whole and the way the Universe changed over time. Astronomy is not the same as astrology, the belief that the motion of the stars and the planets may affect human lives.",
+    "text_with_blanks": "Astronomy is one of the oldest sciences. Ancient people us___ the positions of the st___ to navigate, and to fi___ when was the be___ time to plant cr___. Astronomy i_ very sim____ to astrophysics. A rel____ subject, cosmology, is concerned wi___ studying the Universe as a wh___, and the way the univ____ changed ov___ time. Astronomy i_ not the same a_ astrology, the belief that the motion of the stars and the planets may affect human lives.",
+    "answer_mapping": {
+      "1": ["e", "d"],
+      "2": ["a", "r", "s"],
+      "3": ["n", "d"],
+      "4": ["s", "t"],
+      "5": ["o", "p", "s"],
+      "6": ["s"],
+      "7": ["i", "l", "a", "r"],
+      "8": ["a", "t", "e", "d"],
+      "9": ["t", "h"],
+      "10": ["o", "l", "e"],
+      "11": ["e", "r", "s", "e"],
+      "12": ["e", "r"],
+      "13": ["s"],
+      "14": ["s"]
+    }
+    //source: TEACHER LUKE
+  },
+  {
+    "passage_id": 22,
+    "title": "Iceland and Its People",
+    "original_text": "The people in Iceland are mostly of Scandinavian origin. The language they speak is Icelandic. The language has not changed much in 1,000 years, so Icelanders are still able to read the sagas about the Vikings with many problems. Most people in Iceland are Christian. Most of them are Lutheran. Icelandic people are considered to be the happiest people on Earth.",
+    "text_with_blanks": "The people in Iceland are mostly of Scandinavian origin. The lang____ they sp___ is Icelandic. The lang____ has n___ changed mu___ in 1,000 ye___, so Icelanders a__ still ab___ to re___ the sagas ab___ the Vikings wit____ many prob____. Most pe____ in Iceland a__ Christian. Most of th__ are Lutheran. Icelandic pe____ are consi______ to be the happ____ people o_ Earth.",
+    "answer_mapping": {
+      "1": ["u", "a", "g", "e"],
+      "2": ["e", "a", "k"],
+      "3": ["u", "a", "g", "e"],
+      "4": ["o", "t"],
+      "5": ["c", "h"],
+      "6": ["a", "r", "s"],
+      "7": ["r", "e"],
+      "8": ["l", "e"],
+      "9": ["a", "d"],
+      "10": ["o", "u", "t"],
+      "11": ["h", "o", "u", "t"],
+      "12": ["l", "e", "m", "s"],
+      "13": ["o", "p", "l", "e"],
+      "14": ["r", "e"],
+      "15": ["e", "m"],
+      "16": ["o", "p", "l", "e"],
+      "17": ["d", "e", "r", "e", "d"],
+      "18": ["i", "e", "s", "t"],
+      "19": ["n"]
+    }
+    //source: TEACHER LUKE
+  },
+  {
+    "passage_id": 23,
+    "title": "Elvis Presley: The King of Rock and Roll",
+    "original_text": "Elvis Presley was an American singer, musician, and actor. He is often regarded as the most influential and most famous musician of the 20th century and is widely regarded as a cultural icon. He was one of the first and most famous in rock and roll music. He also starred in many movies. He is one of the most well-known people from the 20th century around the world. He is so popular that some people know him as only 'Elvis' or as 'The King of Rock and Roll.'",
+    "text_with_blanks": "Elvis Presley was an American singer, musician, and actor. He i_ often rega____ as the most influ______ and most famous musi______ of the 20th century and is wi____ regarded as a cult____ icon. He was o___ of the first a__ most fa____ in rock and roll mu____. He also sta____ in many mo____. He is one of the most well-known pe____ from t__ 20th-century aro____ the wo____. He is so popular that some people know him as only 'Elvis', or as 'The King of Rock and Roll.'",
+    "answer_mapping": {
+      "1": ["s"],
+      "2": ["r", "d", "e", "d"],
+      "3": ["e", "n", "t", "i", "a", "l"],
+      "4": ["c", "i", "a", "n"],
+      "5": ["d", "e", "l", "y"],
+      "6": ["u", "r", "a", "l"],
+      "7": ["n", "e"],
+      "8": ["n", "d"],
+      "9": ["m", "o", "u", "s"],
+      "10": ["s", "i", "c"],
+      "11": ["r", "r", "e", "d"],
+      "12": ["v", "i", "e", "s"],
+      "13": ["o", "p", "l", "e"],
+      "14": ["h", "e"],
+      "15": ["u", "n", "d"],
+      "16": ["r", "l", "d"]
+    }
+    //source: TEACHER LUKE
+  }
+]
