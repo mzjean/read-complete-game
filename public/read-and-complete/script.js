@@ -9,7 +9,7 @@ function sanitizeHTML(str) {
 let passages = []; // Main data source
 let currentPassageIndex = 0;
 let timer;
-let timeLeft = 20; // 20 seconds
+let timeLeft = 180; // 3 minutes
 const debugMode = true; // Enable debug logging
 
 // DOM Elements
@@ -43,6 +43,7 @@ function startTimer() {
     timeLeft--;
     timerElement.textContent = formatTime(timeLeft);
 
+    if (timeLeft === 30) timerElement.classList.add("warning");
     if (timeLeft === 10) timerElement.classList.replace("warning", "danger");
 
     if (timeLeft <= 0) {
@@ -54,7 +55,7 @@ function startTimer() {
 
 function resetTimer() {
   clearInterval(timer);
-  timeLeft = 20;
+  timeLeft = 180;
   timerElement.textContent = formatTime(timeLeft);
   timerElement.classList.remove("warning", "danger");
 }
@@ -62,7 +63,7 @@ function resetTimer() {
 // Fetch Passages
 async function fetchPassages() {
   try {
-    const response = await fetch("fitb.json");
+    const response = await fetch("passages.json");
     if (!response.ok) throw new Error("Failed to fetch passages.");
     passages = await response.json();
     if (debugMode) console.log("Passages loaded:", passages);
@@ -178,10 +179,10 @@ function submitAnswers() {
   feedbackContainer.classList.remove("hidden");
   setButtonVisibility({ next: true });
 
-  // Save result to Firestore
+  // Save result to server
   if (typeof saveGameResult === "function") {
     saveGameResult({
-      gameType: "fitb",
+      gameType: "readComplete",
       passageTitle: passage.title || "Passage " + (currentPassageIndex + 1),
       passageIndex: currentPassageIndex,
       correctCount,

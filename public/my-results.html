@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DET Practice - My Results</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .results-container {
+      max-width: 900px;
+      width: 95%;
+      margin: 20px auto;
+      text-align: left;
+    }
+    .result-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    .result-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .result-card-header h3 { margin: 0; font-size: 1.1rem; color: var(--text-color); }
+    .result-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #fff;
+    }
+    .badge-green { background-color: var(--success-color); }
+    .badge-yellow { background-color: var(--warning-color); color: #333; }
+    .badge-red { background-color: var(--danger-color); }
+    .result-meta { font-size: 0.85rem; color: #888; margin-top: 4px; }
+    .result-type {
+      display: inline-block; padding: 2px 8px; border-radius: 4px;
+      font-size: 0.8rem; font-weight: bold; background: #e6f7ff;
+      color: var(--primary-color); margin-right: 8px;
+    }
+    .wrong-answers-toggle {
+      background: none; border: none; color: var(--primary-color);
+      cursor: pointer; font-size: 0.9rem; padding: 4px 0; margin-top: 8px;
+    }
+    .wrong-answers-toggle:hover { text-decoration: underline; }
+    .wrong-answers-list {
+      display: none; margin-top: 8px; padding: 10px;
+      background: #f9f9f9; border-radius: 6px; font-size: 0.9rem;
+    }
+    .wrong-answers-list.show { display: block; }
+    .wrong-item { padding: 4px 0; border-bottom: 1px solid #eee; }
+    .wrong-item:last-child { border-bottom: none; }
+    .wrong-item .user-ans { color: var(--danger-color); font-weight: bold; }
+    .wrong-item .correct-ans { color: var(--success-color); font-weight: bold; }
+    .empty-state { text-align: center; padding: 60px 20px; color: #888; }
+    .empty-state h2 { color: var(--primary-color); }
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 6px 16px; border: 2px solid var(--primary-color);
+      border-radius: 20px; background: #fff; color: var(--primary-color);
+      font-weight: bold; cursor: pointer; font-size: 0.9rem; transition: all 0.2s;
+    }
+    .filter-btn.active { background: var(--primary-color); color: #fff; }
+    .loading-spinner { text-align: center; padding: 40px; font-size: 1.1rem; color: #888; }
+  </style>
+</head>
+<body>
+  <h1>My Results</h1>
+
+  <div class="results-container">
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterResults('all', this)">All</button>
+      <button class="filter-btn" onclick="filterResults('fitb', this)">Fill in the Blanks</button>
+      <button class="filter-btn" onclick="filterResults('readComplete', this)">Read and Complete</button>
+    </div>
+    <div id="results-list">
+      <div class="loading-spinner">Loading your results...</div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    let allResults = [];
+
+    requireAuth();
+
+    (async function () {
+      const token = localStorage.getItem("det_token");
+      if (!token) return;
+      try {
+        allResults = await getUserResults();
+        renderResults(allResults);
+      } catch {
+        document.getElementById("results-list").innerHTML =
+          '<div class="loading-spinner">Failed to load results.</div>';
+      }
+    })();
+
+    function filterResults(type, btn) {
+      document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const filtered = type === "all" ? allResults : allResults.filter((r) => r.game_type === type);
+      renderResults(filtered);
+    }
+
+    function renderResults(results) {
+      const container = document.getElementById("results-list");
+
+      if (results.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <h2>No results yet!</h2>
+            <p>Play some games and your results will appear here.</p>
+            <a href="index.html" class="game-button" style="display:inline-block;margin-top:16px;text-decoration:none;">Play Now</a>
+          </div>`;
+        return;
+      }
+
+      container.innerHTML = results.map((r, i) => {
+        const badgeClass = r.percentage >= 80 ? "badge-green" : r.percentage >= 50 ? "badge-yellow" : "badge-red";
+        const typeLabel = r.game_type === "fitb" ? "Fill in the Blanks" : "Read and Complete";
+        const date = r.created_at ? new Date(r.created_at + "Z").toLocaleDateString() : "";
+        const wrongs = r.wrong_answers || [];
+        const wrongHtml = wrongs.length > 0
+          ? wrongs.map((w) => `
+              <div class="wrong-item">
+                Blank #${escapeHtml(String(w.blankIndex))}:
+                You wrote "<span class="user-ans">${escapeHtml(w.userAnswer || "(empty)")}</span>"
+                &mdash; Correct: "<span class="correct-ans">${escapeHtml((w.correctAnswers || []).join(" or "))}</span>"
+              </div>`).join("")
+          : '<div class="wrong-item">No wrong answers recorded.</div>';
+
+        return `
+          <div class="result-card">
+            <div class="result-card-header">
+              <div>
+                <span class="result-type">${typeLabel}</span>
+                <h3 style="display:inline">${escapeHtml(r.passage_title || "Passage " + (r.passage_index + 1))}</h3>
+              </div>
+              <span class="result-badge ${badgeClass}">${r.percentage}%</span>
+            </div>
+            <div class="result-meta">${r.correct_count}/${r.total_count} correct &middot; ${date}</div>
+            <button class="wrong-answers-toggle" onclick="toggleWrong(${i})">
+              Show wrong answers (${wrongs.length})
+            </button>
+            <div class="wrong-answers-list" id="wrong-${i}">${wrongHtml}</div>
+          </div>`;
+      }).join("");
+    }
+
+    function toggleWrong(index) {
+      document.getElementById("wrong-" + index).classList.toggle("show");
+    }
+  </script>
+</body>
+</html>
