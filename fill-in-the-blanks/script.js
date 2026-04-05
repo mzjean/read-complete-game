@@ -142,6 +142,7 @@ function submitAnswers() {
   const passage = passages[currentPassageIndex];
   const inputs = document.querySelectorAll("#passage-container input");
   let correctCount = 0;
+  const wrongAnswers = [];
 
   inputs.forEach((input) => {
     const index = input.getAttribute("data-index");
@@ -151,6 +152,7 @@ function submitAnswers() {
     if (userAnswer === "") {
       input.classList.add("incorrect");
       input.classList.remove("correct");
+      wrongAnswers.push({ blankIndex: index, userAnswer: "", correctAnswers });
       return;
     }
 
@@ -161,6 +163,7 @@ function submitAnswers() {
     } else {
       input.classList.add("incorrect");
       input.classList.remove("correct");
+      wrongAnswers.push({ blankIndex: index, userAnswer, correctAnswers });
     }
 
     if (debugMode) {
@@ -174,6 +177,19 @@ function submitAnswers() {
   feedbackContainer.innerHTML = `<p>You got ${correctCount} out of ${totalFields} correct (${percentageCorrect}%).</p>`;
   feedbackContainer.classList.remove("hidden");
   setButtonVisibility({ next: true });
+
+  // Save result to Firestore
+  if (typeof saveGameResult === "function") {
+    saveGameResult({
+      gameType: "fitb",
+      passageTitle: passage.title || "Passage " + (currentPassageIndex + 1),
+      passageIndex: currentPassageIndex,
+      correctCount,
+      totalCount: totalFields,
+      percentage: percentageCorrect,
+      wrongAnswers
+    }).catch((err) => console.error("Failed to save result:", err));
+  }
 }
 
 function loadNextPassage() {

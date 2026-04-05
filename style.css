@@ -204,3 +204,69 @@ footer {
   margin-bottom: 20px;
   font-size: 0.9rem;
 }
+
+/* User Bar (top navigation when logged in) */
+#user-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--primary-color);
+  color: #fff;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+#user-bar a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 16px;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+#user-bar a:hover {
+  opacity: 0.8;
+}
+
+.user-bar-left {
+  display: flex;
+  align-items: center;
+}
+
+.user-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-bar-name {
+  font-weight: bold;
+}
+
+.user-bar-logout {
+  padding: 4px 12px;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.user-bar-logout:hover {
+  background: #fff;
+  color: var(--primary-color);
+}
+
+/* Push body content below fixed user bar */
+body {
+  padding-top: 50px;
+}
