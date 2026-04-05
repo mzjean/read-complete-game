@@ -1,0 +1,14 @@
+{
+  "name": "det-practice-app",
+  "version": "1.0.0",
+  "description": "DET Practice App with student login, score tracking, and leaderboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "express": "^4.21.0"
+  }
+}

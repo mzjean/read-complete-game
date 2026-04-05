@@ -13,5 +13,12 @@
     <button class="game-button" onclick="location.href='fill-in-the-blanks/index.html'">Fill in the Blanks</button>
     <button class="game-button" onclick="location.href='read-and-complete/index.html'">Read and Complete</button>
   </div>
+  <div class="button-section" style="margin-top: 12px;">
+    <button class="game-button" style="background-color: var(--success-color);" onclick="location.href='my-results.html'">My Results</button>
+    <button class="game-button" style="background-color: var(--warning-color); color: #333;" onclick="location.href='leaderboard.html'">Leaderboard</button>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>requireAuth();</script>
 </body>
 </html>
