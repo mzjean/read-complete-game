@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <style>
     .auth-container {
-      max-width: 400px;
+      max-width: 420px;
       margin: 40px auto;
       padding: 30px;
       background: #fff;
@@ -19,6 +19,12 @@
     .auth-container h2 {
       text-align: center;
       color: var(--primary-color);
+      margin-bottom: 8px;
+    }
+    .auth-subtitle {
+      text-align: center;
+      color: #888;
+      font-size: 0.95rem;
       margin-bottom: 20px;
     }
     .auth-container label {
@@ -29,8 +35,7 @@
       font-size: 0.95rem;
     }
     .auth-container input[type="text"],
-    .auth-container input[type="email"],
-    .auth-container input[type="password"] {
+    .auth-container input[type="email"] {
       width: 100%;
       padding: 10px;
       font-size: 1rem;
@@ -58,15 +63,9 @@
     .auth-btn:hover {
       background-color: #0056b3;
     }
-    .auth-toggle {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 0.95rem;
-    }
-    .auth-toggle a {
-      color: var(--primary-color);
-      cursor: pointer;
-      text-decoration: underline;
+    .auth-btn:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
     }
     .auth-error {
       color: var(--danger-color);
@@ -75,11 +74,59 @@
       font-size: 0.9rem;
       min-height: 1.2em;
     }
-    .name-field {
+    .auth-success {
+      text-align: center;
+      margin-top: 20px;
+      padding: 20px;
+      background: #d4edda;
+      border-radius: 8px;
       display: none;
     }
-    .name-field.show {
-      display: block;
+    .auth-success h3 {
+      color: var(--success-color);
+      margin: 0 0 8px 0;
+    }
+    .auth-success p {
+      color: #333;
+      margin: 0;
+      font-size: 0.95rem;
+    }
+    .step-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .step {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.85rem;
+      border: 2px solid #ddd;
+      color: #aaa;
+    }
+    .step.active {
+      border-color: var(--primary-color);
+      background: var(--primary-color);
+      color: #fff;
+    }
+    .step.done {
+      border-color: var(--success-color);
+      background: var(--success-color);
+      color: #fff;
+    }
+    .step-connector {
+      width: 30px;
+      height: 2px;
+      background: #ddd;
+      align-self: center;
+    }
+    #name-step {
+      display: none;
     }
   </style>
 </head>
@@ -87,27 +134,39 @@
   <h1>DET Practice</h1>
 
   <div class="auth-container">
-    <h2 id="auth-title">Login</h2>
+    <h2>Sign In</h2>
+    <p class="auth-subtitle">No password needed — we'll email you a sign-in link!</p>
 
-    <div id="name-field" class="name-field">
-      <label for="display-name">Your Name</label>
-      <input type="text" id="display-name" placeholder="e.g. Maria Garcia" autocomplete="name">
+    <div class="step-indicator">
+      <div class="step active" id="step1">1</div>
+      <div class="step-connector"></div>
+      <div class="step" id="step2">2</div>
     </div>
 
-    <label for="email">Email</label>
-    <input type="email" id="email" placeholder="student@example.com" autocomplete="email">
+    <!-- Step 1: Email -->
+    <div id="email-step">
+      <label for="email">Your Email</label>
+      <input type="email" id="email" placeholder="student@example.com" autocomplete="email">
 
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="At least 6 characters" autocomplete="current-password">
+      <button id="send-link-btn" class="auth-btn" onclick="sendSignInLink()">Send Sign-In Link</button>
+    </div>
 
-    <button id="auth-btn" class="auth-btn" onclick="handleAuth()">Login</button>
+    <!-- Step 2: Name (shown after clicking the email link) -->
+    <div id="name-step">
+      <label for="display-name">Your Name</label>
+      <input type="text" id="display-name" placeholder="e.g. Maria Garcia" autocomplete="name">
+      <p style="font-size:0.85rem;color:#888;margin-top:6px;">This is how your name appears on the leaderboard.</p>
+
+      <button class="auth-btn" onclick="completeSignIn()">Start Playing</button>
+    </div>
 
     <p class="auth-error" id="auth-error"></p>
 
-    <p class="auth-toggle">
-      <span id="toggle-text">Don't have an account?</span>
-      <a id="toggle-link" onclick="toggleMode()">Register</a>
-    </p>
+    <div class="auth-success" id="auth-success">
+      <h3>Check your email!</h3>
+      <p>We sent a sign-in link to <strong id="sent-email"></strong>.</p>
+      <p style="margin-top:8px;font-size:0.85rem;color:#666;">Click the link in the email to sign in. Check your spam folder if you don't see it.</p>
+    </div>
   </div>
 
   <!-- Firebase SDK -->
@@ -117,68 +176,123 @@
   <script src="firebase-config.js"></script>
 
   <script>
-    let isLoginMode = true;
-
-    // If already logged in, redirect to home
+    // If already logged in, go to home
     auth.onAuthStateChanged((user) => {
       if (user) {
         window.location.href = "index.html";
       }
     });
 
-    function toggleMode() {
-      isLoginMode = !isLoginMode;
-      document.getElementById("auth-title").textContent = isLoginMode ? "Login" : "Register";
-      document.getElementById("auth-btn").textContent = isLoginMode ? "Login" : "Register";
-      document.getElementById("toggle-text").textContent = isLoginMode
-        ? "Don't have an account?"
-        : "Already have an account?";
-      document.getElementById("toggle-link").textContent = isLoginMode ? "Register" : "Login";
-      document.getElementById("name-field").classList.toggle("show", !isLoginMode);
-      document.getElementById("auth-error").textContent = "";
-      document.getElementById("password").autocomplete = isLoginMode ? "current-password" : "new-password";
-    }
+    // ---- Step 1: Send the magic link ----
 
-    async function handleAuth() {
+    async function sendSignInLink() {
       const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
       const errorEl = document.getElementById("auth-error");
       errorEl.textContent = "";
 
-      if (!email || !password) {
-        errorEl.textContent = "Please enter your email and password.";
+      if (!email) {
+        errorEl.textContent = "Please enter your email.";
+        return;
+      }
+
+      const btn = document.getElementById("send-link-btn");
+      btn.disabled = true;
+      btn.textContent = "Sending...";
+
+      try {
+        const actionCodeSettings = {
+          // URL to redirect back to — must be whitelisted in Firebase Console
+          url: window.location.href,
+          handleCodeInApp: true
+        };
+
+        await auth.sendSignInLinkToEmail(email, actionCodeSettings);
+
+        // Save email locally so we can complete sign-in when they click the link
+        window.localStorage.setItem("detEmailForSignIn", email);
+
+        // Show success message
+        document.getElementById("email-step").style.display = "none";
+        document.getElementById("auth-success").style.display = "block";
+        document.getElementById("sent-email").textContent = email;
+        document.getElementById("step1").classList.replace("active", "done");
+      } catch (err) {
+        const messages = {
+          "auth/invalid-email": "Please enter a valid email address.",
+          "auth/missing-email": "Please enter your email.",
+          "auth/unauthorized-continue-uri": "This domain needs to be whitelisted in Firebase. See firebase-config.js for instructions."
+        };
+        errorEl.textContent = messages[err.code] || err.message;
+        btn.disabled = false;
+        btn.textContent = "Send Sign-In Link";
+      }
+    }
+
+    // ---- Step 2: Complete sign-in when user clicks the email link ----
+
+    if (firebase.auth().isSignInWithEmailLink(window.location.href)) {
+      let email = window.localStorage.getItem("detEmailForSignIn");
+
+      // If the user opens the link on a different device/browser
+      if (!email) {
+        email = window.prompt("Please enter your email to confirm sign-in:");
+      }
+
+      if (email) {
+        auth.signInWithEmailLink(email, window.location.href)
+          .then((result) => {
+            window.localStorage.removeItem("detEmailForSignIn");
+
+            // If this is a new user (first sign-in), ask for their name
+            if (result.additionalUserInfo && result.additionalUserInfo.isNewUser) {
+              showNameStep();
+            } else if (!result.user.displayName) {
+              showNameStep();
+            } else {
+              window.location.href = "index.html";
+            }
+          })
+          .catch((err) => {
+            document.getElementById("auth-error").textContent =
+              "Sign-in link expired or is invalid. Please request a new one.";
+            console.error(err);
+          });
+      }
+    }
+
+    function showNameStep() {
+      document.getElementById("email-step").style.display = "none";
+      document.getElementById("auth-success").style.display = "none";
+      document.getElementById("name-step").style.display = "block";
+      document.getElementById("step1").classList.add("done");
+      document.getElementById("step1").classList.remove("active");
+      document.getElementById("step2").classList.add("active");
+    }
+
+    async function completeSignIn() {
+      const name = document.getElementById("display-name").value.trim();
+      const errorEl = document.getElementById("auth-error");
+      errorEl.textContent = "";
+
+      if (!name) {
+        errorEl.textContent = "Please enter your name.";
         return;
       }
 
       try {
-        if (isLoginMode) {
-          await auth.signInWithEmailAndPassword(email, password);
-        } else {
-          const displayName = document.getElementById("display-name").value.trim();
-          if (!displayName) {
-            errorEl.textContent = "Please enter your name.";
-            return;
-          }
-          const cred = await auth.createUserWithEmailAndPassword(email, password);
-          await cred.user.updateProfile({ displayName });
-        }
+        await auth.currentUser.updateProfile({ displayName: name });
         window.location.href = "index.html";
       } catch (err) {
-        const messages = {
-          "auth/email-already-in-use": "This email is already registered. Try logging in.",
-          "auth/invalid-email": "Please enter a valid email address.",
-          "auth/weak-password": "Password must be at least 6 characters.",
-          "auth/user-not-found": "No account found with this email.",
-          "auth/wrong-password": "Incorrect password. Please try again.",
-          "auth/invalid-credential": "Incorrect email or password. Please try again."
-        };
-        errorEl.textContent = messages[err.code] || err.message;
+        errorEl.textContent = err.message;
       }
     }
 
-    // Allow Enter key to submit
-    document.getElementById("password").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") handleAuth();
+    // Allow Enter key to submit on email field
+    document.getElementById("email").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendSignInLink();
+    });
+    document.getElementById("display-name").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") completeSignIn();
     });
   </script>
 </body>

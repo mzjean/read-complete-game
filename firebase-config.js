@@ -8,7 +8,9 @@
 // 4. Copy the firebaseConfig object and paste it below
 // 5. Enable Authentication:
 //    - Go to Authentication > Sign-in method
-//    - Enable "Email/Password"
+//    - Enable "Email link (passwordless sign-in)"
+//    - Under "Authorized domains", add your hosting domain
+//      (e.g. yourusername.github.io)
 // 6. Enable Firestore:
 //    - Go to Firestore Database > Create database
 //    - Start in test mode (or set up rules below)
